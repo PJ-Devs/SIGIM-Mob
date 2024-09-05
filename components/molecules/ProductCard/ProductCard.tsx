@@ -1,25 +1,19 @@
-import {
-  Text,
-  View,
-  Image,
-  ImageSourcePropType,
-  Pressable,
-} from "react-native";
+import { Text, View, Image, Pressable } from "react-native";
 import Icon from "@expo/vector-icons/AntDesign";
 import { useState } from "react";
+import styles from "./ProductCard.styles";
+import { Product } from "../../../types/products";
 
 interface ProductCardProps {
-  name: string;
-  price: number;
-  image?: ImageSourcePropType;
+  product: Product;
   isFavorite?: boolean;
+  onPress?: () => void;
 }
 
 export default function ProductCard({
-  name,
-  price,
-  image,
+  product,
   isFavorite = false,
+  onPress,
 }: ProductCardProps): JSX.Element {
   const [isFav, setIsFav] = useState<boolean>(isFavorite);
 
@@ -28,54 +22,17 @@ export default function ProductCard({
   };
 
   return (
-    <Pressable
-      onPress={() => {}}
-      style={{
-        flexDirection: "row",
-        backgroundColor: "white",
-        width: "90%",
-        gap: 5,
-        padding: 10,
-        borderRadius: 10,
-        shadowColor: "#000",
-        shadowOpacity: 0.1,
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-      }}
-    >
+    <Pressable onPress={() => {}} style={styles.card}>
       <Image
         alt="Image"
-        style={{
-          width: "35%",
-          borderRadius: 10,
-          backgroundColor: "gray",
+        style={styles.thumbnail}
+        source={{
+          uri: product.thumbnail,
         }}
-        source={image ?? { uri: "https://via.placeholder.com" }}
       />
-      <View
-        style={{
-          width: "65%",
-          paddingHorizontal: 5,
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            gap: 5,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "bold",
-              marginBottom: 5,
-            }}
-          >
-            {name}
-          </Text>
+      <View style={styles.info}>
+        <View style={styles.titleSection}>
+          <Text style={styles.title}>{product.title}</Text>
           <Pressable onPress={() => handleFavorite()}>
             {isFav ? (
               <Icon name="heart" size={22} color="red" />
@@ -84,20 +41,10 @@ export default function ProductCard({
             )}
           </Pressable>
         </View>
-        <Text>{"Ctagoria: Categoria"}</Text>
-        <Text>{"Manofactura: Manofactura"}</Text>
-        <Text>{"Unidades: 10"}</Text>
-        <Text
-          style={{
-            fontSize: 16,
-            fontWeight: "bold",
-            color: "green",
-            textAlign: "right",
-            marginTop: 5,
-          }}
-        >
-          {`$${price} COP`}
-        </Text>
+        <Text>{`Ctagoria: ${product.category}`}</Text>
+        <Text>{`Manofactura: ${product.brand}`}</Text>
+        <Text>{`Unidades: ${product.stock}`}</Text>
+        <Text style={styles.price}>{`$${product.price}`}</Text>
       </View>
     </Pressable>
   );

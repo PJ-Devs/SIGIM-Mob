@@ -1,14 +1,20 @@
-import { Image, ImageSourcePropType, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  ImageSourcePropType,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import CustomButton from "../../atoms/CustomButton/CustomButton";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { Link } from "expo-router";
 
 interface props {
   enterpriseName: string;
 }
 
-export default function Header({
-  enterpriseName,
-}: props): JSX.Element {
+export default function Header({ enterpriseName }: props): JSX.Element {
   return (
     <View
       style={{
@@ -27,15 +33,19 @@ export default function Header({
         iconSize={20}
         onPress={() => console.log(1)}
       />
-      <View style={{
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 5
-      }}>
-        <Icon name="home" size={17} />
-        <Text>{enterpriseName}</Text>
-      </View>
+      <Link href={"/"}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 5,
+          }}
+        >
+          <Icon name="home" size={17} />
+          <Text>{enterpriseName}</Text>
+        </View>
+      </Link>
       <CustomButton
         type="icon"
         icon="cog"
