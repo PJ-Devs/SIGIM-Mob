@@ -3,10 +3,12 @@ import { Link } from "expo-router";
 import CustomButton from "./atoms/CustomButton/CustomButton";
 import ProductCard from "./molecules/ProductCard/ProductCard";
 import Header from "./molecules/Header/Header";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {fetchProducts} from "../utils/fetch"
 
 export default function Main() {
   const [loading, setLoading] = useState(false);
+  const [products, setProducts] = useState<any[]>([]);
 
   const handlePress = () => {
     setLoading(true);
@@ -15,19 +17,37 @@ export default function Main() {
     }, 2000);
   };
 
+  useEffect(() => {
+    const loadProducts = async () => {
+      const fetchedProducts = await fetchProducts();
+      console.log(fetchedProducts);
+      setProducts(fetchedProducts);
+      console.log(products);
+    };
+
+    loadProducts();
+  }, []);
+
   return (
-    <View style={{
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "white",
-      gap: 10,
-    }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "white",
+        gap: 10,
+      }}
+    >
       <Header enterpriseName="Mi empresita" />
-      <ProductCard
-        name="Producto 1"
-        price={100}
-      />
+      
+      {products?.map((product) => (
+        <ProductCard
+          name={product.title}
+          price={product.price}
+        />
+      ))}
+
+
       <Text style={{ color: "black" }}>Main</Text>
       <Link href="/login">Login</Link>
       <CustomButton
@@ -36,29 +56,10 @@ export default function Main() {
         loading={loading}
         type="primary"
       />
-      <CustomButton
-        title="Secondary"
-        onPress={() => {}}
-        type="secondary"
-      />
-      <CustomButton
-        title="Success"
-        onPress={() => {}}
-        type="success"
-        shape="rounded"
-      />
-      <CustomButton
-        title="Warning"
-        onPress={() => {}}
-        type="warning"
-        shape="rounded"
-      />
-      <CustomButton
-        title="Error"
-        onPress={() => {}}
-        type="error"
-        shape="rounded"
-      />
+      <CustomButton title="Secondary" onPress={() => {}} type="secondary" />
+      <CustomButton title="Success" onPress={() => {}} type="success" shape="rounded" />
+      <CustomButton title="Warning" onPress={() => {}} type="warning" shape="rounded" />
+      <CustomButton title="Error" onPress={() => {}} type="error" shape="rounded" />
       <CustomButton
         icon="home"
         iconSize={20}
