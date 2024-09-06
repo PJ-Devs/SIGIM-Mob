@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { Link } from "expo-router";
-import Layout from "./orgnaisms/Layout/Layout";
+import Layout from "./orgnisms/Layout/Layout";
 
 export default function Main() {
   return (

@@ -13,3 +13,18 @@ export const fetchProducts = async (): Promise<Product[]> => {
     return [];
   }
 };
+
+export const fetchProductSearch = async (query: string): Promise<Product[]> => {
+  try {
+    console.log(`Fetching products with query: ${query}`);
+    const response = await fetch(`https://dummyjson.com/products/search?q=${query}`);
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data.products;
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+    return [];
+  }
+}
