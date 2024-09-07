@@ -3,6 +3,7 @@ import Icon from "@expo/vector-icons/AntDesign";
 import { useState } from "react";
 import styles from "./ProductCard.styles";
 import { Product } from "../../../types/products";
+import { Link } from "expo-router";
 
 interface ProductCardProps {
   product: Product;
@@ -22,7 +23,7 @@ export default function ProductCard({
   };
 
   return (
-    <Pressable onPress={() => {}} style={styles.card}>
+    <Link href={`/product/${product.id}`}>
       <Image
         alt="Image"
         style={styles.thumbnail}
@@ -46,6 +47,6 @@ export default function ProductCard({
         <Text>{`Unidades: ${product.stock}`}</Text>
         <Text style={styles.price}>{`$${product.price}`}</Text>
       </View>
-    </Pressable>
+    </Link>
   );
 }
