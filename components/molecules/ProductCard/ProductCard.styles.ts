@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     shadowColor: "#000",
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.2,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -20,8 +20,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   info: {
-    width: "60%",
-    paddingHorizontal: 5,
+    width: "70%",
+    paddingLeft: 5,
+    paddingRight: 12
   },
   titleSection: {
     flexDirection: "row",
