@@ -5,6 +5,7 @@ import ProductCard from "../../molecules/ProductCard/ProductCard";
 import { fetchProducts, fetchProductSearch } from "../../../lib/fetch";
 import Layout from "../../orgnisms/Layout/Layout";
 import SearchBar from "../../atoms/SearchBar/SearchBar";
+import CategoriesCarrousel from "../../orgnisms/CategoriesCarrousel/CategoriesCarrousel";
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -30,6 +31,8 @@ export default function ProductList() {
       }}>
         <SearchBar onSearch={onSearch} />
       </View>
+        <CategoriesCarrousel></CategoriesCarrousel>
+    
       <FlatList
         data={products}
         keyExtractor={(item) => item.id.toString()}

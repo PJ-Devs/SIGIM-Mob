@@ -1,4 +1,5 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import Icon from "@expo/vector-icons/AntDesign";
 
 type CategoryCardProps = {
   label: string;
@@ -11,9 +12,6 @@ export default function CategoryCard({ label, onRemove, onSelect, isSelected }: 
   return (
     <TouchableOpacity style={[styles.card, isSelected && styles.selectedCard]} onPress={onSelect}>
       <Text style={styles.label}>{label}</Text>
-      <TouchableOpacity style={styles.removeButton} onPress={onRemove}>
-        <Text style={styles.removeText}>✕</Text>
-      </TouchableOpacity>
     </TouchableOpacity>
   );
 }
@@ -24,33 +22,18 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 5,
     margin: 5,
-    minWidth: 20,
+    maxWidth: 100,
     minHeight: 20,
-    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
     alignItems: "center",
-    position: "relative",
   },
   selectedCard: {
     backgroundColor: "#c0c0c0",
   },
   label: {
-    fontSize: 15,
+    fontSize: 12,
     color: "#333",
     textAlign: "center",
-  },
-  removeButton: {
-    position: "absolute",
-    top: 5,
-    right: 5,
-    backgroundColor: "#ff6961",
-    borderRadius: 12,
-    width: 24,
-    height: 24,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  removeText: {
-    color: "#fff",
-    fontSize: 16,
   },
 });
