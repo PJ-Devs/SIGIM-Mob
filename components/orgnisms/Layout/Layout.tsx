@@ -1,6 +1,7 @@
 import { View } from "react-native";
 import Header from "../../molecules/Header/Header";
 import SearchBar from "../../atoms/SearchBar/SearchBar";
+import CategoriesCarrousel from "../CategoriesCarrousel/CategoriesCarrousel";
 
 interface LayoutProps {
   includeHeader?: boolean;
@@ -17,11 +18,18 @@ export default function Layout({
 }: LayoutProps) {
   return (
     <View style={{ flex: 1, paddingHorizontal: 10 }}>
-      <View style={{
-        paddingBottom: 5,
-      }}>
+      <View
+        style={{
+          paddingBottom: 5,
+        }}
+      >
         {includeHeader && <Header enterpriseName="La empresita" />}
-        {(includeSearch && onSearch) && <SearchBar onSearch={onSearch} />}
+        {includeSearch && onSearch && (
+          <View>
+            <SearchBar onSearch={onSearch} />
+            <CategoriesCarrousel />
+          </View>
+        )}
       </View>
       {children}
     </View>
