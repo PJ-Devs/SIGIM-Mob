@@ -59,9 +59,9 @@ export default function ProductCard({
             )}
           </Pressable>
         </View>
-        <Text>{`Ctagoria: ${product.category}`}</Text>
-        <Text>{`Manofactura: ${product.brand}`}</Text>
-        <Text>{`Unidades: ${product.stock}`}</Text>
+        <Text>{`Categoria: ${product.category}`}</Text>
+        <Text>{`Marca: ${product.brand}`}</Text>
+        <Text>{`Cantidad: ${product.stock}`}</Text>
         <Text style={styles.price}>{`$${product.price}`}</Text>
       </View>
     </Pressable>

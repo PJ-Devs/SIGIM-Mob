@@ -5,6 +5,8 @@ import ProductCard from "../../molecules/ProductCard/ProductCard";
 import Layout from "../../orgnisms/Layout/Layout";
 import { fetchProducts, fetchProductSearch } from "../../../lib/fetch";
 import Loading from "../../molecules/Loading/Loading";
+import SearchBar from "../../atoms/SearchBar/SearchBar";
+import CategoriesCarrousel from "../../orgnisms/CategoriesCarrousel/CategoriesCarrousel";
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);

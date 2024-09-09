@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { TextInput, StyleSheet } from "react-native";
+import { TextInput, View } from "react-native";
+import Icon from "@expo/vector-icons/AntDesign"; 
+import { styles } from "./SearchBar.styles";
 
 type CustomSearchProps = {
   initialText?: string;
@@ -32,30 +34,22 @@ export default function SearchBar({
   }, [query, debounce]);
 
   return (
-    <TextInput
-      autoCorrect={false}
-      autoFocus
-      placeholder="Search"
-      placeholderTextColor="#888"
-      value={query}
-      onChangeText={setQuery}
-      onEndEditing={handleSearch}
-      style={styles.input}
-      inlineImageLeft="search_icon"
-      selectionColor="red"
-    />
+    <View style={styles.container}>
+      <Icon name="search1" size={20} color="#888"  />
+      <TextInput
+        autoCorrect={false}
+        autoFocus
+        placeholder="Search"
+        placeholderTextColor="#888"
+        value={query}
+        onChangeText={setQuery}
+        onEndEditing={handleSearch}
+        style={styles.input}
+        selectionColor="lawngreen"
+        underlineColorAndroid="transparent" 
+        keyboardType="visible-password"
+      />
+        
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  input: {
-    backgroundColor: "#fff",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 8,
-    borderColor: "#ddd",
-    borderWidth: 1,
-    fontSize: 16,
-    color: "#333",
-  },
-});
