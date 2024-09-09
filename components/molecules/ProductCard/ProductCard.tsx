@@ -3,6 +3,7 @@ import Icon from "@expo/vector-icons/AntDesign";
 import { useState } from "react";
 import styles from "./ProductCard.styles";
 import { Product } from "../../../types/products";
+import LottieView from "lottie-react-native";
 
 interface ProductCardProps {
   product: Product;
@@ -16,20 +17,37 @@ export default function ProductCard({
   onPress,
 }: ProductCardProps): JSX.Element {
   const [isFav, setIsFav] = useState<boolean>(isFavorite);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleFavorite = () => {
     setIsFav(!isFav);
   };
 
   return (
-    <Pressable onPress={() => {}} style={styles.card}>
+    <Pressable onPress={onPress} style={styles.card}>
+      {loading && (
+        <LottieView
+          source={require("../../../assets/animations/image-loader.json")}
+          autoPlay
+          loop
+          speed={1.5}
+          style={styles.thumbnail}
+          resizeMode="cover"
+        />
+      )}
       <Image
-        alt="Image"
-        style={styles.thumbnail}
+        alt="Product Image"
+        style={{
+          ...styles.thumbnail,
+          display: loading ? "none" : "flex",
+        }}
         source={{
           uri: product.thumbnail,
         }}
+        onLoadStart={() => setLoading(true)}
+        onLoadEnd={() => setLoading(false)}
       />
+
       <View style={styles.info}>
         <View style={styles.titleSection}>
           <Text style={styles.title}>{product.title}</Text>

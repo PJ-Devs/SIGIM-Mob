@@ -16,7 +16,6 @@ export const fetchProducts = async (): Promise<Product[]> => {
 
 export const fetchProductSearch = async (query: string): Promise<Product[]> => {
   try {
-    console.log(`Fetching products with query: ${query}`);
     const response = await fetch(`https://dummyjson.com/products/search?q=${query}`);
     if (!response.ok) {
       throw new Error(`Error: ${response.statusText}`);

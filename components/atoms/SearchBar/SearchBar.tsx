@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextInput, View } from "react-native";
 import Icon from "@expo/vector-icons/AntDesign"; 
 import { styles } from "./SearchBar.styles";
@@ -13,11 +12,26 @@ export default function SearchBar({
   initialText = "",
   onSearch,
 }: CustomSearchProps) {
+  const [debounce, setDebounce] = useState<number>(500);
   const [query, setQuery] = useState(initialText);
+  const isMounted = React.useRef(false);
 
   const handleSearch = () => {
     onSearch(query);
   };
+
+  useEffect(() => {
+    if(!isMounted.current) {
+      isMounted.current = true;
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      handleSearch();
+    }, debounce);
+
+    return () => clearTimeout(timeout);
+  }, [query, debounce]);
 
   return (
     <View style={styles.container}>
