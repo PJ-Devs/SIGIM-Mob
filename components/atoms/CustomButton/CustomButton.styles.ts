@@ -6,7 +6,7 @@ const defaultStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 5,
+    paddingVertical: 8,
     paddingHorizontal: 10,
     gap: 5,
     shadowColor: colorPalette.dark,

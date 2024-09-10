@@ -1,13 +1,15 @@
 import { Text, View } from "react-native";
 import CustomButton from "../../atoms/CustomButton/CustomButton";
+import { Link, router, usePathname } from "expo-router";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import { Link } from "expo-router";
 
 interface props {
   enterpriseName: string;
 }
 
 export default function Header({ enterpriseName }: props): JSX.Element {
+  const pathname = usePathname();
+
   return (
     <View
       style={{
@@ -20,7 +22,18 @@ export default function Header({ enterpriseName }: props): JSX.Element {
         gap: 10,
       }}
     >
-      <CustomButton type="icon" icon="bars" iconSize={20} onPress={() => {}} />
+      <CustomButton
+        type="icon"
+        icon={pathname === "/" ? "bars" : "arrow-left"}
+        iconSize={20}
+        onPress={() => {
+          if(pathname === "/") {
+            // Open sidebar
+          } else if(router.canGoBack()) {
+            router.back();
+          }
+        }}
+      />
       <Link href={"/"}>
         <View
           style={{
@@ -32,7 +45,7 @@ export default function Header({ enterpriseName }: props): JSX.Element {
           <Text>{enterpriseName}</Text>
         </View>
       </Link>
-      <CustomButton type="icon" icon="cog" iconSize={20} onPress={() => {}} />
+      <CustomButton type="icon" icon="cog" iconSize={20} onPress={() => router.push('/login')} />
     </View>
   );
 }
