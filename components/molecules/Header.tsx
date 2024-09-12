@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import CustomButton from "../../atoms/CustomButton/CustomButton";
+import CustomButton from "../atoms/CustomButton";
 import { Link, router, usePathname } from "expo-router";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
@@ -11,41 +11,31 @@ export default function Header({ enterpriseName }: props): JSX.Element {
   const pathname = usePathname();
 
   return (
-    <View
-      style={{
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        backgroundColor: "white",
-        width: "100%",
-        paddingVertical: 15,
-        gap: 10,
-      }}
-    >
+    <View className="flex-row justify-between items-center bg-white w-full pt-4 pb-2">
       <CustomButton
         type="icon"
         icon={pathname === "/" ? "bars" : "arrow-left"}
         iconSize={20}
         onPress={() => {
-          if(pathname === "/") {
+          if (pathname === "/") {
             // Open sidebar
-          } else if(router.canGoBack()) {
+          } else if (router.canGoBack()) {
             router.back();
           }
         }}
       />
       <Link href={"/"}>
-        <View
-          style={{
-            flexDirection: "row",
-            gap: 10,
-          }}
-        >
+        <View className="flex-row items-center gap-x-2">
           <Icon name="home" size={18} />
           <Text>{enterpriseName}</Text>
         </View>
       </Link>
-      <CustomButton type="icon" icon="cog" iconSize={20} onPress={() => router.push('/login')} />
+      <CustomButton
+        type="icon"
+        icon="cog"
+        iconSize={20}
+        onPress={() => router.push("/login")}
+      />
     </View>
   );
 }

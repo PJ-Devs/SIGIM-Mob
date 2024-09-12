@@ -2,18 +2,11 @@ import {
   GestureResponderEvent,
   Pressable,
   Text,
-  TextStyle,
   ViewStyle,
 } from "react-native";
 import LottieView from "lottie-react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import { defaultStyles, shapeStyles, typeStyles } from "./CustomButton.styles";
-import { colorPalette } from "../../../styles/common.styles";
-
-/**
- * In case you need to use icons for your button, u can use any of the following:
- * https://oblador.github.io/react-native-vector-icons/ (FontAwesome5 Only)
- */
+import { colorPalette } from "../../styles/common.styles";
 
 type buttonType =
   | "primary"
@@ -28,8 +21,7 @@ type buttonShape = "rounded" | "default";
 interface CustomButtonProps {
   id?: string;
   title?: string;
-  titleStyle?: TextStyle;
-  style?: ViewStyle;
+  style?: string;
   type?: buttonType;
   shape?: buttonShape;
   icon?: string;
@@ -39,7 +31,7 @@ interface CustomButtonProps {
   disabled?: boolean;
   loading?: boolean;
   onPress: (event?: GestureResponderEvent) => void;
-};
+}
 
 export default function CustomButton({
   type = "default",
@@ -47,7 +39,7 @@ export default function CustomButton({
   iconSize = 14,
   visible = true,
   disabled = false,
-  loading = false,
+  loading = true,
   ...props
 }: CustomButtonProps): JSX.Element {
   return (
@@ -55,32 +47,26 @@ export default function CustomButton({
       id={props.id ?? undefined}
       onPress={props.onPress}
       disabled={disabled || loading}
-      style={
-        props.style
-          ? {
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 5,
-              ...props.style,
-            }
-          : {
-              ...defaultStyles.baseStyle,
-              ...shapeStyles[shape],
-              ...typeStyles[type],
-              display: visible ? "flex" : "none",
-              opacity: disabled || loading ? 0.65 : 1,
-            }
-      }
+      className={` 
+        ${typeStyles[type]} 
+        ${shapeStyles[shape]} 
+        ${disabled || loading ? "opacity-75" : ""} 
+        ${props.style ?? "flex-row justify-center items-center py-2 px-3 gap-x-1 shadow-sm"
+      }`}
     >
       {loading && type !== "icon" && (
         <LottieView
-          source={require("../../../assets/animations/loading-animation.json")}
+          source={require("../../assets/animations/loading-animation.json")}
           autoPlay
           loop
           speed={5}
           resizeMode="contain"
-          style={defaultStyles.loadingAnimation}
+          style={{
+            width: 50,
+            height: 50,
+            marginHorizontal: -14,
+            marginVertical: -14,
+          }}
         />
       )}
       {props.icon && (
@@ -91,10 +77,25 @@ export default function CustomButton({
         />
       )}
       {props.title && type !== "icon" && (
-        <Text style={props.titleStyle ? props.titleStyle : defaultStyles.title}>
+        <Text className="text-center font-semibold text-base">
           {props.title}
         </Text>
       )}
     </Pressable>
   );
 }
+
+const shapeStyles = {
+  default: "rounded-md",
+  rounded: "rounded-lg",
+};
+
+const typeStyles = {
+  default: "bg-[#FFF]",
+  primary: "bg-primary",
+  secondary: "bg-secondary border border-dark",
+  error: "bg-danger",
+  warning: "bg-warning",
+  success: "bg-success",
+  icon: "bg-transparent rounded-full",
+};

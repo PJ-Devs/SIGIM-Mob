@@ -1,7 +1,7 @@
 import { Image, Pressable, Text, View } from "react-native";
-import Layout from "../../orgnisms/Layout/Layout";
+import Layout from "../../orgnisms/Layout";
 import CustomInput from "../../atoms/CustomInput/CustomInput";
-import CustomButton from "../../atoms/CustomButton/CustomButton";
+import CustomButton from "../../atoms/CustomButton";
 import { useState } from "react";
 import { router } from "expo-router";
 import styles from "./Register.styles";

@@ -1,8 +1,7 @@
 import { Text, View, Image, Pressable } from "react-native";
 import Icon from "@expo/vector-icons/AntDesign";
 import { useState } from "react";
-import styles from "./ProductCard.styles";
-import { Product } from "../../../types/products";
+import { Product } from "../../types/products";
 import LottieView from "lottie-react-native";
 
 interface ProductCardProps {
@@ -24,23 +23,23 @@ export default function ProductCard({
   };
 
   return (
-    <Pressable onPress={onPress} style={styles.card}>
+    <Pressable
+      onPress={onPress}
+      className="flex-row bg-white w-full gap-x-2 py-2 px-4 rounded-lg shadow-sm"
+    >
       {loading && (
         <LottieView
-          source={require("../../../assets/animations/image-loader.json")}
+          source={require("../../assets/animations/image-loader.json")}
           autoPlay
           loop
           speed={1.5}
-          style={styles.thumbnail}
           resizeMode="cover"
+          className={`w-1/3`}
         />
       )}
       <Image
         alt="Product Image"
-        style={{
-          ...styles.thumbnail,
-          display: loading ? "none" : "flex",
-        }}
+        className={`w-1/3 ${loading ? "hidden" : "block"}`}
         source={{
           uri: product.thumbnail,
         }}
@@ -48,9 +47,9 @@ export default function ProductCard({
         onLoadEnd={() => setLoading(false)}
       />
 
-      <View style={styles.info}>
-        <View style={styles.titleSection}>
-          <Text style={styles.title}>{product.title}</Text>
+      <View className="w-2/3 pl-2 pr-3">
+        <View className="flex-row justify-between items-center gap-x-2 mb-1">
+          <Text className="font-semibold shrink grow">{product.title}</Text>
           <Pressable onPress={() => handleFavorite()}>
             {isFav ? (
               <Icon name="heart" size={22} color="red" />
@@ -62,7 +61,7 @@ export default function ProductCard({
         <Text>{`Categoria: ${product.category}`}</Text>
         <Text>{`Marca: ${product.brand}`}</Text>
         <Text>{`Cantidad: ${product.stock}`}</Text>
-        <Text style={styles.price}>{`$${product.price}`}</Text>
+        <Text className="font-semibold text-green-600 text-right mt-2">{`$${product.price}`}</Text>
       </View>
     </Pressable>
   );

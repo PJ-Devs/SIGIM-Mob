@@ -8,15 +8,11 @@ interface LoadingProps {
 
 export default function Loading({ size, speed }: LoadingProps) {
   return (
-    <View style={{
-      position: "absolute",
-      justifyContent: "center",
-      alignItems: "center",
-      width: "100%",
-      height: "100%",
-    }}>
+    <View
+    className="absolute inset-0 flex justify-center items-center w-full h-full"
+    >
       <LottieView
-        source={require("../../../assets/animations/loading-animation.json")}
+        source={require("../../assets/animations/loading-animation.json")}
         autoPlay
         loop
         speed={speed ?? 5}

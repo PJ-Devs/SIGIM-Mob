@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { Product } from "../../../types/products";
 import { FlatList, View } from "react-native";
-import ProductCard from "../../molecules/ProductCard/ProductCard";
-import Layout from "../../orgnisms/Layout/Layout";
+import ProductCard from "../../molecules/ProductCard";
+import Layout from "../../orgnisms/Layout";
 import { fetchProducts, fetchProductSearch } from "../../../lib/fetch";
-import Loading from "../../molecules/Loading/Loading";
-import SearchBar from "../../atoms/SearchBar/SearchBar";
-import CategoriesCarrousel from "../../orgnisms/CategoriesCarrousel/CategoriesCarrousel";
+import Loading from "../../molecules/Loading";
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -42,11 +40,7 @@ export default function ProductList() {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <View
-              style={{
-                marginVertical: 7,
-                width: "100%",
-                paddingHorizontal: 5,
-              }}
+              className="flex items-center my-2 w-full px-1.5"
             >
               <ProductCard product={item} />
             </View>
