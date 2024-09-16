@@ -1,5 +1,5 @@
 import { KeyboardTypeOptions, TextInput } from "react-native";
-import { styles } from "./CustomInput.styles";
+import { inputStlye } from "../../tokens";
 
 type CustomInputProps = {
     placeholder: string,
@@ -11,7 +11,7 @@ type CustomInputProps = {
 export default function CustomInput({placeholder, value, type = "default", width = 200}: CustomInputProps){
     return(
         <TextInput
-            style={{...styles.input, width: width}}
+            className = {inputStlye}
             placeholder={placeholder}
             value={value}
             keyboardType={type}

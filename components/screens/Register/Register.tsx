@@ -1,6 +1,6 @@
 import { Image, Pressable, Text, View } from "react-native";
 import Layout from "../../orgnisms/Layout";
-import CustomInput from "../../atoms/CustomInput/CustomInput";
+import CustomInput from "../../atoms/CustomInput";
 import CustomButton from "../../atoms/CustomButton";
 import { useState } from "react";
 import { router } from "expo-router";

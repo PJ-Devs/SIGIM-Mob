@@ -39,7 +39,7 @@ export default function CustomButton({
   iconSize = 14,
   visible = true,
   disabled = false,
-  loading = true,
+  loading = false,
   ...props
 }: CustomButtonProps): JSX.Element {
   return (
