@@ -5,6 +5,7 @@ import ProductCard from "../../molecules/ProductCard";
 import Layout from "../../orgnisms/Layout";
 import { fetchProducts, fetchProductSearch } from "../../../lib/fetch";
 import Loading from "../../molecules/Loading";
+import CategoriesCarrousel from "../../orgnisms/CategoriesCarrousel";
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -35,21 +36,22 @@ export default function ProductList() {
       {loading ? (
         <Loading />
       ) : (
-        <FlatList
-          data={products}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View
-              className="flex items-center my-2 w-full px-1.5"
-            >
-              <ProductCard product={item} />
-            </View>
-          )}
-          initialNumToRender={5}
-          showsVerticalScrollIndicator={false}
-          windowSize={5}
-          ListFooterComponent={() => <View style={{ height: 10 }} />}
-        />
+        <View>
+          <CategoriesCarrousel></CategoriesCarrousel>
+          <FlatList
+            data={products}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <View className="flex items-center my-2 w-full px-1.5">
+                <ProductCard product={item} />
+              </View>
+            )}
+            initialNumToRender={5}
+            showsVerticalScrollIndicator={false}
+            windowSize={5}
+            ListFooterComponent={() => <View style={{ height: 10 }} />}
+          />
+        </View>
       )}
     </Layout>
   );

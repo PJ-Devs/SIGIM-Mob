@@ -12,6 +12,7 @@ export default function Login(): JSX.Element {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      router.push("/profile");
     }, 2000);
   };
 
