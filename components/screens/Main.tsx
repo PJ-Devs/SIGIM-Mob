@@ -2,12 +2,18 @@ import { View } from "react-native";
 import { Link } from "expo-router";
 import Layout from "../orgnisms/Layout";
 import DropDown from "../molecules/DropDown";
+import { router } from "expo-router";
+
+import CustomButton from "../atoms/CustomButton";
+
 
 export default function Main() {
+
   return (
     <Layout>
       <View>
         <Link href="/productList">Go to product list</Link>
+        <CustomButton type="primary" title="Go to profile" onPress = {()=>{router.push("/profile")}} />        
         <DropDown
           data={[
             { label: "Item 1", value: "1" },
