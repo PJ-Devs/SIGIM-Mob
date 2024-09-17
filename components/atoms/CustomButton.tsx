@@ -1,12 +1,8 @@
-import {
-  GestureResponderEvent,
-  Pressable,
-  Text,
-  ViewStyle,
-} from "react-native";
+import { Animated, GestureResponderEvent, Pressable, Text } from "react-native";
 import LottieView from "lottie-react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { colorPalette } from "../../styles/common.styles";
+import { useRef } from "react";
 
 type buttonType =
   | "primary"
@@ -39,48 +35,93 @@ export default function CustomButton({
   iconSize = 14,
   visible = true,
   disabled = false,
-  loading = true,
+  loading = false,
   ...props
 }: CustomButtonProps): JSX.Element {
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+  const scaleAnim = useRef(new Animated.Value(1)).current; 
+
+  const fadeInAnimation = () => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 0.5,
+        duration: 150,
+        useNativeDriver: true,
+      }),
+      Animated.spring(scaleAnim, {
+        toValue: 0.95,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
+  const fadeOutAnimation = () => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 150,
+        useNativeDriver: true,
+      }),
+      Animated.spring(scaleAnim, {
+        toValue: 1,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
   return (
     <Pressable
       id={props.id ?? undefined}
-      onPress={props.onPress}
+      onPressIn={fadeInAnimation}
+      onPressOut={fadeOutAnimation}
+      onPress={() => {
+        props.onPress();
+      }}
       disabled={disabled || loading}
       className={` 
         ${typeStyles[type]} 
         ${shapeStyles[shape]} 
-        ${disabled || loading ? "opacity-75" : ""} 
-        ${props.style ?? "flex-row justify-center items-center py-2 px-3 gap-x-1 shadow-sm"
-      }`}
+        ${disabled || loading ? "opacity-75" : "opacity-100"} 
+        ${
+          props.style ??
+          "flex-row justify-center items-center py-2 px-3 gap-x-1 shadow-sm"
+        }`}
     >
-      {loading && type !== "icon" && (
-        <LottieView
-          source={require("../../assets/animations/loading-animation.json")}
-          autoPlay
-          loop
-          speed={5}
-          resizeMode="contain"
-          style={{
-            width: 50,
-            height: 50,
-            marginHorizontal: -14,
-            marginVertical: -14,
-          }}
-        />
-      )}
-      {props.icon && (
-        <Icon
-          name={props.icon}
-          size={iconSize}
-          color={props.iconColor ?? colorPalette.dark}
-        />
-      )}
-      {props.title && type !== "icon" && (
-        <Text className="text-center font-semibold text-base">
-          {props.title}
-        </Text>
-      )}
+      <Animated.View
+        className="flex-row gap-x-1.5"
+        style={{
+          opacity: fadeAnim,
+          transform: [{ scale: scaleAnim }],
+        }}
+      >
+        {loading && type !== "icon" && (
+          <LottieView
+            source={require("../../assets/animations/loading-animation.json")}
+            autoPlay
+            loop
+            speed={5}
+            resizeMode="contain"
+            style={{
+              width: 50,
+              height: 50,
+              marginHorizontal: -14,
+              marginVertical: -14,
+            }}
+          />
+        )}
+        {props.icon && (
+          <Icon
+            name={props.icon}
+            size={iconSize}
+            color={props.iconColor ?? colorPalette.dark}
+          />
+        )}
+        {props.title && type !== "icon" && (
+          <Text className="text-center font-semibold text-base">
+            {props.title}
+          </Text>
+        )}
+      </Animated.View>
     </Pressable>
   );
 }
@@ -97,5 +138,5 @@ const typeStyles = {
   error: "bg-danger",
   warning: "bg-warning",
   success: "bg-success",
-  icon: "bg-transparent rounded-full",
+  icon: "bg-transparent rounded-full z-10",
 };

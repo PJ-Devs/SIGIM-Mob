@@ -1,4 +1,4 @@
-import Regsiter from "../components/screens/Register/Register";
+import Regsiter from "../components/screens/Register";
 
 export default function signUp(): JSX.Element {
   return <Regsiter />;

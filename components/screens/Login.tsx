@@ -21,21 +21,30 @@ export default function Login(): JSX.Element {
         <CustomButton
           type="icon"
           icon="arrow-left"
+          iconSize={20}
           onPress={() => {
             router.back();
           }}
-          style="absolute p-2.5 rounded-full top-8 left-0 border-[1px] border-solid border-dark z-1 shadow-md"
+          style={`absolute p-2.5 rounded-full top-16 border-[1px] border-solid border-dark z-1 shadow-md`}
         />
       )}
 
       <View className="flex-1 justify-center w-full h-full">
         <View className="items-center mb-10">
-          <Image className="w-[150px] h-[150px] bg-primary rounded-full" />
+          <Image className="w-[150px] h-[150px] bg-primary rounded-full"/>
         </View>
         <Text className="w-full text-xl font-semibold">Iniciar sesión</Text>
         <View className="py-5" style={{ gap: 15 }}>
           <CustomInput placeholder="E-mail" type="email-address" width={300} />
-          <CustomInput placeholder="Password" width={300} />
+          <View>
+            <CustomInput placeholder="Password" width={300} />
+            <Pressable>
+              <Text className={anchorContainer}>
+                Olvidaste tu contraseña?{" "}
+                <Text className="text-blue-500">Recuperar</Text>
+              </Text>
+            </Pressable>
+          </View>
         </View>
         <CustomButton
           type="primary"
@@ -43,20 +52,8 @@ export default function Login(): JSX.Element {
           loading={loading}
           onPress={handleLogin}
         />
-        <Pressable>
-          <Text className={anchorContainer}>
-            Olvidaste tu contraseña?{" "}
-            <Text className="text-blue-500">Recuperar</Text>
-          </Text>
-        </Pressable>
-        <View className="border-b-[1px] bg-gray-300 mt-10 mb-4 opacity-50" />
-        <CustomButton
-          type="secondary"
-          title="Acceder como empleado"
-          onPress={() => {}}
-        />
         <Pressable onPress={() => router.navigate("/signUp")}>
-          <Text className={anchorContainer}>
+          <Text className={`${anchorContainer} text-center`}>
             No tienes una cuenta?{" "}
             <Text className="text-blue-500">Crea una</Text>
           </Text>
@@ -66,4 +63,4 @@ export default function Login(): JSX.Element {
   );
 }
 
-const anchorContainer = "text-black text-center mt-2 opacity-75";
+const anchorContainer = "text-black text-right mt-2 opacity-75";
