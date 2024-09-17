@@ -84,11 +84,11 @@ export default function CustomButton({
         ${disabled || loading ? "opacity-75" : "opacity-100"} 
         ${
           props.style ??
-          "flex-row justify-center items-center py-2 px-3 gap-x-1 shadow-sm"
+          "flex-row justify-center items-center py-2 px-3 shadow-sm"
         }`}
     >
       <Animated.View
-        className="flex-row gap-x-1.5"
+        className="flex-row gap-x-1.5 items-center justify-center"
         style={{
           opacity: fadeAnim,
           transform: [{ scale: scaleAnim }],
