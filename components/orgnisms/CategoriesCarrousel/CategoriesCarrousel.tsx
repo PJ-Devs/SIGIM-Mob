@@ -1,19 +1,16 @@
 import { View, Text } from "react-native";
 import CategoryCard from "../../molecules/CategoryModal/CategoryModal";
-import { styles } from "./CategoriesCarrousel.styles";
 import Icon from "@expo/vector-icons/AntDesign";
 
 function CategoriesCarrousel() {
     return (  
       <View>
-        <View style={styles.title}>
+        <View className="flex-row gap-2 justify-items-center" >
         <Text>Tags</Text>
         <Icon name="tags"></Icon>
         </View>
         
-        <View style={
-       styles.card
-        }>
+        <View className="flex-row">
             <CategoryCard
         label="seleccionado"
         onRemove={() => {}}
