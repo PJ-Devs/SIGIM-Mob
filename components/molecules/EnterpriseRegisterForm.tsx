@@ -1,11 +1,11 @@
 import { Image, Pressable, Text, View } from "react-native";
-import Layout from "../orgnisms/Layout";
-import CustomInput from "../atoms/CustomInput";
-import CustomButton from "../atoms/CustomButton";
 import { useState } from "react";
 import { router } from "expo-router";
+import Layout from "../orgnisms/Layout";
+import CustomButton from "../atoms/CustomButton";
+import CustomInput from "../atoms/CustomInput";
 
-export default function Login(): JSX.Element {
+export default function RegisterEnterpriseForm(): JSX.Element {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = () => {
@@ -25,37 +25,45 @@ export default function Login(): JSX.Element {
           onPress={() => {
             router.back();
           }}
-          style={`absolute p-2.5 rounded-full top-16 border-[1px] border-solid border-dark z-1 shadow-md`}
+          style="absolute p-2.5 rounded-full top-16 left-0 border-[1px] border-solid border-dark z-1 shadow-md"
         />
       )}
 
       <View className="flex-1 justify-center w-full h-full">
         <View className="items-center mb-10">
-          <Image className="w-[150px] h-[150px] bg-primary rounded-full"/>
+          <Image
+            className="w-[150px] h-[150px] bg-primary rounded-full"
+            alt="logo"
+          />
         </View>
-        <Text className="w-full text-xl font-semibold">Iniciar sesión</Text>
+        <Text className="w-full text-xl font-semibold">
+          Regitrar tu empresa
+        </Text>
         <View className="py-5" style={{ gap: 15 }}>
+          <CustomInput
+            placeholder="Nombre de empresa"
+            type="email-address"
+            width={300}
+          />
+          <CustomInput placeholder="NIT" type="email-address" width={300} />
+          <CustomInput
+            placeholder="Numero de contacto"
+            type="email-address"
+            width={300}
+          />
           <CustomInput placeholder="E-mail" type="email-address" width={300} />
-          <View>
-            <CustomInput placeholder="Password" width={300} />
-            <Pressable>
-              <Text className={anchorContainer}>
-                Olvidaste tu contraseña?{" "}
-                <Text className="text-blue-500">Recuperar</Text>
-              </Text>
-            </Pressable>
-          </View>
+          <CustomInput placeholder="Password" width={300} />
         </View>
         <CustomButton
           type="primary"
-          title="Ingresa"
+          title="Registrar Empresa"
           loading={loading}
           onPress={handleLogin}
         />
-        <Pressable onPress={() => router.navigate("/signUp")}>
+        <Pressable onPress={() => router.navigate("/login")}>
           <Text className={`${anchorContainer} text-center`}>
-            No tienes una cuenta?{" "}
-            <Text className="text-blue-500">Crea una</Text>
+            Ya tienes una cuenta?{" "}
+            <Text className="text-blue-500">Inicia sesion</Text>
           </Text>
         </Pressable>
       </View>
