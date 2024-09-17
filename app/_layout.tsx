@@ -1,5 +1,4 @@
 import { Stack } from "expo-router";
-import Layout from "../components/orgnisms/Layout";
 
 export default function layout() {
   return (

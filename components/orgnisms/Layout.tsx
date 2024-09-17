@@ -19,7 +19,7 @@ export default function Layout({
 }: LayoutProps) {
 
   return (
-    <SafeAreaView className={`flex-1 px-3`}>
+    <SafeAreaView className={`min-w-[80%] min-h-full flex-1 px-3`}>
       <View className="py-1">
         {includeHeader && <Header enterpriseName="La empresita" />}
         {includeSearch && onSearch && (

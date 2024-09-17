@@ -74,9 +74,7 @@ export default function CustomButton({
       id={props.id ?? undefined}
       onPressIn={fadeInAnimation}
       onPressOut={fadeOutAnimation}
-      onPress={() => {
-        props.onPress();
-      }}
+      onPress={props.onPress}
       disabled={disabled || loading}
       className={` 
         ${typeStyles[type]} 
@@ -88,7 +86,7 @@ export default function CustomButton({
         }`}
     >
       <Animated.View
-        className="flex-row gap-x-1.5 items-center justify-center"
+        className="flex-row gap-x-1.5 justify-center items-center"
         style={{
           opacity: fadeAnim,
           transform: [{ scale: scaleAnim }],
