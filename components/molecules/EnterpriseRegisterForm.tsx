@@ -1,7 +1,6 @@
 import { Image, Pressable, Text, View } from "react-native";
 import { useState } from "react";
 import { router } from "expo-router";
-import Layout from "../orgnisms/Layout";
 import CustomButton from "../atoms/CustomButton";
 import CustomInput from "../atoms/CustomInput";
 
@@ -16,7 +15,7 @@ export default function RegisterEnterpriseForm(): JSX.Element {
   };
 
   return (
-    <Layout includeHeader={false}>
+    <View>
       {router.canGoBack() && (
         <CustomButton
           type="icon"
@@ -25,7 +24,7 @@ export default function RegisterEnterpriseForm(): JSX.Element {
           onPress={() => {
             router.back();
           }}
-          style="absolute p-2.5 rounded-full top-16 left-0 border-[1px] border-solid border-dark z-1 shadow-md"
+          style="absolute p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md"
         />
       )}
 
@@ -67,7 +66,7 @@ export default function RegisterEnterpriseForm(): JSX.Element {
           </Text>
         </Pressable>
       </View>
-    </Layout>
+    </View>
   );
 }
 
