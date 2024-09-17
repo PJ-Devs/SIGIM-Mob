@@ -2,21 +2,31 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { dropDownContainerStyle} from "../../tokens";
 
+/**
+ * How to use Dropdown component in your project?
+ * 
+ * When you want to use Dropdown component you have to pass the data prop in this way:
+ * <DropDown
+          data={[
+            { label: "Item 1", value: "1" },
+            { label: "Item 2", value: "2" },
+            { label: "Item 3", value: "3" },
+            { label: "Item 4", value: "4" },
+            { label: "Item 5", value: "5" },
+            { label: "Item 6", value: "6" },
+            { label: "Item 7", value: "7" },
+            { label: "Item 8", value: "8" },
+          ]}
+    />
+ */
 
+type dropDownProps = {
+  data: { label: string; value: string }[];
+}
 
-const data = [
-  { label: "Item 1", value: "1" },
-  { label: "Item 2", value: "2" },
-  { label: "Item 3", value: "3" },
-  { label: "Item 4", value: "4" },
-  { label: "Item 5", value: "5" },
-  { label: "Item 6", value: "6" },
-  { label: "Item 7", value: "7" },
-  { label: "Item 8", value: "8" },
-];
-
-export default function DropdownComponent(): JSX.Element {
+export default function DropdownComponent({data}: dropDownProps): JSX.Element {
   const [value, setValue] = useState<string | null>(null);
   const [isFocus, setIsFocus] = useState(false);
 
@@ -32,7 +42,7 @@ export default function DropdownComponent(): JSX.Element {
   };
 
   return (
-    <View style={styles.container}>
+    <View className={dropDownContainerStyle}>
       {renderLabel()}
       <Dropdown
         style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
@@ -86,7 +96,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "white",
     left: 22,
-    top: 8,
+    top: 0,
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
