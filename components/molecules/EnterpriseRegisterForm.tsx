@@ -3,7 +3,7 @@ import { useState } from "react";
 import { router } from "expo-router";
 import Layout from "../orgnisms/Layout";
 import CustomButton from "../atoms/CustomButton";
-import CustomInput from "../atoms/CustomInput/CustomInput";
+import CustomInput from "../atoms/CustomInput";
 
 export default function RegisterEnterpriseForm(): JSX.Element {
   const [loading, setLoading] = useState(false);

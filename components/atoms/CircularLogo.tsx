@@ -1,5 +1,5 @@
 import {View, Image, ImageSourcePropType } from 'react-native';
-import {styles} from './CircularLogo.styles';
+import { circularLogoStyle, circularLogoContainerStyle } from '../../tokens';
 
 type CircularLogoProps = {
   img: ImageSourcePropType; 
@@ -9,11 +9,13 @@ type CircularLogoProps = {
 export default function CircularLogo({ img, alt }: CircularLogoProps) {
 
   return (
-    <View>
+    <View className={circularLogoContainerStyle} style = {{padding:10, maxWidth:60}} >
       <Image 
         source={img}
-        style={styles.logo} 
+        alt={alt}
+        className = {circularLogoStyle}
       />
     </View>
   );
 }
+
