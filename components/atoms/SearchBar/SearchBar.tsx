@@ -34,22 +34,21 @@ export default function SearchBar({
   }, [query, debounce]);
 
   return (
-    <View style={styles.container}>
+    <View className="flex flex-row gap-2 items-center rounded-md p-2">
       <Icon name="search1" size={20} color="#888"  />
       <TextInput
         autoCorrect={false}
         autoFocus
         placeholder="Search"
-        placeholderTextColor="#888"
+        placeholderTextColor="secondary"
         value={query}
         onChangeText={setQuery}
         onEndEditing={handleSearch}
-        style={styles.input}
+        className="flex-1 pl-2 h-10 w-2 bg-transparent border-b-0 rounded-md"
         selectionColor="lawngreen"
         underlineColorAndroid="transparent" 
         keyboardType="visible-password"
       />
-        
     </View>
   );
 }

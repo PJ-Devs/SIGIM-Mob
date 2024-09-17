@@ -1,11 +1,11 @@
 import React from "react";
-import { Text, StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { Text, TextStyle, ViewStyle } from "react-native";
 
 type CustomLabelProps = {
   text: string;
   color?: string;
   fontSize?: number;
-  fontWeight?: TextStyle["fontWeight"];
+  fontWeight?: string;
   backgroundColor?: string;
   padding?: number;
   margin?: number;
@@ -22,32 +22,8 @@ export default function CustomLabel({
   padding = 8,
   margin = 4,
   borderRadius = 4,
-  style = {},
 }: CustomLabelProps) {
-  return (
-    <Text
-      style={[
-        styles.label,
-        {
-          color,
-          fontSize,
-          fontWeight,
-          backgroundColor,
-          padding,
-          margin,
-          borderRadius,
-        },
-        style,
-      ]}
-    >
-      {text}
-    </Text>
-  );
+  const styles = `text-${color} fontSize-${fontSize} fontWeight-${fontWeight}
+  bg-${backgroundColor} p-${padding} m-${margin} border-radius-${borderRadius}`;
+  return <Text className={styles}>{text}</Text>;
 }
-
-const styles = StyleSheet.create({
-  label: {
-    textAlign: "center",
-    fontFamily: "Arial",
-  },
-});
