@@ -32,7 +32,7 @@ export default function ProductList() {
   }, []);
 
   return (
-    <Layout includeSearch={true}>
+    <Layout includeSearch={true} onSearch={onSearch}>
       {loading ? (
         <Loading />
       ) : (
