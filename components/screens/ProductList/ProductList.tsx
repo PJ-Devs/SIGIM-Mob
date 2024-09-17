@@ -31,7 +31,7 @@ export default function ProductList() {
   }, []);
 
   return (
-    <Layout includeSearch={true} onSearch={onSearch}>
+    <Layout includeSearch={true}>
       {loading ? (
         <Loading />
       ) : (

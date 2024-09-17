@@ -8,21 +8,21 @@ interface props {
 }
 
 export default function Header({ enterpriseName }: props): JSX.Element {
-  const pathname = usePathname();
 
   return (
-    <View className="flex-row justify-between items-center bg-white w-full pt-4 pb-2">
+    <View className="flex-row justify-between items-center bg-white w-full pb-2">
       <CustomButton
         type="icon"
-        icon={pathname === "/" ? "bars" : "arrow-left"}
+        icon={router.canGoBack() ? "arrow-left" : "bars"}
         iconSize={20}
         onPress={() => {
-          if (pathname === "/") {
-            // Open sidebar
-          } else if (router.canGoBack()) {
-            router.back();
+          if(router.canGoBack()) {
+            router.back()
+          } else {
+            router.navigate('/')
           }
         }}
+        style="p-2.5 rounded-full border-[1px] border-solid border-dark z-10 shadow-md"
       />
       <Link href={"/"}>
         <View className="flex-row items-center gap-x-2">
@@ -34,7 +34,11 @@ export default function Header({ enterpriseName }: props): JSX.Element {
         type="icon"
         icon="cog"
         iconSize={20}
-        onPress={() => router.push("/login")}
+        onPress={() => {
+          console.log(1)
+          router.push("/login")
+        }}
+        style="p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md"
       />
     </View>
   );

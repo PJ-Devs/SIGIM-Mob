@@ -1,7 +1,8 @@
-import { View } from "react-native";
+import { Animated, Easing, View } from "react-native";
 import Header from "../molecules/Header";
 import SearchBar from "../atoms/SearchBar/SearchBar";
 import CategoriesCarrousel from "./CategoriesCarrousel/CategoriesCarrousel";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface LayoutProps {
   includeHeader?: boolean;
@@ -16,8 +17,9 @@ export default function Layout({
   onSearch,
   children,
 }: LayoutProps) {
+
   return (
-    <View className="flex-1 px-3">
+    <SafeAreaView className={`flex-1 px-3`}>
       <View className="py-1">
         {includeHeader && <Header enterpriseName="La empresita" />}
         {includeSearch && onSearch && (
@@ -28,6 +30,6 @@ export default function Layout({
         )}
       </View>
       {children}
-    </View>
+    </SafeAreaView>
   );
 }
