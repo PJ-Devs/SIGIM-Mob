@@ -1,7 +1,7 @@
 import { Animated, Easing, View } from "react-native";
 import Header from "../molecules/Header";
 import SearchBar from "../atoms/SearchBar/SearchBar";
-import CategoriesCarrousel from "./CategoriesCarrousel/CategoriesCarrousel";
+import CategoriesCarrousel from "./CategoriesCarrousel";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface LayoutProps {
@@ -17,7 +17,6 @@ export default function Layout({
   onSearch,
   children,
 }: LayoutProps) {
-
   return (
     <SafeAreaView className={`min-w-[80%] min-h-full flex-1 px-3`}>
       <View className="py-1">
