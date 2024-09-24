@@ -51,4 +51,18 @@ type Dimensions = {
   depth: number;
 }
 
-export type { RootObject, Product, Meta, Review, Dimensions };
+type DTOEnterprise = {
+  name: string;
+  NIT: string;
+  email: string;
+  phoneNumber: string;
+  currency: 'USD' | 'COP';
+};
+
+type DTOEnterpriseColaborator = {
+  name: string;
+  email: string;
+  accessCode?: string;
+};
+
+export type { RootObject, Product, Meta, Review, Dimensions, DTOEnterprise, DTOEnterpriseColaborator };
