@@ -33,7 +33,9 @@ export default function Login(): JSX.Element {
 
         <View className="flex-1 justify-center w-full h-full">
           <View className="items-center mb-10">
-            <Image className="w-[150px] h-[150px] bg-primary rounded-full" />
+            <Pressable onPress={() => router.push('/newRoute')}>
+              <Image className="w-[150px] h-[150px] bg-primary rounded-full" />
+            </Pressable>
           </View>
           <Text className="w-full text-xl font-semibold">Iniciar sesión</Text>
           <View className="py-5" style={{ gap: 15 }}>
