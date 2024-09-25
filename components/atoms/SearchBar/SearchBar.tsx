@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TextInput, View } from "react-native";
-import Icon from "@expo/vector-icons/AntDesign"; 
-import { styles } from "./SearchBar.styles";
+import Icon from "@expo/vector-icons/AntDesign";
 
 type CustomSearchProps = {
   initialText?: string;
