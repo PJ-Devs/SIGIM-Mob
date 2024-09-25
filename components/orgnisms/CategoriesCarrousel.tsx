@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import CategoryCard from "../molecules/CategoryModal/CategoryModal";
+import CategoryCard from "../molecules/CategoryModal";
 import Icon from "@expo/vector-icons/AntDesign";
 
 function CategoriesCarrousel() {

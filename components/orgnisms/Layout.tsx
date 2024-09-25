@@ -1,6 +1,6 @@
 import { Animated, Easing, View } from "react-native";
 import Header from "../molecules/Header";
-import SearchBar from "../atoms/SearchBar/SearchBar";
+import SearchBar from "../atoms/SearchBar";
 import CategoriesCarrousel from "./CategoriesCarrousel";
 import { SafeAreaView } from "react-native-safe-area-context";
 
