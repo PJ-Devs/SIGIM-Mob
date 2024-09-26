@@ -1,47 +1,57 @@
 import RegisterEnterpriseForm from "../molecules/EnterpriseRegisterForm";
 import Layout from "../orgnisms/Layout";
-import { useRef, useState } from "react";
-import { DTOEnterprise, DTOEnterpriseColaborator } from "../../types/products";
-import RegisterCollaboratorsForm from "../molecules/CollaboratorsRegisterForm";
+import { useState } from "react";
 import RegisterOwnerForm from "../molecules/OwnerRegisterForm";
-import { registerEnterprise, registerColaborators, registerAdmin } from "../../lib/auth";
+import { registerEnterprise } from "../../lib/auth";
 import { Pressable, Text } from "react-native";
+import { useForm } from "react-hook-form";
 
 export default function Register(): JSX.Element {
-  const enterprise = useRef<DTOEnterprise>({
-    name: '',
-    NIT: '',
-    email: '',
-    phoneNumber: '',
-    currency: 'COP',
-  });
-
-  const [admin, setAdmin] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
-
-  const handleRegisterAll = async () => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+  const handleRegisterAll = async (data:any) => {
     try {
-      const enterpriseResponse = await registerEnterprise(enterprise.current);
-      const collaboratorsResponse = await registerColaborators(colaborator);
-      const adminResponse = await registerAdmin(admin);
-
+      console.log(data);
+      let formattedData = {
+        ...data,
+        device_name: "valen",
+      }
+      await registerEnterprise(formattedData);
     } catch (error) {
-      console.error('Error en el registro:', error);
+      console.error("Error en el registro:", error);
     }
   };
 
-  
-  const [colaborator, setColaborators] = useState<DTOEnterpriseColaborator[]>([]);
-  
+  const goToNextStep = () => {
+    setCurrentStep((prev) => prev + 1);
+  };
+
+  const goToPreviousStep = () => {
+    setCurrentStep((prev) => Math.max(prev - 1, 1)); 
+  };
+
   return (
     <Layout includeHeader={false}>
-      <RegisterEnterpriseForm enterprise={enterprise} />
-      <RegisterCollaboratorsForm setColaborators={setColaborators} />
-      <RegisterOwnerForm setAdmin={setAdmin} />
-      <Pressable onPress={handleRegisterAll}>
+      {currentStep === 1 && (
+        <RegisterEnterpriseForm 
+          control={control}
+          onRegister={goToNextStep}
+        />
+      )}
+
+      {currentStep === 2 && (
+        <RegisterOwnerForm 
+          control={control} 
+          onRegister={handleSubmit(handleRegisterAll)}  
+          onBack={goToPreviousStep} 
+        />
+      )}
+      
+        <Pressable onPress={handleSubmit(handleRegisterAll)}>
         <Text>Finalizar registro</Text>
       </Pressable>
     </Layout>

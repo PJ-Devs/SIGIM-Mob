@@ -1,49 +1,43 @@
-import { DTOEnterprise, DTOEnterpriseColaborator } from "../../types/products";
 
-export const registerEnterprise = async (enterprise:DTOEnterprise) => {
+export const registerEnterprise = async (body:any) => {
+  console.log('empece')
+  console.log(body)
     try {
-      const response = await fetch('https://localhost/api/enterprise', {
+      const response = await fetch('http://192.168.105.9:8000/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
-        body: JSON.stringify(enterprise),
+        body: JSON.stringify(body),
       });
+      
       const updatedEnterprise = await response.json();
       console.log('Empresa registrada:', updatedEnterprise);
+      return updatedEnterprise;
     } catch (error) {
-      console.error('Error registrando la empresa:', error);
+   
     }
   };
 
- export const registerColaborators = async (colaborators: DTOEnterpriseColaborator[]) => {
-    try {
-      const response = await fetch('https://localhost/api/colaboradores', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ colaboradores: colaborators }),
-      });
-      const updatedColaborators = await response.json();
-      console.log('Colaboradores registrados:', updatedColaborators);
-    } catch (error) {
-      console.error('Error registrando colaboradores:', error);
-    }
-  };
-
- export const registerAdmin = async (adminData: { name: string; email: string; password: string }) => {
-    try {
-      const response = await fetch('https://localhost/api/administrador', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(adminData),
-      });
-      const updatedAdmin = await response.json();
-      console.log('Administrador creado:', updatedAdmin);
-    } catch (error) {
-      console.error('Error creando administrador:', error);
-    }
-  };
+  export const login = async (body:any) => {
+    console.log('empece')
+    console.log(body)
+      try {
+        const response = await fetch('http://192.168.105.9:8000/api/auth/token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify(body),
+        });
+        
+        const updatedEnterprise = await response.json();
+        console.log('Empresa registrada:', updatedEnterprise);
+        return updatedEnterprise;
+      } catch (error) {
+      
+      }
+    };
+  

@@ -4,17 +4,32 @@ import CustomInput from "../atoms/CustomInput";
 import CustomButton from "../atoms/CustomButton";
 import { useState } from "react";
 import { router } from "expo-router";
+import { useForm } from "react-hook-form";
+import { login } from "../../lib/auth";
 
 export default function Login(): JSX.Element {
   const [loading, setLoading] = useState(false);
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
 
-  const handleLogin = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      router.push("/profile");
-    }, 2000);
-  };
+  const handleLogin = async (data: any) => {
+    try {
+      setLoading(true);
+      let formattedData = {
+        ...data,
+        device_name: "valen",
+      }
+      await login(formattedData).then(() => {
+        setLoading(false);
+        router.push("/");
+      });
+    } catch (error) {
+      
+    }
+  }
 
   return (
     <Layout includeHeader={false}>
@@ -33,20 +48,31 @@ export default function Login(): JSX.Element {
 
         <View className="flex-1 justify-center w-full h-full">
           <View className="items-center mb-10">
-            <Pressable onPress={() => router.push('/newRoute')}>
+            <Pressable onPress={() => router.push("/newRoute")}>
               <Image className="w-[150px] h-[150px] bg-primary rounded-full" />
             </Pressable>
           </View>
           <Text className="w-full text-xl font-semibold">Iniciar sesión</Text>
           <View className="py-5" style={{ gap: 15 }}>
             <CustomInput
+              propertyName="email"
               placeholder="E-mail"
               type="email-address"
-              width={300}
+              control={control}
+              rules={{
+                required: "Este campo es requerido",
+              }}
             />
             <View>
-              <CustomInput placeholder="Password" width={300} />
-              <Pressable>
+              <CustomInput
+                propertyName="password"
+                placeholder="Password"
+                control={control}
+                rules={{
+                  required: "Este campo es requerido",
+                }}
+              />
+              <Pressable onPress={ handleSubmit(handleLogin)}>
                 <Text className={anchorContainer}>
                   Olvidaste tu contraseña?{" "}
                   <Text className="text-blue-500">Recuperar</Text>
@@ -58,9 +84,9 @@ export default function Login(): JSX.Element {
             type="primary"
             title="Ingresa"
             loading={loading}
-            onPress={handleLogin}
+            onPress={ handleSubmit(handleLogin)}
           />
-          <Pressable onPress={() => router.navigate("/signUp")}>
+          <Pressable onPress={ () =>{router.push("/signUp")}} >
             <Text className={`${anchorContainer} text-center`}>
               No tienes una cuenta?{" "}
               <Text className="text-blue-500">Crea una</Text>

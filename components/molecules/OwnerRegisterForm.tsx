@@ -1,20 +1,81 @@
-import CustomButton from "../atoms/CustomButton";
-import Layout from "../orgnisms/Layout";
+import { Image, Pressable, Text, View } from "react-native";
+import { useState } from "react";
 import { router } from "expo-router";
+import CustomButton from "../atoms/CustomButton";
+import CustomInput from "../atoms/CustomInput";
 
-export default function RegisterOwnerForm(): JSX.Element {
+interface RegisterOwnerFormProps {
+  control:any;
+  onRegister: () => void; 
+  onBack: () => void; 
+}
+
+export default function RegisterOwnerForm({
+   control, onRegister, onBack 
+}: RegisterOwnerFormProps): JSX.Element {
+  const [loading, setLoading] = useState(false);
+
+  const handleRegister = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      onRegister();
+    }, 2000);
+  };
+
+
+
   return (
-    <Layout includeHeader={false}>
+    <View>
       {router.canGoBack() && (
         <CustomButton
           type="icon"
           icon="arrow-left"
-          onPress={() => {
-            router.back();
-          }}
-          style="absolute p-2.5 rounded-full top-8 left-0 border-[1px] border-solid border-dark z-1 shadow-md"
+          iconSize={20}
+          onPress={ onBack }
+          style="absolute p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md"
         />
       )}
-    </Layout>
+
+      <View className="flex-1 justify-center w-full h-full">
+        <Text className="text-center text-xl font-semibold">
+        Añade tus datos como dueño de la empresa
+        </Text>
+        <View className="py-5" style={{ gap: 15 }}>
+          <CustomInput
+          propertyName="owner_name"
+            placeholder="Nombre"
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
+          />
+          <CustomInput
+            placeholder="email"
+            propertyName="owner_email"
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
+          />
+          <CustomInput
+            placeholder="Contraseña"
+            propertyName="owner_password"
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
+          />
+        </View>
+        <CustomButton
+          type="primary"
+          title="Registrarme"
+          loading={loading}
+          onPress={handleRegister}
+        />
+      </View>
+    </View>
   );
 }
+
+const anchorContainer = "text-black text-right mt-2 opacity-75";

@@ -3,27 +3,25 @@ import { useState } from "react";
 import { router } from "expo-router";
 import CustomButton from "../atoms/CustomButton";
 import CustomInput from "../atoms/CustomInput";
-import { DTOEnterprise } from "../../types/products";
 
 interface RegisterEnterpriseFormProps {
-  enterprise: React.MutableRefObject<DTOEnterprise>;
+  control: any;
+  onRegister: () => void;
 }
 
 export default function RegisterEnterpriseForm({
-  enterprise,
+  control,onRegister
 }: RegisterEnterpriseFormProps): JSX.Element {
+
+
   const [loading, setLoading] = useState(false);
 
   const handleRegister = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      console.log(enterprise.current); 
+      onRegister();
     }, 2000);
-  };
-
-  const updateEnterpriseField = (field: keyof DTOEnterprise, value: string) => {
-    enterprise.current = { ...enterprise.current, [field]: value };
   };
 
   return (
@@ -48,33 +46,40 @@ export default function RegisterEnterpriseForm({
           />
         </View>
         <Text className="w-full text-xl font-semibold">
-          Regitrar tu empresa
+          Registrar tu empresa
         </Text>
         <View className="py-5" style={{ gap: 15 }}>
           <CustomInput
+            propertyName="enterprise_name"
             placeholder="Nombre de empresa"
-            value={enterprise.current.name}
-            onChangeText={(text) => updateEnterpriseField("name", text)}
-            width={300}
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
           />
           <CustomInput
+            propertyName="enterprise_NIT"
             placeholder="NIT"
-            value={enterprise.current.NIT}
-            onChangeText={(text) => updateEnterpriseField("NIT", text)}
-            width={300}
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
           />
           <CustomInput
+            propertyName="phone_number"
             placeholder="Numero de contacto"
-            value={enterprise.current.phoneNumber}
-            onChangeText={(text) => updateEnterpriseField("phoneNumber", text)}
-            width={300}
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
           />
           <CustomInput
+            propertyName="enterprise_email"
             placeholder="E-mail"
-            type="email-address"
-            value={enterprise.current.email}
-            onChangeText={(text) => updateEnterpriseField("email", text)}
-            width={300}
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
           />
         </View>
         <CustomButton
@@ -86,7 +91,7 @@ export default function RegisterEnterpriseForm({
         <Pressable onPress={() => router.navigate("/login")}>
           <Text className={`${anchorContainer} text-center`}>
             Ya tienes una cuenta?{" "}
-            <Text className="text-blue-500">Inicia sesion</Text>
+            <Text className="text-blue-500">Inicia sesión</Text>
           </Text>
         </Pressable>
       </View>
