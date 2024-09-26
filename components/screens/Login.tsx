@@ -39,13 +39,13 @@ export default function Login(): JSX.Element {
           </View>
           <Text className="w-full text-xl font-semibold">Iniciar sesión</Text>
           <View className="py-5" style={{ gap: 15 }}>
-            <CustomInput
+            {/* <CustomInput
               placeholder="E-mail"
               type="email-address"
               width={300}
-            />
+            /> */}
             <View>
-              <CustomInput placeholder="Password" width={300} />
+              {/* <CustomInput placeholder="Password" width={300} /> */}
               <Pressable>
                 <Text className={anchorContainer}>
                   Olvidaste tu contraseña?{" "}
