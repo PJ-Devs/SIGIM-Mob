@@ -3,7 +3,6 @@ import { useState } from "react";
 import { router } from "expo-router";
 import CustomButton from "../atoms/CustomButton";
 import CustomInput from "../atoms/CustomInput";
-import { DTOEnterprise } from "../../types/products";
 
 interface RegisterEnterpriseFormProps {
   control: any;
@@ -12,6 +11,8 @@ interface RegisterEnterpriseFormProps {
 export default function RegisterEnterpriseForm({
   control,
 }: RegisterEnterpriseFormProps): JSX.Element {
+
+
   const [loading, setLoading] = useState(false);
 
   const handleRegister = () => {
@@ -43,7 +44,7 @@ export default function RegisterEnterpriseForm({
           />
         </View>
         <Text className="w-full text-xl font-semibold">
-          Regitrar tu empresa
+          Registrar tu empresa
         </Text>
         <View className="py-5" style={{ gap: 15 }}>
           <CustomInput
@@ -88,7 +89,7 @@ export default function RegisterEnterpriseForm({
         <Pressable onPress={() => router.navigate("/login")}>
           <Text className={`${anchorContainer} text-center`}>
             Ya tienes una cuenta?{" "}
-            <Text className="text-blue-500">Inicia sesion</Text>
+            <Text className="text-blue-500">Inicia sesión</Text>
           </Text>
         </Pressable>
       </View>
