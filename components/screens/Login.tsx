@@ -4,17 +4,31 @@ import CustomInput from "../atoms/CustomInput";
 import CustomButton from "../atoms/CustomButton";
 import { useState } from "react";
 import { router } from "expo-router";
+import { useForm } from "react-hook-form";
 
 export default function Login(): JSX.Element {
   const [loading, setLoading] = useState(false);
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
 
-  const handleLogin = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      router.push("/profile");
-    }, 2000);
-  };
+  const handleLogin = async (data: any) => {
+    try {
+      setLoading(true);
+      let formattedData = {
+        ...data,
+        device_name: "valen",
+      }
+      await login(formattedData).then(() => {
+        setLoading(false);
+        router.push("/home");
+      });
+    } catch (error) {
+      console.error("Error en el login:", error);
+    }
+  }
 
   return (
     <Layout includeHeader={false}>
@@ -33,19 +47,30 @@ export default function Login(): JSX.Element {
 
         <View className="flex-1 justify-center w-full h-full">
           <View className="items-center mb-10">
-            <Pressable onPress={() => router.push('/newRoute')}>
+            <Pressable onPress={() => router.push("/newRoute")}>
               <Image className="w-[150px] h-[150px] bg-primary rounded-full" />
             </Pressable>
           </View>
           <Text className="w-full text-xl font-semibold">Iniciar sesión</Text>
           <View className="py-5" style={{ gap: 15 }}>
-            {/* <CustomInput
+            <CustomInput
+              propertyName="email"
               placeholder="E-mail"
               type="email-address"
-              width={300}
-            /> */}
+              control={control}
+              rules={{
+                required: "Este campo es requerido",
+              }}
+            />
             <View>
-              {/* <CustomInput placeholder="Password" width={300} /> */}
+              <CustomInput
+                propertyName="password"
+                placeholder="Password"
+                control={control}
+                rules={{
+                  required: "Este campo es requerido",
+                }}
+              />
               <Pressable>
                 <Text className={anchorContainer}>
                   Olvidaste tu contraseña?{" "}
@@ -60,7 +85,7 @@ export default function Login(): JSX.Element {
             loading={loading}
             onPress={handleLogin}
           />
-          <Pressable onPress={() => router.navigate("/signUp")}>
+          <Pressable onPress={() => handleSubmit(handleLogin)}>
             <Text className={`${anchorContainer} text-center`}>
               No tienes una cuenta?{" "}
               <Text className="text-blue-500">Crea una</Text>

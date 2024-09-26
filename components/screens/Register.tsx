@@ -1,16 +1,12 @@
 import RegisterEnterpriseForm from "../molecules/EnterpriseRegisterForm";
 import Layout from "../orgnisms/Layout";
-import { useRef, useState } from "react";
-import { DTOEnterprise, DTOEnterpriseColaborator, RegisterEnterpriseFormat } from "../../types/products";
-import RegisterCollaboratorsForm from "../molecules/CollaboratorsRegisterForm";
+import { useState } from "react";
 import RegisterOwnerForm from "../molecules/OwnerRegisterForm";
 import { registerEnterprise } from "../../lib/auth";
 import { Pressable, Text } from "react-native";
 import { useForm } from "react-hook-form";
 
 export default function Register(): JSX.Element {
-          const [colaborator, setColaborators] = useState<DTOEnterpriseColaborator[]>([]);
-  
   const [currentStep, setCurrentStep] = useState(1);
   const {
     handleSubmit,
