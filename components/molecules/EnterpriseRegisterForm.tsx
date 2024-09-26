@@ -4,13 +4,23 @@ import { router } from "expo-router";
 import CustomButton from "../atoms/CustomButton";
 import CustomInput from "../atoms/CustomInput";
 
-export default function RegisterEnterpriseForm(): JSX.Element {
+interface RegisterEnterpriseFormProps {
+  control: any;
+  onRegister: () => void;
+}
+
+export default function RegisterEnterpriseForm({
+  control,onRegister
+}: RegisterEnterpriseFormProps): JSX.Element {
+
+
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
+  const handleRegister = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      onRegister();
     }, 2000);
   };
 
@@ -36,33 +46,52 @@ export default function RegisterEnterpriseForm(): JSX.Element {
           />
         </View>
         <Text className="w-full text-xl font-semibold">
-          Regitrar tu empresa
+          Registrar tu empresa
         </Text>
         <View className="py-5" style={{ gap: 15 }}>
           <CustomInput
+            propertyName="enterprise_name"
             placeholder="Nombre de empresa"
-            type="email-address"
-            width={300}
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
           />
-          <CustomInput placeholder="NIT" type="email-address" width={300} />
           <CustomInput
-            placeholder="Numero de contacto"
-            type="email-address"
-            width={300}
+            propertyName="enterprise_NIT"
+            placeholder="NIT"
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
           />
-          <CustomInput placeholder="E-mail" type="email-address" width={300} />
-          <CustomInput placeholder="Password" width={300} />
+          <CustomInput
+            propertyName="phone_number"
+            placeholder="Numero de contacto"
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
+          />
+          <CustomInput
+            propertyName="enterprise_email"
+            placeholder="E-mail"
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
+          />
         </View>
         <CustomButton
           type="primary"
           title="Registrar Empresa"
           loading={loading}
-          onPress={handleLogin}
+          onPress={handleRegister}
         />
         <Pressable onPress={() => router.navigate("/login")}>
           <Text className={`${anchorContainer} text-center`}>
             Ya tienes una cuenta?{" "}
-            <Text className="text-blue-500">Inicia sesion</Text>
+            <Text className="text-blue-500">Inicia sesión</Text>
           </Text>
         </Pressable>
       </View>

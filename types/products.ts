@@ -59,10 +59,24 @@ type DTOEnterprise = {
   currency: 'USD' | 'COP';
 };
 
+type RegisterEnterpriseFormat= {
+    enterprise_name: string,
+  enterprise_NIT:string,
+  enterprise_email: string,
+  phone_number: string,
+  currency: 'USD' | 'COP',
+}
+
+type RegisterOwnerFormat= {
+ owner_name: string,
+  owner_email: string,
+  owner_password: string,
+}
+
 type DTOEnterpriseColaborator = {
   name: string;
   email: string;
   accessCode?: string;
 };
 
-export type { RootObject, Product, Meta, Review, Dimensions, DTOEnterprise, DTOEnterpriseColaborator };
+export type { RootObject, Product, Meta, Review, Dimensions, DTOEnterprise, DTOEnterpriseColaborator, RegisterEnterpriseFormat, RegisterOwnerFormat };
