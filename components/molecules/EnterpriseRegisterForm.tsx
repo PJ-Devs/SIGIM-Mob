@@ -3,15 +3,27 @@ import { useState } from "react";
 import { router } from "expo-router";
 import CustomButton from "../atoms/CustomButton";
 import CustomInput from "../atoms/CustomInput";
+import { DTOEnterprise } from "../../types/products";
 
-export default function RegisterEnterpriseForm(): JSX.Element {
+interface RegisterEnterpriseFormProps {
+  enterprise: React.MutableRefObject<DTOEnterprise>;
+}
+
+export default function RegisterEnterpriseForm({
+  enterprise,
+}: RegisterEnterpriseFormProps): JSX.Element {
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
+  const handleRegister = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      console.log(enterprise.current); 
     }, 2000);
+  };
+
+  const updateEnterpriseField = (field: keyof DTOEnterprise, value: string) => {
+    enterprise.current = { ...enterprise.current, [field]: value };
   };
 
   return (
@@ -41,23 +53,35 @@ export default function RegisterEnterpriseForm(): JSX.Element {
         <View className="py-5" style={{ gap: 15 }}>
           <CustomInput
             placeholder="Nombre de empresa"
-            type="email-address"
+            value={enterprise.current.name}
+            onChangeText={(text) => updateEnterpriseField("name", text)}
             width={300}
           />
-          <CustomInput placeholder="NIT" type="email-address" width={300} />
+          <CustomInput
+            placeholder="NIT"
+            value={enterprise.current.NIT}
+            onChangeText={(text) => updateEnterpriseField("NIT", text)}
+            width={300}
+          />
           <CustomInput
             placeholder="Numero de contacto"
-            type="email-address"
+            value={enterprise.current.phoneNumber}
+            onChangeText={(text) => updateEnterpriseField("phoneNumber", text)}
             width={300}
           />
-          <CustomInput placeholder="E-mail" type="email-address" width={300} />
-          <CustomInput placeholder="Password" width={300} />
+          <CustomInput
+            placeholder="E-mail"
+            type="email-address"
+            value={enterprise.current.email}
+            onChangeText={(text) => updateEnterpriseField("email", text)}
+            width={300}
+          />
         </View>
         <CustomButton
           type="primary"
           title="Registrar Empresa"
           loading={loading}
-          onPress={handleLogin}
+          onPress={handleRegister}
         />
         <Pressable onPress={() => router.navigate("/login")}>
           <Text className={`${anchorContainer} text-center`}>
