@@ -9,7 +9,7 @@ type CircularLogoProps = {
 export default function CircularLogo({ img, alt }: CircularLogoProps) {
 
   return (
-    <View className={circularLogoContainerStyle} style = {{padding:10}} >
+    <View className={circularLogoContainerStyle} style = {{padding:10, maxWidth:100}} >
       <Image 
         source={img}
         alt={alt}
