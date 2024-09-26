@@ -6,45 +6,24 @@ import RegisterCollaboratorsForm from "../molecules/CollaboratorsRegisterForm";
 import RegisterOwnerForm from "../molecules/OwnerRegisterForm";
 import { registerEnterprise } from "../../lib/auth";
 import { Pressable, Text } from "react-native";
+import { useForm } from "react-hook-form";
 
 export default function Register(): JSX.Element {
-  const [enterprise, setEnterprise] = useState<RegisterEnterpriseFormat>({
-    enterprise_name: '',
-    enterprise_email: '',
-    enterprise_NIT: '',
-    phone_number: '',
-    currency: 'COP',
-  });
-
-  const [admin, setAdmin] = useState({
-    owner_name: '',
-    owner_email: '',
-    owner_password: '',
-  });
-
-  const [colaborator, setColaborators] = useState<DTOEnterpriseColaborator[]>([]);
+          const [colaborator, setColaborators] = useState<DTOEnterpriseColaborator[]>([]);
   
   const [currentStep, setCurrentStep] = useState(1);
-
-  const handleRegisterAll = async () => {
-    console.log(colaborator, admin, enterprise)
-    const formatedRequest = {
-      enterprise_name: enterprise.enterprise_name,
-      enterprise_NIT: enterprise.enterprise_NIT,
-      enterprise_email: enterprise.enterprise_email,
-      phone_number: enterprise.phone_number,
-      owner_name: admin.owner_name,
-      owner_email: admin.owner_email,
-      owner_password: admin.owner_password,
-      colaborators: colaborator, 
-      device_name: "valen", 
-    };
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+  const handleRegisterAll = async (data: any) => {
     try {
-      console.log('voy a registrar')
-      const enterpriseData = await registerEnterprise(formatedRequest);
-      console.log('Empresa registrada:', enterpriseData);
+      const enterpriseResponse = await registerEnterprise(enterprise.current);
+      const collaboratorsResponse = await registerColaborators(colaborator);
+      const adminResponse = await registerAdmin(admin);
     } catch (error) {
-      console.error('Error en el registro:', error);
+      console.error("Error en el registro:", error);
     }
   };
 
@@ -60,8 +39,7 @@ export default function Register(): JSX.Element {
     <Layout includeHeader={false}>
       {currentStep === 1 && (
         <RegisterEnterpriseForm 
-          setEnterprise={setEnterprise} 
-          onRegister={goToNextStep} 
+          control={control}
         />
       )}
 
@@ -72,6 +50,10 @@ export default function Register(): JSX.Element {
           onBack={goToPreviousStep} 
         />
       )}
+      
+        <Pressable onPress={handleSubmit(handleRegisterAll)}>
+        <Text>Finalizar registro</Text>
+      </Pressable>
     </Layout>
   );
 }

@@ -3,15 +3,13 @@ import { useState } from "react";
 import { router } from "expo-router";
 import CustomButton from "../atoms/CustomButton";
 import CustomInput from "../atoms/CustomInput";
-import { RegisterEnterpriseFormat } from "../../types/products";
 
 interface RegisterEnterpriseFormProps {
-  onRegister: () => void;
-  setEnterprise: React.Dispatch<React.SetStateAction<RegisterEnterpriseFormat>>;
+  control: any;
 }
 
 export default function RegisterEnterpriseForm({
-  onRegister, setEnterprise
+  control,
 }: RegisterEnterpriseFormProps): JSX.Element {
 
 
@@ -21,14 +19,7 @@ export default function RegisterEnterpriseForm({
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      onRegister();
     }, 2000);
-  };
-
-
-  
-  const updateEnterpriseField = (field: keyof RegisterEnterpriseFormat, value: string) => {
-    setEnterprise((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -57,25 +48,36 @@ export default function RegisterEnterpriseForm({
         </Text>
         <View className="py-5" style={{ gap: 15 }}>
           <CustomInput
+            propertyName="enterprise_name"
             placeholder="Nombre de empresa"
-            onChangeText={(text) => updateEnterpriseField("enterprise_name", text)}
-            width={300}
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
           />
           <CustomInput
+            propertyName="enterprise_NIT"
             placeholder="NIT"
-            onChangeText={(text) => updateEnterpriseField("enterprise_NIT", text)}
-            width={300}
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
           />
           <CustomInput
+            propertyName="enterprise_phone"
             placeholder="Numero de contacto"
-            onChangeText={(text) => updateEnterpriseField("phone_number", text)}
-            width={300}
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
           />
           <CustomInput
+            propertyName="enterprise_email"
             placeholder="E-mail"
-            type="email-address"
-            onChangeText={(text) => updateEnterpriseField("enterprise_email", text)}
-            width={300}
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
           />
         </View>
         <CustomButton
