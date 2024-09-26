@@ -5,6 +5,7 @@ import CustomButton from "../atoms/CustomButton";
 import { useState } from "react";
 import { router } from "expo-router";
 import { useForm } from "react-hook-form";
+import { login } from "../../lib/auth";
 
 export default function Login(): JSX.Element {
   const [loading, setLoading] = useState(false);
@@ -23,10 +24,10 @@ export default function Login(): JSX.Element {
       }
       await login(formattedData).then(() => {
         setLoading(false);
-        router.push("/home");
+        router.push("/");
       });
     } catch (error) {
-      console.error("Error en el login:", error);
+      
     }
   }
 
@@ -71,7 +72,7 @@ export default function Login(): JSX.Element {
                   required: "Este campo es requerido",
                 }}
               />
-              <Pressable>
+              <Pressable onPress={ handleSubmit(handleLogin)}>
                 <Text className={anchorContainer}>
                   Olvidaste tu contraseña?{" "}
                   <Text className="text-blue-500">Recuperar</Text>
@@ -83,9 +84,9 @@ export default function Login(): JSX.Element {
             type="primary"
             title="Ingresa"
             loading={loading}
-            onPress={handleLogin}
+            onPress={ handleSubmit(handleLogin)}
           />
-          <Pressable onPress={() => handleSubmit(handleLogin)}>
+          <Pressable onPress={ () =>{router.push("/signUp")}} >
             <Text className={`${anchorContainer} text-center`}>
               No tienes una cuenta?{" "}
               <Text className="text-blue-500">Crea una</Text>
