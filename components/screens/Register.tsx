@@ -17,11 +17,14 @@ export default function Register(): JSX.Element {
     control,
     formState: { errors },
   } = useForm();
-  const handleRegisterAll = async (data: any) => {
+  const handleRegisterAll = async (data:any) => {
     try {
-      const enterpriseResponse = await registerEnterprise(enterprise.current);
-      const collaboratorsResponse = await registerColaborators(colaborator);
-      const adminResponse = await registerAdmin(admin);
+      console.log(data);
+      let formattedData = {
+        ...data,
+        device_name: "valen",
+      }
+      await registerEnterprise(formattedData);
     } catch (error) {
       console.error("Error en el registro:", error);
     }
@@ -40,13 +43,14 @@ export default function Register(): JSX.Element {
       {currentStep === 1 && (
         <RegisterEnterpriseForm 
           control={control}
+          onRegister={goToNextStep}
         />
       )}
 
       {currentStep === 2 && (
         <RegisterOwnerForm 
-          setAdmin={setAdmin} 
-          onRegister={handleRegisterAll}  
+          control={control} 
+          onRegister={handleSubmit(handleRegisterAll)}  
           onBack={goToPreviousStep} 
         />
       )}

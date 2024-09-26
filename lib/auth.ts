@@ -1,8 +1,9 @@
 
 export const registerEnterprise = async (body:any) => {
   console.log('empece')
+  console.log(body)
     try {
-      const response = await fetch('http://192.168.1.7:8000/api/auth/signup', {
+      const response = await fetch('http://192.168.105.9:8000/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

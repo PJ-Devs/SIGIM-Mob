@@ -3,16 +3,15 @@ import { useState } from "react";
 import { router } from "expo-router";
 import CustomButton from "../atoms/CustomButton";
 import CustomInput from "../atoms/CustomInput";
-import { RegisterOwnerFormat } from "../../types/products";
 
 interface RegisterOwnerFormProps {
-  setAdmin: React.Dispatch<React.SetStateAction<RegisterOwnerFormat>>;
+  control:any;
   onRegister: () => void; 
   onBack: () => void; 
 }
 
 export default function RegisterOwnerForm({
-   setAdmin, onRegister, onBack 
+   control, onRegister, onBack 
 }: RegisterOwnerFormProps): JSX.Element {
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +19,6 @@ export default function RegisterOwnerForm({
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      onRegister();
       onRegister();
     }, 2000);
   };
@@ -45,19 +43,28 @@ export default function RegisterOwnerForm({
         </Text>
         <View className="py-5" style={{ gap: 15 }}>
           <CustomInput
+          propertyName="owner_name"
             placeholder="Nombre"
-            onChangeText={(text) => setAdmin((prev) => ({ ...prev, owner_name: text }))}
-            width={300}
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
           />
           <CustomInput
             placeholder="email"
-            onChangeText={(text) => setAdmin((prev) => ({ ...prev, owner_email: text }))}
-            width={300}
+            propertyName="owner_email"
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
           />
           <CustomInput
             placeholder="Contraseña"
-            onChangeText={(text) => setAdmin((prev) => ({ ...prev, owner_password: text }))}
-            width={300}
+            propertyName="owner_password"
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
           />
         </View>
         <CustomButton

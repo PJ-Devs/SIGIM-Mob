@@ -6,10 +6,11 @@ import CustomInput from "../atoms/CustomInput";
 
 interface RegisterEnterpriseFormProps {
   control: any;
+  onRegister: () => void;
 }
 
 export default function RegisterEnterpriseForm({
-  control,
+  control,onRegister
 }: RegisterEnterpriseFormProps): JSX.Element {
 
 
@@ -19,6 +20,7 @@ export default function RegisterEnterpriseForm({
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      onRegister();
     }, 2000);
   };
 
@@ -64,7 +66,7 @@ export default function RegisterEnterpriseForm({
             }}
           />
           <CustomInput
-            propertyName="enterprise_phone"
+            propertyName="phone_number"
             placeholder="Numero de contacto"
             control={control}
             rules={{
