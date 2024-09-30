@@ -5,7 +5,7 @@ import CustomButton from "../atoms/CustomButton";
 import { useState } from "react";
 import { router } from "expo-router";
 import { useForm } from "react-hook-form";
-import { login } from "../../lib/auth";
+import { login } from "../../lib/api/api.auth";
 
 export default function Login(): JSX.Element {
   const [loading, setLoading] = useState(false);

@@ -3,7 +3,7 @@ import { Product } from "../../../types/products";
 import { FlatList, View } from "react-native";
 import ProductCard from "../../molecules/ProductCard";
 import Layout from "../../orgnisms/Layout";
-import { fetchProducts, fetchProductSearch } from "../../../lib/fetch";
+import { fetchProducts, fetchProductSearch } from '../../../lib/api/api.fetch';
 import Loading from "../../molecules/Loading";
 import CategoriesCarrousel from "../../orgnisms/CategoriesCarrousel";
 

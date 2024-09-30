@@ -2,7 +2,7 @@ import RegisterEnterpriseForm from "../molecules/EnterpriseRegisterForm";
 import Layout from "../orgnisms/Layout";
 import { useState } from "react";
 import RegisterOwnerForm from "../molecules/OwnerRegisterForm";
-import { registerEnterprise } from "../../lib/auth";
+import { registerEnterprise } from "../../lib/api/api.auth";
 import { Pressable, Text } from "react-native";
 import { useForm } from "react-hook-form";
 
@@ -13,6 +13,7 @@ export default function Register(): JSX.Element {
     control,
     formState: { errors },
   } = useForm();
+  
   const handleRegisterAll = async (data:any) => {
     try {
       console.log(data);
