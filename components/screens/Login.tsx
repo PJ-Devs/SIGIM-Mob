@@ -16,20 +16,20 @@ export default function Login(): JSX.Element {
   } = useForm();
 
   const handleLogin = async (data: any) => {
-    try {
-      setLoading(true);
-      let formattedData = {
-        ...data,
-        device_name: "valen",
-      }
-      await login(formattedData).then(() => {
+    setLoading(true);
+    let formattedData = {
+      ...data,
+      device_name: "valen",
+    };
+    await login(formattedData)
+      .then(() => {
         setLoading(false);
         router.push("/");
+      })
+      .catch(() => {
+        setLoading(false);
       });
-    } catch (error) {
-      
-    }
-  }
+  };
 
   return (
     <Layout includeHeader={false}>
@@ -72,7 +72,7 @@ export default function Login(): JSX.Element {
                   required: "Este campo es requerido",
                 }}
               />
-              <Pressable onPress={ handleSubmit(handleLogin)}>
+              <Pressable onPress={handleSubmit(handleLogin)}>
                 <Text className={anchorContainer}>
                   Olvidaste tu contraseña?{" "}
                   <Text className="text-blue-500">Recuperar</Text>
@@ -84,9 +84,13 @@ export default function Login(): JSX.Element {
             type="primary"
             title="Ingresa"
             loading={loading}
-            onPress={ handleSubmit(handleLogin)}
+            onPress={handleSubmit(handleLogin)}
           />
-          <Pressable onPress={ () =>{router.push("/signUp")}} >
+          <Pressable
+            onPress={() => {
+              router.push("/signUp");
+            }}
+          >
             <Text className={`${anchorContainer} text-center`}>
               No tienes una cuenta?{" "}
               <Text className="text-blue-500">Crea una</Text>

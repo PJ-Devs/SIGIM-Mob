@@ -16,7 +16,6 @@ export default function Register(): JSX.Element {
   
   const handleRegisterAll = async (data:any) => {
     try {
-      console.log(data);
       let formattedData = {
         ...data,
         device_name: "valen",

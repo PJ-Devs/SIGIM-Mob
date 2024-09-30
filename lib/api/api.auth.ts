@@ -1,18 +1,22 @@
 import { AxiosResponse } from "axios";
 import APIInstance from "../axios/axios.config";
 
-interface IRegister {}
+interface Register {
+}
 
-interface ILogin {}
+interface Login {
+  email: string;
+  password: string;
+}
 
-export const registerEnterprise = async (body: IRegister) => {
-  APIInstance.post("/auth/signup", body).then((response: AxiosResponse) => {
+export const registerEnterprise = async (body: Register) => {
+  return APIInstance.post("/auth/signup", body).then((response: AxiosResponse) => {
     return response.data;
   });
 };
 
-export const login = async (body: ILogin) => {
-  APIInstance.post("/auth/token", body).then((response: AxiosResponse) => {
+export const login = async (body: Login) => {
+   return APIInstance.post("/auth/token", body).then((response: AxiosResponse) => {
     return response.data;
   });
 };
