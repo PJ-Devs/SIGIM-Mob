@@ -1,27 +1,41 @@
-import React from 'react';
-import { View, Text, Pressable } from 'react-native';
-import { useLinkTo } from '@react-navigation/native';
+import React from "react";
+import { View, Text, Pressable } from "react-native";
+import { useLinkTo } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 
 interface CardProps {
-  color: string;
+  color?: string;
   link: string;
   linkText: string;
 }
 
-export default function SectionCard({ color, link, linkText }: CardProps):JSX.Element{
-    const linkTo = useLinkTo();
+export default function SectionCard({
+  color,
+  link,
+  linkText,
+}: CardProps): JSX.Element {
+  const linkTo = useLinkTo();
 
   return (
-    <View className="p-5 rounded-lg shadow flex items-center justify-center h-[80%]" style={{ backgroundColor: color }}>
-      <Pressable
-        onPress={() => linkTo(link)}
-        className={( pressed: string ) => (pressed ? 'opacity-60' : 'opacity-100')}
-      >
-        <Text className="text-white text-lg"> {/* Quitamos el subrayado */}
+    <LinearGradient
+      colors={["#EEE", "#39CDCD"]}
+      start={[0.01, 0.9]}
+      dither={true}
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 10,
+        width:290,
+        height:160
+      }}
+    >
+      <Pressable onPress={() => linkTo(link)}>
+        <Text className="text-white text-xl tracking-widest uppercase">
+          {" "}
+          {/* Quitamos el subrayado */}
           {linkText}
         </Text>
       </Pressable>
-    </View>
+    </LinearGradient>
   );
 }
-
