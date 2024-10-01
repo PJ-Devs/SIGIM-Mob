@@ -4,8 +4,26 @@ import Layout from '../orgnisms/Layout'
 import CircularLogo from '../atoms/CircularLogo';
 import CustomInput from '../atoms/CustomInput';
 import CustomButton from '../atoms/CustomButton';
+import { logout } from '../../lib/auth'
 
 export default function Profile(): JSX.Element{
+
+    const handleLogout = async (data: any) =>{
+        try {
+            let formattedData = {
+                ...data,
+                device_name: "valen",
+            }
+            await logout(formattedData).then(()=>{
+                router.push("/login");
+            });
+        
+        } catch (error){
+            console.log("Error al cerrar sesión");
+            console.log(error);
+        }
+    }
+
     return(
         <Layout>
             <View className='flex-row p-2 gap-x-6 justify-center'>
@@ -22,7 +40,7 @@ export default function Profile(): JSX.Element{
                 <Text className='text-base ml-2'>Code: 170231</Text>
             </View>
             <View className='flex-row justify-center mt-60'>
-                <CustomButton type='error' icon='door-closed' title='Cerrar Sesión' onPress={()=>{router.push("login")}} />
+                <CustomButton type='error' icon='door-closed' title='Cerrar Sesión' onPress={handleLogout} />
             </View>
         </Layout>
     );
