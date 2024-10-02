@@ -6,6 +6,7 @@ import { useState } from "react";
 import { router } from "expo-router";
 import { useForm } from "react-hook-form";
 import { login } from "../../lib/api/api.auth";
+import { setSecuredItem } from "../../utils/secureStore";
 
 export default function Login(): JSX.Element {
   const [loading, setLoading] = useState(false);
@@ -16,21 +17,22 @@ export default function Login(): JSX.Element {
   } = useForm();
 
   const handleLogin = async (data: any) => {
-    setLoading(true);
-    let formattedData = {
-      ...data,
-      device_name: "valen",
-    };
-    await login(formattedData)
-      .then(() => {
-        setLoading(false);
-        router.push("/");
-      })
-      .catch(() => {
-        setLoading(false);
-      });
+    try {
+      setLoading(true);
+      const formattedData = {
+        ...data,
+        device_name: "valen",
+      };
+  
+      const response = await login(formattedData);
+      await setSecuredItem("ACCESS_TOKEN", response.access_token);
+      router.push("/"); 
+    } catch (error) {
+      console.error("Login failed", error);
+    } finally {
+      setLoading(false);
+    }
   };
-
   return (
     <Layout includeHeader={false}>
       <View>

@@ -1,11 +1,16 @@
 import { AxiosError, InternalAxiosRequestConfig } from "axios";
 import APIInstance from "./axios.config";
+import { getSecuredItem } from "../../utils/secureStore";
 
 export const authInterceptor = () => {
-  const updateAuthorizationHeader = (request: InternalAxiosRequestConfig) => {
-    // const token = localStorage.getItem("token");
-    // request.headers.Authorization = `Bearer ${token}`;
-    return request;
+  const updateAuthorizationHeader = async (request: InternalAxiosRequestConfig) => {
+    return await getSecuredItem("ACCESS_TOKEN").then((token) => {
+      console.log("Token", token);
+      if (token) {
+        request.headers.Authorization = `Bearer ${token}`;
+      }
+      return request;
+    });
   }
 
   APIInstance.interceptors.request.use((request) => {
