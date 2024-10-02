@@ -2,12 +2,14 @@ import RegisterEnterpriseForm from "../molecules/EnterpriseRegisterForm";
 import Layout from "../orgnisms/Layout";
 import { useState } from "react";
 import RegisterOwnerForm from "../molecules/OwnerRegisterForm";
-import { registerEnterprise } from "../../lib/api/api.auth";
 import { Pressable, Text } from "react-native";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../../contexts/AuthContext";
+import { router } from "expo-router";
 
 export default function Register(): JSX.Element {
   const [currentStep, setCurrentStep] = useState(1);
+  const { onRegister } = useAuth();
   const {
     handleSubmit,
     control,
@@ -15,14 +17,12 @@ export default function Register(): JSX.Element {
   } = useForm();
   
   const handleRegisterAll = async (data:any) => {
-    try {
-      let formattedData = {
-        ...data,
-        device_name: "valen",
-      }
-      await registerEnterprise(formattedData);
-    } catch (error) {
-      console.error("Error en el registro:", error);
+    const result = await onRegister!(data);
+
+    if (result.err) {
+      console.log("Error en el registro", result.message);
+    } else {
+      router.push("/");
     }
   };
 

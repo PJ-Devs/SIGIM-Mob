@@ -5,7 +5,6 @@ import { getSecuredItem } from "../../utils/secureStore";
 export const authInterceptor = () => {
   const updateAuthorizationHeader = async (request: InternalAxiosRequestConfig) => {
     return await getSecuredItem("ACCESS_TOKEN").then((token) => {
-      console.log("Token", token);
       if (token) {
         request.headers.Authorization = `Bearer ${token}`;
       }

@@ -5,11 +5,12 @@ import CustomButton from "../atoms/CustomButton";
 import { useState } from "react";
 import { router } from "expo-router";
 import { useForm } from "react-hook-form";
-import { login } from "../../lib/api/api.auth";
 import { setSecuredItem } from "../../utils/secureStore";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Login(): JSX.Element {
   const [loading, setLoading] = useState(false);
+  const { onLogin } = useAuth();
   const {
     handleSubmit,
     control,
@@ -17,20 +18,14 @@ export default function Login(): JSX.Element {
   } = useForm();
 
   const handleLogin = async (data: any) => {
-    try {
-      setLoading(true);
-      const formattedData = {
-        ...data,
-        device_name: "valen",
-      };
-  
-      const response = await login(formattedData);
-      await setSecuredItem("ACCESS_TOKEN", response.access_token);
-      router.push("/"); 
-    } catch (error) {
-      console.error("Login failed", error);
-    } finally {
-      setLoading(false);
+    setLoading(true);
+    const result = await onLogin!(data);
+    setLoading(false);
+    
+    if (result.err) {
+      console.log("Error en el login", result.message);
+    } else {
+      router.push("/");
     }
   };
   return (
