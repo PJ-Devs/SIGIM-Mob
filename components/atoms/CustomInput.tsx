@@ -32,7 +32,9 @@ export default function CustomInput({
             placeholder={placeholder}
             value={value}
             keyboardType={type}
-            onChangeText={onChange}
+            onChangeText={(text) => {
+              onChange(text);
+            }}
             onBlur={onBlur}
           />
           {error && (

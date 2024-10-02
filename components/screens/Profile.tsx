@@ -1,14 +1,36 @@
 import { Text, View, Modal, StyleSheet, Pressable } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, router } from "expo-router";
 import Layout from "../orgnisms/Layout";
 import CircularLogo from "../atoms/CircularLogo";
 import CustomInput from "../atoms/CustomInput";
 import CustomButton from "../atoms/CustomButton";
-import { logout } from "../../lib/auth";
+import { logout , getProfile} from "../../lib/auth";
+import { User } from "../../types/products";
+
 
 export default function Profile(): JSX.Element {
   const [modalVisible, setModalVisible] = useState(false);
+  const [userProfile, setUserProfile] = useState<User>({
+    id: 0,
+    name: "",
+    email: "",
+    role: "",
+  }); 
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const profileData = await getProfile();
+        console.log("Profile data", profileData);
+        setUserProfile(profileData);
+      } catch (error) {
+        console.log("Error fetching user profile", error);
+      }
+    };
+
+    fetchProfile(); 
+  }, []);
 
   const handleLogout = async (data: any) => {
     try {
@@ -24,6 +46,7 @@ export default function Profile(): JSX.Element {
       console.log(error);
     }
   };
+  
 
   return (
     <Layout>
@@ -89,8 +112,11 @@ export default function Profile(): JSX.Element {
           alt="profile_img"
         />
         <View className="flex-col justify-center gap-y-0">
-          <Text className="font-bold text-xl text-blue-400">Jimmy Giraldo</Text>
-          <Text className="">Encargado de caja</Text>
+          <Text className="font-bold text-xl text-blue-400">
+            {userProfile?.name || "Cargando..."} 
+          </Text>
+          <Text className="">{userProfile?.role.name || "Cargando..."} </Text>
+
         </View>
       </View>
 

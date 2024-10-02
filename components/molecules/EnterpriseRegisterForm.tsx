@@ -79,6 +79,10 @@ export default function RegisterEnterpriseForm({
             control={control}
             rules={{
               required: "Este campo es requerido",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: "Ingresa un correo electrónico válido",
+              },
             }}
           />
         </View>
