@@ -13,6 +13,7 @@ export default function Register(): JSX.Element {
   const {
     handleSubmit,
     control,
+    trigger,
     formState: { errors },
   } = useForm();
   
@@ -39,12 +40,14 @@ export default function Register(): JSX.Element {
       {currentStep === 1 && (
         <RegisterEnterpriseForm 
           control={control}
+          trigger={trigger}
           onRegister={goToNextStep}
         />
       )}
 
       {currentStep === 2 && (
         <RegisterOwnerForm 
+        trigger={trigger}
           control={control} 
           onRegister={handleSubmit(handleRegisterAll)}  
           onBack={goToPreviousStep} 

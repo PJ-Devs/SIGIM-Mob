@@ -6,12 +6,17 @@ import CustomInput from "../atoms/CustomInput";
 
 interface RegisterEnterpriseFormProps {
   control: any;
+  trigger: any;
   onRegister: () => void;
 }
 
 export default function RegisterEnterpriseForm({
+<<<<<<< HEAD
+  control,onRegister, trigger
+=======
   control,
   onRegister,
+>>>>>>> 7fe6150e3fe3d548f72668529bd966a8691e6813
 }: RegisterEnterpriseFormProps): JSX.Element {
   const [loading, setLoading] = useState(false);
 
@@ -47,42 +52,48 @@ export default function RegisterEnterpriseForm({
         <Text className="w-full text-xl font-semibold">
           Registrar tu empresa
         </Text>
-        <ScrollView>
-          <View className="py-5" style={{ gap: 15 }}>
-            <CustomInput
-              propertyName="enterprise_name"
-              placeholder="Nombre de empresa"
-              control={control}
-              rules={{
-                required: "Este campo es requerido",
-              }}
-            />
-            <CustomInput
-              propertyName="enterprise_NIT"
-              placeholder="NIT"
-              control={control}
-              rules={{
-                required: "Este campo es requerido",
-              }}
-            />
-            <CustomInput
-              propertyName="phone_number"
-              placeholder="Numero de contacto"
-              control={control}
-              rules={{
-                required: "Este campo es requerido",
-              }}
-            />
-            <CustomInput
-              propertyName="enterprise_email"
-              placeholder="E-mail"
-              control={control}
-              rules={{
-                required: "Este campo es requerido",
-              }}
-            />
-          </View>
-        </ScrollView>
+        <View className="py-5" style={{ gap: 15 }}>
+          <CustomInput
+            propertyName="enterprise_name"
+            placeholder="Nombre de empresa"
+            trigger={trigger}
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
+          />
+          <CustomInput
+            propertyName="enterprise_NIT"
+            placeholder="NIT"
+            trigger={trigger}
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
+          />
+          <CustomInput
+            propertyName="phone_number"
+            placeholder="Numero de contacto"
+            trigger={trigger}
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+            }}
+          />
+          <CustomInput
+            propertyName="enterprise_email"
+            placeholder="E-mail"
+            trigger={trigger}
+            control={control}
+            rules={{
+              required: "Este campo es requerido",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: "Ingresa un correo electrónico válido",
+              },
+            }}
+          />
+        </View>
         <CustomButton
           type="primary"
           title="Registrar Empresa"

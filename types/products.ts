@@ -79,4 +79,17 @@ type DTOEnterpriseColaborator = {
   accessCode?: string;
 };
 
-export type { RootObject, Product, Meta, Review, Dimensions, DTOEnterprise, DTOEnterpriseColaborator, RegisterEnterpriseFormat, RegisterOwnerFormat };
+type Role = {
+  id: number;
+  name: string;
+}
+
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  role: Role;
+}
+
+
+export type { RootObject, Product,Role, Meta, Review, Dimensions, DTOEnterprise, DTOEnterpriseColaborator, RegisterEnterpriseFormat, RegisterOwnerFormat, User };

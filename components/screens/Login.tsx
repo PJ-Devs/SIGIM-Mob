@@ -13,6 +13,7 @@ export default function Login(): JSX.Element {
   const {
     handleSubmit,
     control,
+    trigger,
     formState: { errors },
   } = useForm();
 
@@ -64,6 +65,7 @@ export default function Login(): JSX.Element {
               rules={{
                 required: "Este campo es requerido",
               }}
+              trigger={trigger}
             />
             <View>
               <CustomInput
@@ -73,6 +75,7 @@ export default function Login(): JSX.Element {
                 rules={{
                   required: "Este campo es requerido",
                 }}
+                trigger={trigger}
               />
               <Pressable onPress={handleSubmit(handleLogin)}>
                 <Text className={anchorContainer}>
