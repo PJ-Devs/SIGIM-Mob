@@ -11,7 +11,6 @@ export default function layout() {
           alignItems: "center",
           backgroundColor: "white",
         },
-        animationDuration: 250,
         headerShown: false,
       }}
     />

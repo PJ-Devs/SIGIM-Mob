@@ -1,4 +1,4 @@
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { useState } from "react";
 import { router } from "expo-router";
 import CustomButton from "../atoms/CustomButton";
@@ -11,10 +11,13 @@ interface RegisterEnterpriseFormProps {
 }
 
 export default function RegisterEnterpriseForm({
+<<<<<<< HEAD
   control,onRegister, trigger
+=======
+  control,
+  onRegister,
+>>>>>>> 7fe6150e3fe3d548f72668529bd966a8691e6813
 }: RegisterEnterpriseFormProps): JSX.Element {
-
-
   const [loading, setLoading] = useState(false);
 
   const handleRegister = () => {
