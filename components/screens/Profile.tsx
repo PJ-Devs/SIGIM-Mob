@@ -4,12 +4,14 @@ import { Link, router } from "expo-router";
 import Layout from "../orgnisms/Layout";
 import CircularLogo from "../atoms/CircularLogo";
 import CustomButton from "../atoms/CustomButton";
+import { useAuth } from "../../contexts/AuthContext";
 import UpdateProfileForm from "../molecules/UpdateProfileForm";
 import { logout, getProfile, updateProfile } from "../../lib/auth";
 import { User } from "../../types/products";
 import AccountMenu from "../molecules/AccountMenu";
 
 export default function Profile(): JSX.Element {
+  const { onLogout } = useAuth();
   const [modalVisible, setModalVisible] = useState(false);
   const [userProfile, setUserProfile] = useState<User>({
     id: 0,
@@ -41,7 +43,7 @@ export default function Profile(): JSX.Element {
         ...data,
         device_name: "valen",
       };
-      await logout(formattedData).then(() => {
+      await onLogout().then(() =>{
         router.push("/login");
       });
     } catch (error) {
