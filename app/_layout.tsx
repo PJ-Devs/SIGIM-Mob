@@ -1,7 +1,11 @@
-import { Stack, Slot } from "expo-router";
+import { Stack } from "expo-router";
 import { AuthProvider } from "../contexts/AuthContext";
+import React from "react";
+import { deleteSecuredItem } from "../utils/secureStore";
 
-export default function layout() {
+export default function RootLayout() {
+  deleteSecuredItem("ACCESS_TOKEN");
+
   return (
     <AuthProvider>
       <Stack

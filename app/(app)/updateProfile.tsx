@@ -1,5 +1,5 @@
-import UpdateProfileForm from '../components/molecules/UpdateProfileForm'
-import Layout from "../components/orgnisms/Layout";
+import UpdateProfileForm from '../../components/molecules/UpdateProfileForm'
+import Layout from "../../components/orgnisms/Layout";
 
 export default function () {
     return (

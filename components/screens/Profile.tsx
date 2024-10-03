@@ -1,18 +1,19 @@
-import { Text, View, Modal, StyleSheet, Pressable } from "react-native";
+import { Text, View, Modal } from "react-native";
 import { useState, useEffect } from "react";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import Layout from "../orgnisms/Layout";
 import CircularLogo from "../atoms/CircularLogo";
 import CustomButton from "../atoms/CustomButton";
-import UpdateProfileForm from "../molecules/UpdateProfileForm";
-import { logout, getProfile, updateProfile } from "../../lib/auth";
 import { User } from "../../types/products";
 import AccountMenu from "../molecules/AccountMenu";
+import { useAuth } from "../../contexts/AuthContext";
+import { getProfile } from "../../lib/api/api.auth";
 
 export default function Profile(): JSX.Element {
   const [modalVisible, setModalVisible] = useState(false);
+  const { onLogout } = useAuth(); 
   const [userProfile, setUserProfile] = useState<User>({
-    id: 0,
+    id: "",
     email: "",
     name: "",
     role: {
@@ -24,9 +25,8 @@ export default function Profile(): JSX.Element {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const profileData = await getProfile();
-        console.log("Profile data", profileData);
-        setUserProfile(profileData);
+        const result = await getProfile();
+        setUserProfile(result.data);
       } catch (error) {
         console.log("Error fetching user profile", error);
       }
@@ -37,11 +37,7 @@ export default function Profile(): JSX.Element {
 
   const handleLogout = async (data: any) => {
     try {
-      let formattedData = {
-        ...data,
-        device_name: "valen",
-      };
-      await logout(formattedData).then(() => {
+      await onLogout().then(() =>{
         router.push("/login");
       });
     } catch (error) {
@@ -115,10 +111,10 @@ export default function Profile(): JSX.Element {
         />
         <View className="flex-col justify-center gap-y-0">
           <Text className="font-bold text-xl text-blue-400">
-            {userProfile?.name || "Cargando..."}
+            {userProfile.name || "Cargando..."}
           </Text>
           <Text className="">{userProfile?.email || "Cargando..."} </Text>
-          <Text className="">{userProfile?.role.name || "Cargando..."} </Text>
+          <Text className="">{userProfile?.role?.name || "Cargando..."} </Text>
         </View>
       </View>
 

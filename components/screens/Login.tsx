@@ -9,13 +9,15 @@ import { useAuth } from "../../contexts/AuthContext";
 
 export default function Login(): JSX.Element {
   const [loading, setLoading] = useState(false);
-  const { onLogin } = useAuth();
+  const { onLogin, authState } = useAuth();
   const {
     handleSubmit,
     control,
     trigger,
     formState: { errors },
   } = useForm();
+
+  console.log("authState", authState);
 
   const handleLogin = async (data: any) => {
     if (!onLogin) {
@@ -26,28 +28,26 @@ export default function Login(): JSX.Element {
     setLoading(true);
     const result = await onLogin!(data);
     setLoading(false);
-    
+
     if (result) {
       console.log("Error en el login", result.message);
     } else {
       router.push("/");
     }
   };
-  
+
   return (
     <Layout includeHeader={false}>
       <View>
-        {router.canGoBack() && (
-          <CustomButton
-            type="icon"
-            icon="arrow-left"
-            iconSize={20}
-            onPress={() => {
-              router.back();
-            }}
-            style={`absolute p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md`}
-          />
-        )}
+        <CustomButton
+          type="icon"
+          icon="arrow-left"
+          iconSize={20}
+          onPress={() => {
+            router.back();
+          }}
+          style={`absolute p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md`}
+        />
 
         <View className="flex-1 justify-center w-full h-full">
           <View className="items-center mb-10">

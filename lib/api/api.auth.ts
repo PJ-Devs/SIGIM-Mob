@@ -1,8 +1,7 @@
 import { AxiosResponse } from "axios";
 import APIInstance from "../axios/axios.config";
 
-interface Register {
-}
+interface Register {}
 
 interface Login {
   email: string;
@@ -10,19 +9,39 @@ interface Login {
 }
 
 export const apiRegisterEnterprise = async (body: Register) => {
-  return APIInstance.post("/auth/signup", body).then((response: AxiosResponse) => {
-    return response.data;
-  });
+  return APIInstance.post("/auth/signup", body).then(
+    (response: AxiosResponse) => {
+      return response.data;
+    }
+  );
 };
 
 export const apiLogin = async (body: Login) => {
-   return APIInstance.post("/auth/token", body).then((response: AxiosResponse) => {
-    return response.data;
-  });
+  return APIInstance.post("/auth/token", body).then(
+    (response: AxiosResponse) => {
+      return response.data;
+    }
+  );
 };
 
 export const apiLogOut = async (body: { device_name: string }) => {
-  return APIInstance.post("/auth/logout", body).then((response: AxiosResponse) => {
+  return APIInstance.post("/auth/logout", body).then(
+    (response: AxiosResponse) => {
+      return response.data;
+    }
+  );
+};
+
+export const getProfile = async () => {
+  return APIInstance.get("/profile").then(
+    (response: AxiosResponse) => {
+      return response.data;
+    }
+  );
+};
+
+export const updateProfile = async (body: any) => {
+  return APIInstance.post("/profile", body).then((response: AxiosResponse) => {
     return response.data;
   });
-}
+};
