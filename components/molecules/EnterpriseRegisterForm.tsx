@@ -6,11 +6,12 @@ import CustomInput from "../atoms/CustomInput";
 
 interface RegisterEnterpriseFormProps {
   control: any;
+  trigger: any;
   onRegister: () => void;
 }
 
 export default function RegisterEnterpriseForm({
-  control,onRegister
+  control,onRegister, trigger
 }: RegisterEnterpriseFormProps): JSX.Element {
 
 
@@ -52,6 +53,7 @@ export default function RegisterEnterpriseForm({
           <CustomInput
             propertyName="enterprise_name"
             placeholder="Nombre de empresa"
+            trigger={trigger}
             control={control}
             rules={{
               required: "Este campo es requerido",
@@ -60,6 +62,7 @@ export default function RegisterEnterpriseForm({
           <CustomInput
             propertyName="enterprise_NIT"
             placeholder="NIT"
+            trigger={trigger}
             control={control}
             rules={{
               required: "Este campo es requerido",
@@ -68,6 +71,7 @@ export default function RegisterEnterpriseForm({
           <CustomInput
             propertyName="phone_number"
             placeholder="Numero de contacto"
+            trigger={trigger}
             control={control}
             rules={{
               required: "Este campo es requerido",
@@ -76,6 +80,7 @@ export default function RegisterEnterpriseForm({
           <CustomInput
             propertyName="enterprise_email"
             placeholder="E-mail"
+            trigger={trigger}
             control={control}
             rules={{
               required: "Este campo es requerido",

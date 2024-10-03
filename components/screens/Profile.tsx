@@ -3,20 +3,23 @@ import { useState, useEffect } from "react";
 import { Link, router } from "expo-router";
 import Layout from "../orgnisms/Layout";
 import CircularLogo from "../atoms/CircularLogo";
-import CustomInput from "../atoms/CustomInput";
 import CustomButton from "../atoms/CustomButton";
-import { logout , getProfile} from "../../lib/auth";
+import UpdateProfileForm from "../molecules/UpdateProfileForm";
+import { logout, getProfile, updateProfile } from "../../lib/auth";
 import { User } from "../../types/products";
-
+import AccountMenu from "../molecules/AccountMenu";
 
 export default function Profile(): JSX.Element {
   const [modalVisible, setModalVisible] = useState(false);
   const [userProfile, setUserProfile] = useState<User>({
     id: 0,
-    name: "",
     email: "",
-    role: "",
-  }); 
+    name: "",
+    role: {
+      id: 0,
+      name: "",
+    },
+  });
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -29,7 +32,7 @@ export default function Profile(): JSX.Element {
       }
     };
 
-    fetchProfile(); 
+    fetchProfile();
   }, []);
 
   const handleLogout = async (data: any) => {
@@ -46,7 +49,6 @@ export default function Profile(): JSX.Element {
       console.log(error);
     }
   };
-  
 
   return (
     <Layout>
@@ -113,21 +115,16 @@ export default function Profile(): JSX.Element {
         />
         <View className="flex-col justify-center gap-y-0">
           <Text className="font-bold text-xl text-blue-400">
-            {userProfile?.name || "Cargando..."} 
+            {userProfile?.name || "Cargando..."}
           </Text>
+          <Text className="">{userProfile?.email || "Cargando..."} </Text>
           <Text className="">{userProfile?.role.name || "Cargando..."} </Text>
-
         </View>
       </View>
 
-      <View className="flex-col mt-8" style={{ gap: 15 }}>
-        {/* <CustomInput placeholder='Name' value='Jimmy' />
-                <CustomInput placeholder='Lastname' value='Giraldo' />
-                <CustomInput placeholder='E-mail' value='Jimmy@gmail.com' /> */}
-        <Text className="text-base ml-2">Code: 170231</Text>
-      </View>
+     <AccountMenu></AccountMenu>
 
-      <View className="flex-col justify-center mt-60" style={{ gap: 10 }}>
+      <View className="flex-col justify-center" style={{ gap: 10 }}>
         <CustomButton
           type="error"
           icon="exclamation-triangle"

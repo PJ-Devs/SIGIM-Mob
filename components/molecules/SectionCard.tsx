@@ -32,7 +32,6 @@ export default function SectionCard({
       <Pressable onPress={() => linkTo(link)}>
         <Text className="text-white text-xl tracking-widest uppercase">
           {" "}
-          {/* Quitamos el subrayado */}
           {linkText}
         </Text>
       </Pressable>

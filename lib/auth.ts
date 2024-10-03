@@ -55,9 +55,29 @@ export const getProfile = async () => {
     console.log('sjlkafjlakjs')
     const user = await response.json();
     console.log("user:", user);
-    return user;
+    return user.data;
   } catch (error) {
     console.error("Failed to fetch user profile:", error);
+    return null;
+  }
+};
+
+export const updateProfile = async (body:any) => {
+
+  try {
+    const response = await fetch("http://192.168.1.7:8000/api/profile", {
+      method: "PUT",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${"1|gcaxDUJCEbv0xr7LOznsyJEQISOzQgqmhooKCFEm3780d08b"}`,
+      },
+    });
+    const user = await response.json();
+    return user.data;
+  } catch (error) {
+    console.error("Failed updating user:", error);
     return null;
   }
 };

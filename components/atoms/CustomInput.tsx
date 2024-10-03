@@ -6,6 +6,7 @@ type CustomInputProps = {
   placeholder: string;
   control: any;
   rules?: any;
+  trigger?: any,
   propertyName: string;
   type?: KeyboardTypeOptions;
 };
@@ -13,6 +14,7 @@ type CustomInputProps = {
 export default function CustomInput({
   placeholder,
   control,
+  trigger,
   propertyName,
   type = "default",
   rules = {},
@@ -34,10 +36,11 @@ export default function CustomInput({
             keyboardType={type}
             onChangeText={(text) => {
               onChange(text);
+              if (trigger) trigger(propertyName); 
             }}
             onBlur={onBlur}
           />
-          {error && (
+           {error && (
             <Text className="text-red-600 text-start">
               {error.message || "Error"}
             </Text>
