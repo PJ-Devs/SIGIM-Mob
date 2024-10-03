@@ -1,4 +1,4 @@
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { useState } from "react";
 import { router } from "expo-router";
 import CustomButton from "../atoms/CustomButton";
@@ -10,10 +10,9 @@ interface RegisterEnterpriseFormProps {
 }
 
 export default function RegisterEnterpriseForm({
-  control,onRegister
+  control,
+  onRegister,
 }: RegisterEnterpriseFormProps): JSX.Element {
-
-
   const [loading, setLoading] = useState(false);
 
   const handleRegister = () => {
@@ -48,40 +47,42 @@ export default function RegisterEnterpriseForm({
         <Text className="w-full text-xl font-semibold">
           Registrar tu empresa
         </Text>
-        <View className="py-5" style={{ gap: 15 }}>
-          <CustomInput
-            propertyName="enterprise_name"
-            placeholder="Nombre de empresa"
-            control={control}
-            rules={{
-              required: "Este campo es requerido",
-            }}
-          />
-          <CustomInput
-            propertyName="enterprise_NIT"
-            placeholder="NIT"
-            control={control}
-            rules={{
-              required: "Este campo es requerido",
-            }}
-          />
-          <CustomInput
-            propertyName="phone_number"
-            placeholder="Numero de contacto"
-            control={control}
-            rules={{
-              required: "Este campo es requerido",
-            }}
-          />
-          <CustomInput
-            propertyName="enterprise_email"
-            placeholder="E-mail"
-            control={control}
-            rules={{
-              required: "Este campo es requerido",
-            }}
-          />
-        </View>
+        <ScrollView>
+          <View className="py-5" style={{ gap: 15 }}>
+            <CustomInput
+              propertyName="enterprise_name"
+              placeholder="Nombre de empresa"
+              control={control}
+              rules={{
+                required: "Este campo es requerido",
+              }}
+            />
+            <CustomInput
+              propertyName="enterprise_NIT"
+              placeholder="NIT"
+              control={control}
+              rules={{
+                required: "Este campo es requerido",
+              }}
+            />
+            <CustomInput
+              propertyName="phone_number"
+              placeholder="Numero de contacto"
+              control={control}
+              rules={{
+                required: "Este campo es requerido",
+              }}
+            />
+            <CustomInput
+              propertyName="enterprise_email"
+              placeholder="E-mail"
+              control={control}
+              rules={{
+                required: "Este campo es requerido",
+              }}
+            />
+          </View>
+        </ScrollView>
         <CustomButton
           type="primary"
           title="Registrar Empresa"

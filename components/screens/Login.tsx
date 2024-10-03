@@ -5,10 +5,12 @@ import CustomButton from "../atoms/CustomButton";
 import { useState } from "react";
 import { router } from "expo-router";
 import { useForm } from "react-hook-form";
-import { login } from "../../lib/auth";
+import { setSecuredItem } from "../../utils/secureStore";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Login(): JSX.Element {
   const [loading, setLoading] = useState(false);
+  const { onLogin } = useAuth();
   const {
     handleSubmit,
     control,
@@ -16,21 +18,16 @@ export default function Login(): JSX.Element {
   } = useForm();
 
   const handleLogin = async (data: any) => {
-    try {
-      setLoading(true);
-      let formattedData = {
-        ...data,
-        device_name: "valen",
-      }
-      await login(formattedData).then(() => {
-        setLoading(false);
-        router.push("/");
-      });
-    } catch (error) {
-      
+    setLoading(true);
+    const result = await onLogin!(data);
+    setLoading(false);
+    
+    if (result.err) {
+      console.log("Error en el login", result.message);
+    } else {
+      router.push("/");
     }
-  }
-
+  };
   return (
     <Layout includeHeader={false}>
       <View>
@@ -72,7 +69,7 @@ export default function Login(): JSX.Element {
                   required: "Este campo es requerido",
                 }}
               />
-              <Pressable onPress={ handleSubmit(handleLogin)}>
+              <Pressable onPress={handleSubmit(handleLogin)}>
                 <Text className={anchorContainer}>
                   Olvidaste tu contraseña?{" "}
                   <Text className="text-blue-500">Recuperar</Text>
@@ -84,9 +81,13 @@ export default function Login(): JSX.Element {
             type="primary"
             title="Ingresa"
             loading={loading}
-            onPress={ handleSubmit(handleLogin)}
+            onPress={handleSubmit(handleLogin)}
           />
-          <Pressable onPress={ () =>{router.push("/signUp")}} >
+          <Pressable
+            onPress={() => {
+              router.push("/signUp");
+            }}
+          >
             <Text className={`${anchorContainer} text-center`}>
               No tienes una cuenta?{" "}
               <Text className="text-blue-500">Crea una</Text>
