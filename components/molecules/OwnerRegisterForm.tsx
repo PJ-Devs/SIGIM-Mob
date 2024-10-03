@@ -6,12 +6,13 @@ import CustomInput from "../atoms/CustomInput";
 
 interface RegisterOwnerFormProps {
   control:any;
+  trigger:any,
   onRegister: () => void; 
   onBack: () => void; 
 }
 
 export default function RegisterOwnerForm({
-   control, onRegister, onBack 
+   control, onRegister,trigger, onBack 
 }: RegisterOwnerFormProps): JSX.Element {
   const [loading, setLoading] = useState(false);
 
@@ -49,6 +50,7 @@ export default function RegisterOwnerForm({
             rules={{
               required: "Este campo es requerido",
             }}
+            trigger={trigger}
           />
           <CustomInput
             placeholder="email"
@@ -56,7 +58,12 @@ export default function RegisterOwnerForm({
             control={control}
             rules={{
               required: "Este campo es requerido",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: "Ingresa un correo electrónico válido",
+              },
             }}
+            trigger={trigger}
           />
           <CustomInput
             placeholder="Contraseña"
@@ -64,7 +71,12 @@ export default function RegisterOwnerForm({
             control={control}
             rules={{
               required: "Este campo es requerido",
+              minLength: {
+                value: 8,
+                message: "La contraseña debe tener al menos 8 caracteres",
+              },
             }}
+            trigger={trigger}
           />
         </View>
         <CustomButton

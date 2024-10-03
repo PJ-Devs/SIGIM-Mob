@@ -6,7 +6,7 @@ export const registerEnterprise = async (body: any) => {
   console.log("empece");
   console.log(body);
   try {
-    const response = await fetch("http://192.168.105.9:8000/api/auth/signup", {
+    const response = await fetch("http://192.168.1.7:8000/api/auth/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,10 +22,9 @@ export const registerEnterprise = async (body: any) => {
 };
 
 export const login = async (body: any) => {
-  console.log("empece");
-  console.log(body);
+
   try {
-    const response = await fetch("http://192.168.105.9:8000/api/auth/token", {
+    const response = await fetch("http://192.168.1.7:8000/api/auth/token", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +36,50 @@ export const login = async (body: any) => {
     const updatedEnterprise = await response.json();
     console.log("Empresa registrada:", updatedEnterprise);
     return updatedEnterprise;
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error al iniciar sesión");
+    console.log(error);
+  }
+};
+
+export const getProfile = async () => {
+
+  try {
+    const response = await fetch("http://192.168.1.7:8000/api/profile", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${"1|gcaxDUJCEbv0xr7LOznsyJEQISOzQgqmhooKCFEm3780d08b"}`,
+      },
+    });
+    console.log('sjlkafjlakjs')
+    const user = await response.json();
+    console.log("user:", user);
+    return user.data;
+  } catch (error) {
+    console.error("Failed to fetch user profile:", error);
+    return null;
+  }
+};
+
+export const updateProfile = async (body:any) => {
+
+  try {
+    const response = await fetch("http://192.168.1.7:8000/api/profile", {
+      method: "PUT",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${"1|gcaxDUJCEbv0xr7LOznsyJEQISOzQgqmhooKCFEm3780d08b"}`,
+      },
+    });
+    const user = await response.json();
+    return user.data;
+  } catch (error) {
+    console.error("Failed updating user:", error);
+    return null;
+  }
 };
 
 export const logout = async (body: any) => {

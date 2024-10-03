@@ -82,7 +82,7 @@ export default function CustomButton({
         ${disabled || loading ? "opacity-75" : "opacity-100"} 
         ${
           props.style ??
-          "flex-row justify-center items-center py-2 px-3 shadow-sm"
+          "flex-row justify-center items-center py-2 px-3 shadow-sm "
         }`}    >
       <Animated.View
         className="flex-row gap-x-1.5 justify-center items-center"
