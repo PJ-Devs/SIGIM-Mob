@@ -5,20 +5,26 @@ import { deleteSecuredItem, getSecuredItem, setSecuredItem } from "../utils/secu
 
 
 interface AuthContextData {
-  authState?: boolean | null,
-  onRegister?: (enterpriseData: any) => Promise<any>,
-  onLogin?: (credentials: { email: string, password: string }) => Promise<any>,
-  onLogout?: () => Promise<any>,
+  authState: boolean,
+  onRegister: (enterpriseData: any) => Promise<any>,
+  onLogin: (credentials: { email: string, password: string }) => Promise<any>,
+  onLogout: () => Promise<any>,
 }
 
-const AuthContext = createContext<AuthContextData>({});
+const AuthContext = createContext<AuthContextData | null>(null);
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+  const context =  useContext(AuthContext);
+  
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  
+  return context;
 }
 
 export const AuthProvider = ({children}: any) => {
-  const [authState, setAuthState] = useState<boolean | null>(null);
+  const [authState, setAuthState] = useState<boolean>(false);
 
   useEffect(() => {
     const checkAuthState = async () => {
