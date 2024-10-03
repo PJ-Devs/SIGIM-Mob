@@ -1,9 +1,8 @@
-import { Text, View, Modal, StyleSheet, Pressable } from "react-native";
+import { Text, View, Modal } from "react-native";
 import { useState } from "react";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import Layout from "../orgnisms/Layout";
 import CircularLogo from "../atoms/CircularLogo";
-import CustomInput from "../atoms/CustomInput";
 import CustomButton from "../atoms/CustomButton";
 import { logout } from "../../lib/auth";
 

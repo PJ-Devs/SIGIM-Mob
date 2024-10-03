@@ -1,5 +1,4 @@
 import { View } from "react-native";
-import { Link } from "expo-router";
 import Layout from "../orgnisms/Layout";
 import Sections from "../orgnisms/Sections";
 

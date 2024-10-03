@@ -5,7 +5,6 @@ import CustomButton from "../atoms/CustomButton";
 import { useState } from "react";
 import { router } from "expo-router";
 import { useForm } from "react-hook-form";
-import { setSecuredItem } from "../../utils/secureStore";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function Login(): JSX.Element {
@@ -18,16 +17,22 @@ export default function Login(): JSX.Element {
   } = useForm();
 
   const handleLogin = async (data: any) => {
+    if (!onLogin) {
+      console.log("Login function is not available");
+      return;
+    }
+
     setLoading(true);
     const result = await onLogin!(data);
     setLoading(false);
     
-    if (result.err) {
+    if (result) {
       console.log("Error en el login", result.message);
     } else {
       router.push("/");
     }
   };
+  
   return (
     <Layout includeHeader={false}>
       <View>
