@@ -4,10 +4,11 @@ import { router } from "expo-router";
 import Layout from "../orgnisms/Layout";
 import CircularLogo from "../atoms/CircularLogo";
 import CustomButton from "../atoms/CustomButton";
-import { logout } from "../../lib/auth";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Profile(): JSX.Element {
   const [modalVisible, setModalVisible] = useState(false);
+  const { onLogout } = useAuth();
 
   const handleLogout = async (data: any) => {
     try {
@@ -15,7 +16,7 @@ export default function Profile(): JSX.Element {
         ...data,
         device_name: "valen",
       };
-      await logout(formattedData).then(() => {
+      await onLogout().then(() =>{
         router.push("/login");
       });
     } catch (error) {
