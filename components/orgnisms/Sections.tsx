@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Dimensions } from "react-native";
+import { View } from "react-native";
 import SectionCard from "../molecules/SectionCard";
 import { ScrollView } from "react-native";
 

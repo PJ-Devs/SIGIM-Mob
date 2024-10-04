@@ -2,10 +2,12 @@ import { createContext, useContext, useEffect, useState } from "react";
 import * as Device from 'expo-device';
 import { apiRegisterEnterprise, apiLogin, apiLogOut } from "../lib/api/api.auth";
 import { deleteSecuredItem, getSecuredItem, setSecuredItem } from "../utils/secureStore";
+import { router } from "expo-router";
 
 
 interface AuthContextData {
   authState: boolean,
+  isLoading: boolean,
   onRegister: (enterpriseData: any) => Promise<any>,
   onLogin: (credentials: { email: string, password: string }) => Promise<any>,
   onLogout: () => Promise<any>,
@@ -24,16 +26,21 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({children}: any) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [authState, setAuthState] = useState<boolean>(false);
 
   useEffect(() => {
     const checkAuthState = async () => {
-      const accessToken = await getSecuredItem("ACCESS_TOKEN");
-      if (accessToken) {
+      setIsLoading(true);
+      const token = await getSecuredItem("ACCESS_TOKEN");
+      if (token) {
         setAuthState(true);
-      } else {
-        setAuthState(false);
+      router.replace("/home");
+        setIsLoading(false);
+        return;
       }
+      setIsLoading(false);
+      router.replace("/login");
     }
     
     checkAuthState();
@@ -80,6 +87,7 @@ export const AuthProvider = ({children}: any) => {
 
   const value = {
     authState: authState,
+    isLoading: isLoading,
     onRegister: register,
     onLogin: login,
     onLogout: logOut, 

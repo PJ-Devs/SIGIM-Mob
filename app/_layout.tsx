@@ -1,10 +1,12 @@
 import { Stack } from "expo-router";
 import { AuthProvider } from "../contexts/AuthContext";
-import React from "react";
-import { deleteSecuredItem } from "../utils/secureStore";
+import React from "react";  
+import { authInterceptor, errorInterceptor } from "../lib/axios/axios.interceptors";
+
+authInterceptor();
+errorInterceptor();
 
 export default function RootLayout() {
-  deleteSecuredItem("ACCESS_TOKEN");
 
   return (
     <AuthProvider>
@@ -14,12 +16,14 @@ export default function RootLayout() {
           contentStyle: {
             flex: 1,
             justifyContent: "center",
-            alignItems: "center",
             backgroundColor: "white",
           },
           headerShown: false,
         }}
-      />
+      >
+        <Stack.Screen name="login" />
+        <Stack.Screen name="signUp" />
+      </Stack>
     </AuthProvider>
   );
 }

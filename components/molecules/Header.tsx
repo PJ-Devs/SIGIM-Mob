@@ -10,7 +10,6 @@ interface props {
 
 export default function Header({ enterpriseName }: props): JSX.Element {
   const { authState } = useAuth();
-  console.log("authState", authState);
 
   return (
     <View className="flex-row justify-between items-center bg-white w-full pb-2">
@@ -27,7 +26,7 @@ export default function Header({ enterpriseName }: props): JSX.Element {
         }}
         style="p-2.5 rounded-full border-[1px] border-solid border-dark z-10 shadow-md"
       />
-      <Link href={"/"}>
+      <Link href={"/home"}>
         <View className="flex-row items-center gap-x-2">
           <Icon name="home" size={18} />
           <Text>{enterpriseName}</Text>

@@ -17,8 +17,6 @@ export default function Login(): JSX.Element {
     formState: { errors },
   } = useForm();
 
-  console.log("authState", authState);
-
   const handleLogin = async (data: any) => {
     if (!onLogin) {
       console.log("Login function is not available");
@@ -32,23 +30,13 @@ export default function Login(): JSX.Element {
     if (result) {
       console.log("Error en el login", result.message);
     } else {
-      router.push("/");
+      router.replace("/home");
     }
   };
 
   return (
     <Layout includeHeader={false}>
       <View>
-        <CustomButton
-          type="icon"
-          icon="arrow-left"
-          iconSize={20}
-          onPress={() => {
-            router.back();
-          }}
-          style={`absolute p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md`}
-        />
-
         <View className="flex-1 justify-center w-full h-full">
           <View className="items-center mb-10">
             <Pressable onPress={() => router.push("/newRoute")}>
