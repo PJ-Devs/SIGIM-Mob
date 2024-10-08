@@ -48,8 +48,6 @@ export default function Login(): JSX.Element {
   return (
     <Layout includeHeader={false}>
       <View>
-       
-
         <View className="flex-1 justify-center w-full h-full">
           <View className="items-center mb-10">
             <Pressable onPress={() => router.push("/newRoute")}>

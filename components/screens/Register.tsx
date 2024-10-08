@@ -6,6 +6,7 @@ import { Pressable, Text } from "react-native";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import { router } from "expo-router";
+import Toast from 'react-native-toast-message';
 
 export default function Register(): JSX.Element {
   const [currentStep, setCurrentStep] = useState(1);
@@ -57,6 +58,7 @@ export default function Register(): JSX.Element {
         <Pressable onPress={handleSubmit(handleRegisterAll)}>
         <Text>Finalizar registro</Text>
       </Pressable>
+      <Toast></Toast>
     </Layout>
   );
 }
