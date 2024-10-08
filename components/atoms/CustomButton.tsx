@@ -114,7 +114,7 @@ export default function CustomButton({
           />
         )}
         {props.title && type !== "icon" && (
-          <Text className="text-center font-semibold text-base">
+          <Text className={`text-center font-semibold text-base ${type === 'error' ? `text-white` : 'text-black'}`}>
             {props.title}
           </Text>
         )}

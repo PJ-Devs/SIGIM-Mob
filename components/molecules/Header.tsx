@@ -49,7 +49,7 @@ export default function Header({ enterpriseName }: props): JSX.Element {
           icon="cog"
           iconSize={20}
           onPress={() => {
-            router.push("/login");
+            router.replace("/login");
           }}
           style="p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md"
         />

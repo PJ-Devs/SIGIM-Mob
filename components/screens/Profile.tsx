@@ -130,7 +130,7 @@ export default function Profile(): JSX.Element {
         <CustomButton
           type="error"
           icon="exclamation-triangle"
-          title="ELIMINAR MI EMPRESA"
+          title="Eliminar Empresa"
           onPress={() => {
             setModalVisible(true);
           }}
