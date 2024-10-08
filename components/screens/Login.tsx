@@ -28,20 +28,21 @@ export default function Login(): JSX.Element {
     const result = await onLogin!(data);
     setLoading(false);
     
-    if (result.err) {
-      Toast.show({
-        type: 'error',
-        text1: result.message,
-        text2: 'Por favor intenta de nuevo',
-        position: 'top',
-        visibilityTime: 1000,
-        topOffset:10
-      });
+    console.log(result);
+    // if (result.err) {
+    //   Toast.show({
+    //     type: 'error',
+    //     text1: result.message,
+    //     text2: 'Por favor intenta de nuevo',
+    //     position: 'top',
+    //     visibilityTime: 1000,
+    //     topOffset:10
+    //   });
       
-      console.log("Error en el loadsafsgin", result.message);
-    } else {
-      router.push("/");
-    }
+    //   console.log("Error en el loadsafsgin", result.message);
+    // } else {
+    //   router.push("/");
+    // }
   };
   
   return (
@@ -75,6 +76,7 @@ export default function Login(): JSX.Element {
               <CustomInput
                 propertyName="password"
                 placeholder="Password"
+                secureTextEntry={true}
                 control={control}
                 rules={{
                   required: "Este campo es requerido",

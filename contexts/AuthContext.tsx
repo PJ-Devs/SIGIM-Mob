@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import * as Device from 'expo-device';
 import { apiRegisterEnterprise, apiLogin, apiLogOut } from "../lib/api/api.auth";
 import { deleteSecuredItem, getSecuredItem, setSecuredItem } from "../utils/secureStore";
+import { AxiosError } from "axios";
 
 
 interface AuthContextData {
@@ -73,7 +74,7 @@ export const AuthProvider = ({children}: any) => {
       await deleteSecuredItem("ACCESS_TOKEN");
       setAuthState(false);
     } catch (error) {
-      return { err: error, message: "Error en el logout" };
+      return error
     }
   }
 
