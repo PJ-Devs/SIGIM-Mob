@@ -78,7 +78,7 @@ export const AuthProvider = ({children}: any) => {
     }
   }
 
-  const value = {
+  const value = {              
     authState: authState,
     onRegister: register,
     onLogin: login,

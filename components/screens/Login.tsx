@@ -27,34 +27,18 @@ export default function Login(): JSX.Element {
     setLoading(true);
     const result = await onLogin!(data);
     setLoading(false);
-    
-    console.log(result);
-    // if (result.err) {
-    //   Toast.show({
-    //     type: 'error',
-    //     text1: result.message,
-    //     text2: 'Por favor intenta de nuevo',
-    //     position: 'top',
-    //     visibilityTime: 1000,
-    //     topOffset:10
-    //   });
-      
-    //   console.log("Error en el loadsafsgin", result.message);
-    // } else {
-    //   router.push("/");
-    // }
+
+    if (!result?.err) {
+      router.push("/");
+    }
   };
-  
+
   return (
     <Layout includeHeader={false}>
       <View>
-       
-
         <View className="flex-1 justify-center w-full h-full">
           <View className="items-center mb-10">
-            <Pressable onPress={() => router.push("/newRoute")}>
-              <Image className="w-[150px] h-[150px] bg-primary rounded-full" />
-            </Pressable>
+            <Image className="w-[150px] h-[150px] bg-primary rounded-full" />
           </View>
           <Text className="w-full text-xl font-semibold">Iniciar sesión</Text>
           <View className="py-5" style={{ gap: 15 }}>
@@ -109,7 +93,7 @@ export default function Login(): JSX.Element {
           </Pressable>
         </View>
       </View>
-      <Toast ></Toast>
+      <Toast></Toast>
     </Layout>
   );
 }
