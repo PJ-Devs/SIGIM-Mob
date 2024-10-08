@@ -3,6 +3,7 @@ import * as Device from 'expo-device';
 import { apiRegisterEnterprise, apiLogin, apiLogOut } from "../lib/api/api.auth";
 import { deleteSecuredItem, getSecuredItem, setSecuredItem } from "../utils/secureStore";
 import { AxiosError } from "axios";
+import { router } from "expo-router";
 
 
 interface AuthContextData {
@@ -31,9 +32,11 @@ export const AuthProvider = ({children}: any) => {
     const checkAuthState = async () => {
       const accessToken = await getSecuredItem("ACCESS_TOKEN");
       if (accessToken) {
+        router.push("/productList");
         setAuthState(true);
       } else {
         setAuthState(false);
+        router.push("/login");
       }
     }
     

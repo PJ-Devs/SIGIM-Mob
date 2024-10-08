@@ -5,12 +5,12 @@ import Layout from "../orgnisms/Layout";
 import CircularLogo from "../atoms/CircularLogo";
 import CustomButton from "../atoms/CustomButton";
 import { useAuth } from "../../contexts/AuthContext";
-import UpdateProfileForm from "../molecules/UpdateProfileForm";
 import { logout } from "../../lib/auth";
 import { User } from "../../types/products";
 import AccountMenu from "../molecules/AccountMenu";
 import { useIsFocused } from '@react-navigation/native';
 import {  getProfile } from "../../lib/api/api.fetch";
+import Toast from 'react-native-toast-message';
 
 export default function Profile(): JSX.Element {
   const { onLogout } = useAuth();
@@ -142,6 +142,7 @@ export default function Profile(): JSX.Element {
           onPress={handleLogout}
         />
       </View>
+      <Toast></Toast>
     </Layout>
   );
 }

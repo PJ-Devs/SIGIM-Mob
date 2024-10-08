@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Product } from "../../../types/products";
+import { Product } from "../../types/products";
 import { FlatList, View } from "react-native";
-import ProductCard from "../../molecules/ProductCard";
-import Layout from "../../orgnisms/Layout";
-import { fetchProducts, fetchProductSearch } from '../../../lib/api/api.fetch';
-import Loading from "../../molecules/Loading";
-import CategoriesCarrousel from "../../orgnisms/CategoriesCarrousel";
+import ProductCard from "../molecules/ProductCard";
+import Layout from "../orgnisms/Layout";
+import { fetchProducts, fetchProductSearch } from '../../lib/api/api.fetch';
+import Loading from "../molecules/Loading";
+import CategoriesCarrousel from "../orgnisms/CategoriesCarrousel";
+import Toast from 'react-native-toast-message';
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -53,6 +54,7 @@ export default function ProductList() {
           />
         </View>
       )}
+      <Toast></Toast>
     </Layout>
   );
 }

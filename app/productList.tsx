@@ -1,5 +1,4 @@
-import { parseInitialURLAsync } from "expo-linking";
-import ProductList from "../components/screens/ProductList/ProductList";
+import ProductList from "../components/screens/ProductList"
 
 export default function productList() {
   return <ProductList />;

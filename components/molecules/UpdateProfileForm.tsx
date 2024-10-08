@@ -4,8 +4,36 @@ import { useForm } from "react-hook-form";
 import CustomButton from "../atoms/CustomButton";
 import Toast from 'react-native-toast-message';
 import {  updateProfile } from "../../lib/api/api.fetch";
+import { useState, useEffect } from "react";
+import { User } from "../../types/products";
+import {  getProfile } from "../../lib/api/api.fetch";
 
 function UpdateProfileForm() {
+
+  const [userProfile, setUserProfile] = useState<User>({
+    id: 0,
+    email: "",
+    name: "",
+    role: {
+      id: 0,
+      name: "",
+    },
+  });
+
+  useEffect(() => {
+   
+    const fetchProfile = async () => {
+      try {
+        const profileData = await getProfile();
+        console.log("Profile data", profileData);
+        setUserProfile(profileData);
+      } catch (error) {
+        console.log("Error fetching user profile", error);
+      }
+    };
+   
+    fetchProfile();
+  }, []);
 
     const {
         handleSubmit,
@@ -15,7 +43,6 @@ function UpdateProfileForm() {
       } = useForm();
       const handleProfileUpdate = async (data:any) => {
         try {
-        
           data =await updateProfile(data);
           console.log('uddated data' ,data);
           Toast.show({
@@ -41,12 +68,12 @@ function UpdateProfileForm() {
           </Text>
         <CustomInput
               propertyName="name"
-              placeholder="Nombre"
+              placeholder={userProfile.name || 'Nombre'}
               control={control}
             />
              <CustomInput
               propertyName="email"
-              placeholder="Correo electronico"
+              placeholder={userProfile.email || 'Correo electronico'}
               control={control}
               trigger={trigger}
               rules={{
