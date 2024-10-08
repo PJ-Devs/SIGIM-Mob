@@ -7,22 +7,16 @@ import Layout from "./Layout";
 export default function Sections() {
   return (
     <Layout>
-    <ScrollView>
-      <View className="h-screen flex mb-14 mt-8 justify-center items-center" style={{gap:0}}>
-        <View className="flex-1">
+      <ScrollView>
+        <View className="justify-center items-center py-4" style={{
+          gap: 15,
+        }}>
           <SectionCard link="/productList" linkText="Inventario" />
-        </View>
-        <View className="flex-1">
           <SectionCard link="/profile" linkText="Perfil" />
+          {/* <SectionCard link="/login" linkText="Acceder" />
+          <SectionCard link="/signUp" linkText="Registrarse" /> */}
         </View>
-        <View className="flex-1">
-          <SectionCard link="/login" linkText="Acceder" />
-        </View>
-        <View className="flex-1">
-          <SectionCard link="/signUp" linkText="Registrarse" />
-        </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
     </Layout>
   );
 }
