@@ -1,9 +1,9 @@
 import { View , Text} from "react-native";
 import CustomInput from "../atoms/CustomInput";
 import { useForm } from "react-hook-form";
-import {updateProfile} from "../../lib/auth";
 import CustomButton from "../atoms/CustomButton";
 import Toast from 'react-native-toast-message';
+import {  updateProfile } from "../../lib/api/api.fetch";
 
 function UpdateProfileForm() {
 

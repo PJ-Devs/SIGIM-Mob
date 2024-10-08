@@ -20,7 +20,7 @@ export default function Register(): JSX.Element {
   const handleRegisterAll = async (data:any) => {
     const result = await onRegister!(data);
 
-    if (result.err) {
+    if (result?.err) {
       console.log("Error en el registro", result.message);
     } else {
       router.push("/");
@@ -41,7 +41,7 @@ export default function Register(): JSX.Element {
         <RegisterEnterpriseForm 
           control={control}
           trigger={trigger}
-          onRegister={goToNextStep}
+          onRegister={handleSubmit(goToNextStep)}
         />
       )}
 

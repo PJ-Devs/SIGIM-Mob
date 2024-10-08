@@ -6,12 +6,15 @@ import CircularLogo from "../atoms/CircularLogo";
 import CustomButton from "../atoms/CustomButton";
 import { useAuth } from "../../contexts/AuthContext";
 import UpdateProfileForm from "../molecules/UpdateProfileForm";
-import { logout, getProfile, updateProfile } from "../../lib/auth";
+import { logout } from "../../lib/auth";
 import { User } from "../../types/products";
 import AccountMenu from "../molecules/AccountMenu";
+import { useIsFocused } from '@react-navigation/native';
+import {  getProfile } from "../../lib/api/api.fetch";
 
 export default function Profile(): JSX.Element {
   const { onLogout } = useAuth();
+  const isFocused = useIsFocused();
   const [modalVisible, setModalVisible] = useState(false);
   const [userProfile, setUserProfile] = useState<User>({
     id: 0,
@@ -24,6 +27,7 @@ export default function Profile(): JSX.Element {
   });
 
   useEffect(() => {
+   
     const fetchProfile = async () => {
       try {
         const profileData = await getProfile();
@@ -33,9 +37,9 @@ export default function Profile(): JSX.Element {
         console.log("Error fetching user profile", error);
       }
     };
-
-    fetchProfile();
-  }, []);
+    if (isFocused) {
+    fetchProfile();}
+  }, [isFocused]);
 
   const handleLogout = async (data: any) => {
     try {
