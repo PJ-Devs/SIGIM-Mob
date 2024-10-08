@@ -8,6 +8,7 @@ type CustomInputProps = {
   rules?: any;
   trigger?: any,
   propertyName: string;
+  secureTextEntry?: boolean;
   type?: KeyboardTypeOptions;
 };
 
@@ -16,6 +17,7 @@ export default function CustomInput({
   control,
   trigger,
   propertyName,
+  secureTextEntry = false,
   type = "default",
   rules = {},
 }: CustomInputProps) {
@@ -34,6 +36,7 @@ export default function CustomInput({
             placeholder={placeholder}
             value={value}
             keyboardType={type}
+            secureTextEntry={secureTextEntry}
             onChangeText={(text) => {
               onChange(text);
               if (trigger) trigger(propertyName); 

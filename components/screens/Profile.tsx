@@ -43,10 +43,6 @@ export default function Profile(): JSX.Element {
 
   const handleLogout = async (data: any) => {
     try {
-      let formattedData = {
-        ...data,
-        device_name: "valen",
-      };
       await onLogout().then(() =>{
         router.push("/login");
       });
