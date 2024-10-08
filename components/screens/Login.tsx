@@ -6,6 +6,7 @@ import { useState } from "react";
 import { router } from "expo-router";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
+import Toast from "react-native-toast-message";
 
 export default function Login(): JSX.Element {
   const [loading, setLoading] = useState(false);
@@ -27,8 +28,17 @@ export default function Login(): JSX.Element {
     const result = await onLogin!(data);
     setLoading(false);
     
-    if (result) {
-      console.log("Error en el login", result.message);
+    if (result.err) {
+      Toast.show({
+        type: 'error',
+        text1: result.message,
+        text2: 'Por favor intenta de nuevo',
+        position: 'top',
+        visibilityTime: 1000,
+        topOffset:10
+      });
+      
+      console.log("Error en el loadsafsgin", result.message);
     } else {
       router.push("/");
     }
@@ -37,17 +47,7 @@ export default function Login(): JSX.Element {
   return (
     <Layout includeHeader={false}>
       <View>
-        {router.canGoBack() && (
-          <CustomButton
-            type="icon"
-            icon="arrow-left"
-            iconSize={20}
-            onPress={() => {
-              router.back();
-            }}
-            style={`absolute p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md`}
-          />
-        )}
+       
 
         <View className="flex-1 justify-center w-full h-full">
           <View className="items-center mb-10">
@@ -64,6 +64,10 @@ export default function Login(): JSX.Element {
               control={control}
               rules={{
                 required: "Este campo es requerido",
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  message: "Ingresa un correo electrónico válido",
+                },
               }}
               trigger={trigger}
             />
@@ -103,6 +107,7 @@ export default function Login(): JSX.Element {
           </Pressable>
         </View>
       </View>
+      <Toast ></Toast>
     </Layout>
   );
 }

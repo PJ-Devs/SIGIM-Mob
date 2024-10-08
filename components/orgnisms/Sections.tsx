@@ -2,9 +2,11 @@ import React from "react";
 import { View, Dimensions } from "react-native";
 import SectionCard from "../molecules/SectionCard";
 import { ScrollView } from "react-native";
+import Layout from "./Layout";
 
 export default function Sections() {
   return (
+    <Layout>
     <ScrollView>
       <View className="h-screen flex mb-14 mt-8 justify-center items-center" style={{gap:0}}>
         <View className="flex-1">
@@ -21,5 +23,6 @@ export default function Sections() {
         </View>
       </View>
     </ScrollView>
+    </Layout>
   );
 }
