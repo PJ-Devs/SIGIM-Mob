@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import * as Device from 'expo-device';
 import { apiRegisterEnterprise, apiLogin, apiLogOut } from "../lib/api/api.auth";
 import { deleteSecuredItem, getSecuredItem, setSecuredItem } from "../utils/secureStore";
-import { AxiosError } from "axios";
 import { router } from "expo-router";
 
 

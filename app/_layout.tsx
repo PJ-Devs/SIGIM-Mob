@@ -1,5 +1,12 @@
-import { Stack, Slot } from "expo-router";
+import { Stack } from "expo-router";
 import { AuthProvider } from "../contexts/AuthContext";
+import {
+  authInterceptor,
+  errorInterceptor,
+} from "../lib/axios/axios.interceptors";
+
+authInterceptor();
+errorInterceptor();
 
 export default function layout() {
   return (
