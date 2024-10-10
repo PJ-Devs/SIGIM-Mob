@@ -1,6 +1,6 @@
 import { Text, View, Modal } from "react-native";
 import { useState, useEffect } from "react";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import Layout from "../orgnisms/Layout";
 import CircularLogo from "../atoms/CircularLogo";
 import CustomButton from "../atoms/CustomButton";
@@ -141,7 +141,7 @@ export default function Profile(): JSX.Element {
           onPress={handleLogout}
         />
       </View>
-      <Toast></Toast>
+      <Toast />
     </Layout>
   );
 }

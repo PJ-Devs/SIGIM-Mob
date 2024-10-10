@@ -6,7 +6,7 @@ import Layout from "./Layout";
 
 export default function Sections() {
   return (
-    <Layout>
+    <Layout canGoBack={false}>
       <ScrollView>
         <View className="justify-center items-center py-4" style={{
           gap: 15,

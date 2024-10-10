@@ -31,11 +31,11 @@ export const AuthProvider = ({children}: any) => {
     const checkAuthState = async () => {
       const accessToken = await getSecuredItem("ACCESS_TOKEN");
       if (accessToken) {
-        router.push("/productList");
+        router.replace("/index");
         setAuthState(true);
       } else {
         setAuthState(false);
-        router.push("/login");
+        router.replace("/login");
       }
     }
     

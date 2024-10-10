@@ -15,7 +15,7 @@ import CustomInput from "../atoms/CustomInput";
 interface RegisterEnterpriseFormProps {
   control: any;
   trigger: any;
-  onRegister: () => void;
+  onRegister: () => Promise<void>;
 }
 
 export default function RegisterEnterpriseForm({
@@ -25,28 +25,14 @@ export default function RegisterEnterpriseForm({
 }: RegisterEnterpriseFormProps): JSX.Element {
   const [loading, setLoading] = useState(false);
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      onRegister();
-    }, 2000);
+    await onRegister();
+    setLoading(false);
   };
 
   return (
-    <View>
-      {router.canGoBack() && (
-        <CustomButton
-          type="icon"
-          icon="arrow-left"
-          iconSize={20}
-          onPress={() => {
-            router.back();
-          }}
-          style="absolute p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md"
-        />
-      )}
-
+    <View className="h-screen">
       <View className="flex-1 justify-center w-full h-full">
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}

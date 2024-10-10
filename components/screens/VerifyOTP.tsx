@@ -12,24 +12,44 @@ import CustomButton from "../atoms/CustomButton";
 import { useState } from "react";
 import Layout from "../orgnisms/Layout";
 import { router } from "expo-router";
+import { requestPasswordResetOTP, verifyPasswordResetOTP } from "../../lib/api/api.auth";
+import { getItem, setSecuredItem } from "../../utils/secureStore";
 
 export default function VerifyOTP(): JSX.Element {
   const [loading, setLoading] = useState(false);
   const [isResending, setIsResending] = useState(false);
   const [otpCode, setOtpCode] = useState("");
 
-  const handleSendAuthCode = async () => {
-    setLoading(true);
-    setTimeout(() => {
+  const handleValidateCode = async () => {
+    try {
+      setLoading(true);
+      const response = await verifyPasswordResetOTP({
+        email: getItem("email") as string,
+        token: otpCode,
+      });
+
+      if (response) {
+        setSecuredItem("PASSWORD_RESET_TOKEN", response.reset_password_token);
+        router.push("/password-reset/new-password");
+      }
+    } catch (error) {
+      console.log("Error al validar código", error);
+    } finally {
       setLoading(false);
-    }, 3000);
+    }
   };
 
   const handleResendAuthCode = async () => {
-    setIsResending(true);
-    setTimeout(() => {
+    try {
+      setIsResending(true);
+      await requestPasswordResetOTP({
+        email: getItem("email") as string,
+      });
+    } catch (error) {
+      console.log("Error enviando código de verificación", error);
+    } finally {
       setIsResending(false);
-    }, 3000);
+    }
   };
 
   return (
@@ -44,7 +64,7 @@ export default function VerifyOTP(): JSX.Element {
           keyboardShouldPersistTaps="handled"
         >
           <View
-            className="flex-1 p-8 justify-center items-center"
+            className="flex-1 justify-center items-center"
             style={{ gap: 12 }}
           >
             <Image
@@ -79,7 +99,7 @@ export default function VerifyOTP(): JSX.Element {
                 iconSize={20}
                 loading={loading}
                 disabled={otpCode.length < 6 || isResending}
-                onPress={() => handleSendAuthCode()}
+                onPress={() => handleValidateCode()}
               />
               <CustomButton
                 type="secondary"
