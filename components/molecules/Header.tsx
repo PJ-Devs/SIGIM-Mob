@@ -10,7 +10,6 @@ interface props {
 
 export default function Header({ enterpriseName }: props): JSX.Element {
   const { authState } = useAuth();
-  console.log("authState", authState);
 
   return (
     <View className="flex-row justify-between items-center bg-white w-full pb-2">

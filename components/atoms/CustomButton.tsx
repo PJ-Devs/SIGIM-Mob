@@ -79,7 +79,7 @@ export default function CustomButton({
       className={` 
         ${typeStyles[type]} 
         ${shapeStyles[shape]} 
-        ${disabled || loading ? "opacity-75" : "opacity-100"} 
+        ${disabled || loading ? "opacity-50" : "opacity-100"} 
         ${
           props.style ??
           "flex-row justify-center items-center py-2 px-3 shadow-sm "

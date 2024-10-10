@@ -20,7 +20,6 @@ export const authInterceptor = () => {
         return request;
       }
     });
-    console.log("Request", request);
     return updateAuthorizationHeader(request);
   });
 }

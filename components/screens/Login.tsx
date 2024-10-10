@@ -28,7 +28,6 @@ export default function Login(): JSX.Element {
 
   const handleLogin = async (data: any) => {
     if (!onLogin) {
-      console.log("Login function is not available");
       return;
     }
 
@@ -85,7 +84,7 @@ export default function Login(): JSX.Element {
                     }}
                     trigger={trigger}
                   />
-                  <Pressable onPress={handleSubmit(handleLogin)}>
+                  <Pressable onPress={() => router.push('/password-reset/email')}>
                     <Text className={anchorContainer}>
                       Olvidaste tu contraseña?{" "}
                       <Text className="text-blue-500">Recuperar</Text>

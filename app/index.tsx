@@ -1,5 +1,5 @@
-import App from "../App"
-     
+import Main from "../components/screens/Main";
+
 export default function Index(): JSX.Element {
-    return <App/>
+  return <Main />;
 }

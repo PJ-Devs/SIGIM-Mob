@@ -105,5 +105,3 @@ export default function RegisterOwnerForm({
     </View>
   );
 }
-
-const anchorContainer = "text-black text-right mt-2 opacity-75";

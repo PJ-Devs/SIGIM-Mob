@@ -1,11 +1,10 @@
-import { Text, View, Modal, StyleSheet, Pressable } from "react-native";
+import { Text, View, Modal } from "react-native";
 import { useState, useEffect } from "react";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import Layout from "../orgnisms/Layout";
 import CircularLogo from "../atoms/CircularLogo";
 import CustomButton from "../atoms/CustomButton";
 import { useAuth } from "../../contexts/AuthContext";
-import { logout } from "../../lib/auth";
 import { User } from "../../types/products";
 import AccountMenu from "../molecules/AccountMenu";
 import { useIsFocused } from '@react-navigation/native';
@@ -124,7 +123,7 @@ export default function Profile(): JSX.Element {
         </View>
       </View>
 
-     <AccountMenu></AccountMenu>
+     <AccountMenu/>
 
       <View className="flex-col justify-center" style={{ gap: 10 }}>
         <CustomButton
@@ -142,7 +141,7 @@ export default function Profile(): JSX.Element {
           onPress={handleLogout}
         />
       </View>
-      <Toast></Toast>
+      <Toast />
     </Layout>
   );
 }

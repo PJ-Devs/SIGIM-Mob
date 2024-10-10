@@ -11,3 +11,11 @@ export const getSecuredItem = async (key: string): Promise<string | null> => {
 export const deleteSecuredItem = async (key: string): Promise<void> => {
   await SecureStore.deleteItemAsync(key);
 };
+
+export const setItem = (key: string, value: string): void => {
+  SecureStore.setItem(key, value);
+}
+
+export const getItem = (key: string): string | null => {
+  return SecureStore.getItem(key);
+}
