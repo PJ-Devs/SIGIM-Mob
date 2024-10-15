@@ -4,14 +4,30 @@ import Layout from "../orgnisms/Layout";
 import { Text, View } from "react-native";
 import CustomInput from "../atoms/CustomInput";
 import CustomButton from "../atoms/CustomButton";
-import { router } from "expo-router";
+import { useState } from "react";
+import { restorePassword } from "../../lib/api/api.auth";
+import { getItem } from "../../utils/secureStore";
 
 export default function ResetPassword() {
   const { authState } = useAuth();
-  const { control } = useForm();
+  const { control, trigger, handleSubmit } = useForm();
 
-  const handlePasswordReset = async () => {
+  const [loading, setLoading] = useState(false);
 
+  const handlePasswordReset = async (data: any) => {
+    try {
+      setLoading(true);
+      const response = await restorePassword({
+        email: getItem("email") as string,
+        password: data.password,
+      });
+
+      // if (response.)
+    } catch (error) {
+      console.log("Error enviando código de verificación", error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -30,12 +46,14 @@ export default function ResetPassword() {
         <View className="py-4" style={{ gap: 10 }}>
           <CustomInput
             propertyName="password"
+            trigger={trigger}
             control={control}
             secureTextEntry={true}
             placeholder="Contraseña"
           />
           <CustomInput
             propertyName="confirm-password"
+            trigger={trigger}
             control={control}
             secureTextEntry={true}
             placeholder="Confirmar contraseña"
@@ -46,7 +64,8 @@ export default function ResetPassword() {
           title="Cambiar contraseña"
           icon="key"
           iconSize={20}
-          onPress={() => {}}
+          loading={loading}
+          onPress={handleSubmit(handlePasswordReset)}
         />
       </View>
     </Layout>
