@@ -1,7 +1,6 @@
 import { View } from "react-native";
 import Header from "../molecules/Header";
 import SearchBar from "../atoms/SearchBar";
-import CategoriesCarrousel from "./CategoriesCarrousel";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import CustomButton from "../atoms/CustomButton";
@@ -28,7 +27,7 @@ export default function Layout({
     className={`flex-1`}
     style={{
       width: SIZES.width * 0.85,
-      minHeight: SIZES.height,
+      minHeight: SIZES.height * 0.85,
     }}
     >
       <View className="py-1">
@@ -36,7 +35,6 @@ export default function Layout({
         {includeSearch && onSearch && (
           <View>
             <SearchBar onSearch={onSearch} />
-            <CategoriesCarrousel />
           </View>
         )}
       </View>

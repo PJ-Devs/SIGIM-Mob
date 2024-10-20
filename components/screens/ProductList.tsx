@@ -26,6 +26,7 @@ export default function ProductList() {
       const fetchedProducts = await fetchProducts().finally(() => {
         setLoading(false);
       });
+      console.log(fetchedProducts);
       setProducts(fetchedProducts);
     };
 
@@ -38,7 +39,7 @@ export default function ProductList() {
         <Loading />
       ) : (
         <View>
-          <CategoriesCarrousel></CategoriesCarrousel>
+          <CategoriesCarrousel/>
           <FlatList
             data={products}
             keyExtractor={(item) => item.id.toString()}
