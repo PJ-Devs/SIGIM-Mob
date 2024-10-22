@@ -6,28 +6,20 @@ type RootObject = {
 }
 
 type Product = {
-  id: number;
-  title: string;
+  id?: number; 
+  name: string;
   description: string;
-  category: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
+  status: string;
   stock: number;
-  tags: string[];
-  brand: string;
-  sku: string;
-  weight: number;
-  dimensions: Dimensions;
-  warrantyInformation: string;
-  shippingInformation: string;
-  availabilityStatus: string;
-  reviews: Review[];
-  returnPolicy: string;
-  minimumOrderQuantity: number;
-  meta: Meta;
-  images: string[];
+  supplier_price: number;
+  sale_price: number;
   thumbnail: string;
+  barcode: string;
+  minimal_safe_stock: number;
+  discount: number;
+  enterprise_id: number;
+  category_id: number;
+  supplier_id: number;
 }
 
 type Meta = {
@@ -35,20 +27,6 @@ type Meta = {
   updatedAt: string;
   barcode: string;
   qrCode: string;
-}
-
-type Review = {
-  rating: number;
-  comment: string;
-  date: string;
-  reviewerName: string;
-  reviewerEmail: string;
-}
-
-type Dimensions = {
-  width: number;
-  height: number;
-  depth: number;
 }
 
 type DTOEnterprise = {
@@ -85,11 +63,11 @@ type Role = {
 }
 
 type User = {
-  id: number;
+  id: string;
   name: string;
   email: string;
   role: Role;
 }
 
 
-export type { RootObject, Product,Role, Meta, Review, Dimensions, DTOEnterprise, DTOEnterpriseColaborator, RegisterEnterpriseFormat, RegisterOwnerFormat, User };
+export type { RootObject, Product,Role, Meta, DTOEnterprise, DTOEnterpriseColaborator, RegisterEnterpriseFormat, RegisterOwnerFormat, User };

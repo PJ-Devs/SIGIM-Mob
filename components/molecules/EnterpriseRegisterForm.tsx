@@ -11,23 +11,27 @@ import { useState } from "react";
 import { router } from "expo-router";
 import CustomButton from "../atoms/CustomButton";
 import CustomInput from "../atoms/CustomInput";
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 
 interface RegisterEnterpriseFormProps {
   control: any;
   trigger: any;
   onRegister: () => Promise<void>;
+  errors: any;
 }
 
 export default function RegisterEnterpriseForm({
   control,
   onRegister,
   trigger,
+  errors
 }: RegisterEnterpriseFormProps): JSX.Element {
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
     setLoading(true);
-    await onRegister();
+    onRegister();
     setLoading(false);
   };
 
@@ -56,40 +60,29 @@ export default function RegisterEnterpriseForm({
                 placeholder="Nombre de empresa"
                 trigger={trigger}
                 control={control}
-                rules={{
-                  required: "Este campo es requerido",
-                }}
+                errors={errors}
               />
               <CustomInput
                 propertyName="enterprise_NIT"
                 placeholder="NIT"
                 trigger={trigger}
                 control={control}
-                rules={{
-                  required: "Este campo es requerido",
-                }}
+                errors={errors}
+                
               />
               <CustomInput
                 propertyName="phone_number"
                 placeholder="Numero de contacto"
                 trigger={trigger}
                 control={control}
-                rules={{
-                  required: "Este campo es requerido",
-                }}
+                errors={errors}
               />
               <CustomInput
                 propertyName="enterprise_email"
                 placeholder="E-mail"
                 trigger={trigger}
                 control={control}
-                rules={{
-                  required: "Este campo es requerido",
-                  pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                    message: "Ingresa un correo electrónico válido",
-                  },
-                }}
+                errors={errors}
               />
             </View>
           </ScrollView>

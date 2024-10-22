@@ -22,15 +22,19 @@ export default function ProductList() {
 
   useEffect(() => {
     const loadProducts = async () => {
+
       setLoading(true);
       const fetchedProducts = await fetchProducts().finally(() => {
         setLoading(false);
       });
+      console.log(fetchedProducts);
       setProducts(fetchedProducts);
     };
 
     loadProducts();
   }, []);
+
+  
 
   return (
     <Layout includeSearch={true} onSearch={onSearch}>
@@ -38,7 +42,7 @@ export default function ProductList() {
         <Loading />
       ) : (
         <View>
-          <CategoriesCarrousel></CategoriesCarrousel>
+          <CategoriesCarrousel/>
           <FlatList
             data={products}
             keyExtractor={(item) => item.id.toString()}

@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import { AuthProvider } from "../contexts/AuthContext";
+import { SQLiteProvider } from "expo-sqlite/next";
 import {
   authInterceptor,
   errorInterceptor,
@@ -8,8 +9,10 @@ import {
 authInterceptor();
 errorInterceptor();
 
-export default function layout() {
+export default  function layout () {
+
   return (
+    <SQLiteProvider databaseName="test.db">
     <AuthProvider>
       <Stack
         screenOptions={{
@@ -23,6 +26,8 @@ export default function layout() {
           headerShown: false,
         }}
       />
+     
     </AuthProvider>
+    </SQLiteProvider>
   );
 }

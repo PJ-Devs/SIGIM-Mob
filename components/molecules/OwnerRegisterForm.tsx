@@ -17,6 +17,7 @@ interface RegisterOwnerFormProps {
   trigger: any;
   onRegister: () => void;
   onBack: () => void;
+  errors: any;
 }
 
 export default function RegisterOwnerForm({
@@ -24,6 +25,7 @@ export default function RegisterOwnerForm({
   onRegister,
   trigger,
   onBack,
+  errors
 }: RegisterOwnerFormProps): JSX.Element {
   const [loading, setLoading] = useState(false);
 
@@ -34,25 +36,7 @@ export default function RegisterOwnerForm({
   };
 
   return (
-    <View>
-      {router.canGoBack() && (
-        <CustomButton
-          type="icon"
-          icon="arrow-left"
-          iconSize={20}
-          onPress={onBack}
-          style="absolute p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md"
-        />
-      )}
-
       <View className="flex-1 justify-center w-full h-full">
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
-        >
-          <ScrollView
-            contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-          >
             <Text className="text-center text-xl font-semibold">
               Añade tus datos como dueño de la empresa
             </Text>
@@ -61,40 +45,23 @@ export default function RegisterOwnerForm({
                 propertyName="owner_name"
                 placeholder="Nombre"
                 control={control}
-                rules={{
-                  required: "Este campo es requerido",
-                }}
-                trigger={trigger}
+               errors={errors}
               />
               <CustomInput
                 placeholder="email"
                 propertyName="owner_email"
                 control={control}
-                rules={{
-                  required: "Este campo es requerido",
-                  pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                    message: "Ingresa un correo electrónico válido",
-                  },
-                }}
+                errors={errors}
                 trigger={trigger}
               />
               <CustomInput
                 placeholder="Contraseña"
                 propertyName="owner_password"
                 control={control}
-                rules={{
-                  required: "Este campo es requerido",
-                  minLength: {
-                    value: 8,
-                    message: "La contraseña debe tener al menos 8 caracteres",
-                  },
-                }}
+                errors={errors}
                 trigger={trigger}
               />
             </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
         <CustomButton
           type="primary"
           title="Registrarme"
@@ -102,6 +69,5 @@ export default function RegisterOwnerForm({
           onPress={handleRegister}
         />
       </View>
-    </View>
   );
 }

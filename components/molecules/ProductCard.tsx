@@ -49,7 +49,7 @@ export default function ProductCard({
 
       <View className="w-2/3 pl-2 pr-3">
         <View className="flex-row justify-between items-center gap-x-2 mb-1">
-          <Text className="font-semibold shrink grow">{product.title}</Text>
+          <Text className="font-semibold shrink grow">{product.name}</Text>
           <Pressable onPress={() => handleFavorite()}>
             {isFav ? (
               <Icon name="heart" size={22} color="red" />
@@ -59,7 +59,7 @@ export default function ProductCard({
           </Pressable>
         </View>
         <Text>{`Categoria: ${product.category}`}</Text>
-        <Text>{`Marca: ${product.brand}`}</Text>
+        <Text>{`Marca: ${product.brand || 'no disponible'}`}</Text>
         <Text>{`Cantidad: ${product.stock}`}</Text>
         <Text className="font-semibold text-green-600 text-right mt-2">{`$${product.price}`}</Text>
       </View>

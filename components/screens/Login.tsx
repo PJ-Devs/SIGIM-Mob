@@ -15,8 +15,23 @@ import { router } from "expo-router";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import Toast from "react-native-toast-message";
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 
 export default function Login(): JSX.Element {
+
+  
+  const schema = z.object({
+    email: z.string()
+      .email({ message: "El correo electrónico no es válido." })
+      .min(1, { message: "El correo es obligatorio." }),
+    
+    password: z.string()
+      .min(1, { message: "Este campo es obligatorio" })
+  });
+  
+  type FormFields = z.infer<typeof schema>;
+
   const [loading, setLoading] = useState(false);
   const { onLogin } = useAuth();
   const {
@@ -24,7 +39,11 @@ export default function Login(): JSX.Element {
     control,
     trigger,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormFields>({
+    mode: "onBlur",
+    reValidateMode: "onBlur",
+    resolver: zodResolver(schema),
+  });
 
   const handleLogin = async (data: any) => {
     if (!onLogin) {
@@ -41,7 +60,7 @@ export default function Login(): JSX.Element {
   };
 
   return (
-    <Layout includeHeader={false}>
+    <Layout includeHeader={false} canGoBack={false}>
       <View>
         <View className="justify-center w-full h-full">
           <KeyboardAvoidingView
@@ -64,13 +83,7 @@ export default function Login(): JSX.Element {
                   placeholder="E-mail"
                   type="email-address"
                   control={control}
-                  rules={{
-                    required: "Este campo es requerido",
-                    pattern: {
-                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                      message: "Ingresa un correo electrónico válido",
-                    },
-                  }}
+                  errors={errors}
                   trigger={trigger}
                 />
                 <View>
@@ -79,9 +92,7 @@ export default function Login(): JSX.Element {
                     placeholder="Password"
                     secureTextEntry={true}
                     control={control}
-                    rules={{
-                      required: "Este campo es requerido",
-                    }}
+                    errors={errors}
                     trigger={trigger}
                   />
                   <Pressable onPress={() => router.push('/password-reset/email')}>
