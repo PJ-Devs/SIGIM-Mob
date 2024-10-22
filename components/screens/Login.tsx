@@ -22,11 +22,11 @@ export default function Login(): JSX.Element {
 
   
   const schema = z.object({
-    email: z.string()
+    email: z.string({ message: "El correo es obligatorio." })
       .email({ message: "El correo electrónico no es válido." })
       .min(1, { message: "El correo es obligatorio." }),
     
-    password: z.string()
+    password: z.string({ message: "Este campo es obligatorio" })
       .min(1, { message: "Este campo es obligatorio" })
   });
   

@@ -14,20 +14,20 @@ export default function Register(): JSX.Element {
   const { onRegister } = useAuth();
 
   const schema = z.object({
-    enterprise_email: z.string()
+    enterprise_email: z.string({ message: "El correo es obligatorio." })
       .email({ message: "El correo electrónico no es válido." })
       .min(1, { message: "El correo es obligatorio." }),
     
-    enterprise_name: z.string()
+    enterprise_name: z.string({ message: "El nombre de la empresa es obligatorio." })
       .min(1, { message: "El nombre de la empresa es obligatorio." })
       .max(100, { message: "El nombre de la empresa no debe exceder 100 caracteres." }),
     
     phone_number: z.string(),
     
-    enterprise_NIT: z.string()
+    enterprise_NIT: z.string({ message: "El NIT de la empresa es obligatorio." })
       .min(1, { message: "El NIT de la empresa es obligatorio." }),
 
-    owner_password: z.string()
+    owner_password: z.string({ message: "Este campo es obligatorio." })
       .min(8, { message: "La contraseña debe tener al menos 8 caracteres." })
       .regex(/^[^ñ]*$/, { message: "La contraseña no debe contener la letra 'ñ'." })
       .regex(/[A-Z]/, { message: "La contraseña debe contener al menos una letra mayúscula." })
@@ -37,7 +37,7 @@ export default function Register(): JSX.Element {
       .min(1, { message: "El nombre del propietario es obligatorio." })
       .max(100, { message: "El nombre del propietario no debe exceder 100 caracteres." }),
   
-    owner_email: z.string()
+    owner_email: z.string({ message: "El correo electrónico es obligatorio." })
       .email({ message: "El correo electrónico no es válido." })
       .min(1, { message: "El correo electrónico es obligatorio." }),
   });
