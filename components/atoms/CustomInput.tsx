@@ -5,11 +5,11 @@ import { Controller } from "react-hook-form";
 type CustomInputProps = {
   placeholder: string;
   control: any;
-  rules?: any;
   trigger?: any,
   propertyName: string;
   secureTextEntry?: boolean;
   type?: KeyboardTypeOptions;
+  errors?: any;
 };
 
 export default function CustomInput({
@@ -19,13 +19,12 @@ export default function CustomInput({
   propertyName,
   secureTextEntry = false,
   type = "default",
-  rules = {},
+  errors
 }: CustomInputProps) {
   return (
     <Controller
       control={control}
       name={propertyName}
-      rules={rules}
       render={({
         field: { onChange, onBlur, value },
         fieldState: { error },
@@ -43,9 +42,9 @@ export default function CustomInput({
             }}
             onBlur={onBlur}
           />
-           {error && (
+           {errors && (
             <Text className="text-red-600 text-start">
-              {error.message || "Error"}
+              {errors[propertyName]?.message}
             </Text>
           )}
         </View>

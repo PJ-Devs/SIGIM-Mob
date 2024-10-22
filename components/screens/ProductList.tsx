@@ -22,6 +22,7 @@ export default function ProductList() {
 
   useEffect(() => {
     const loadProducts = async () => {
+
       setLoading(true);
       const fetchedProducts = await fetchProducts().finally(() => {
         setLoading(false);
@@ -32,6 +33,8 @@ export default function ProductList() {
 
     loadProducts();
   }, []);
+
+  
 
   return (
     <Layout includeSearch={true} onSearch={onSearch}>

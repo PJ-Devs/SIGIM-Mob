@@ -3,6 +3,8 @@ import * as Device from 'expo-device';
 import { apiRegisterEnterprise, apiLogin, apiLogOut } from "../lib/api/api.auth";
 import { deleteSecuredItem, getSecuredItem, setSecuredItem } from "../utils/secureStore";
 import { router } from "expo-router";
+import NetInfo from '@react-native-community/netinfo'; 
+import {getOfflineToken, saveUserToken, deleteUserToken} from "../lib/sqlite";
 
 
 interface AuthContextData {
@@ -29,13 +31,23 @@ export const AuthProvider = ({children}: any) => {
 
   useEffect(() => {
     const checkAuthState = async () => {
-      const accessToken = await getSecuredItem("ACCESS_TOKEN");
+      const accessToken =await getSecuredItem("ACCESS_TOKEN");
       if (accessToken) {
         router.replace("/index");
         setAuthState(true);
       } else {
-        setAuthState(false);
-        router.replace("/login");
+        let state = await NetInfo.fetch();
+        if (!state.isConnected) {
+          console.warn('No hay conexión a Internet. Recuperando productos de la base de datos local.');
+          const token =  await getOfflineToken();
+          if (token) {await setSecuredItem("ACCESS_TOKEN", token)}else {
+            setAuthState(false);
+          router.replace("/login");
+          }
+        } else{
+          setAuthState(false);
+          router.replace("/login");
+        }
       }
     }
     
@@ -50,6 +62,8 @@ export const AuthProvider = ({children}: any) => {
       }
       const res = await apiRegisterEnterprise(formattedData);
       await setSecuredItem("ACCESS_TOKEN", res.access_token);
+      const token = await getSecuredItem("ACCESS_TOKEN");
+      if (token) await saveUserToken(token);
       setAuthState(true);
     } catch (error) {
       return { err: error, message: "Error en el registro" };
@@ -64,6 +78,8 @@ export const AuthProvider = ({children}: any) => {
       }
       const res = await apiLogin(formattedData);
       await setSecuredItem("ACCESS_TOKEN", res.access_token);
+      const token = await getSecuredItem("ACCESS_TOKEN");
+      if (token) await saveUserToken(token);;
       setAuthState(true);
     } catch (error) {
       return { err: error, message: "Error en el login" };
@@ -74,6 +90,7 @@ export const AuthProvider = ({children}: any) => {
     try {
       await apiLogOut({ device_name: Device.deviceName ?? "Other" });
       await deleteSecuredItem("ACCESS_TOKEN");
+      await deleteUserToken();
       setAuthState(false);
     } catch (error) {
       return error
