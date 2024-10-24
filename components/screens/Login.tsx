@@ -19,8 +19,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 
 export default function Login(): JSX.Element {
-
-  
   const schema = z.object({
     email: z.string({ message: "El correo es obligatorio." })
       .email({ message: "El correo electrónico no es válido." })

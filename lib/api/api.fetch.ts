@@ -1,57 +1,49 @@
 import { AxiosResponse } from "axios";
 import APIInstance from "../axios/axios.config";
-import { type Product } from '../../types/products'
+import { type Product } from "../../types/products";
 import { getSecuredItem } from "../../utils/secureStore";
-import { saveProduct, getProducts, saveUserData} from "../sqlite"
-import NetInfo from '@react-native-community/netinfo'; 
+import { saveProduct, getProducts, saveUserData } from "../sqlite";
+import NetInfo from "@react-native-community/netinfo";
+import { SQLiteDatabase } from "expo-sqlite";
 
-export const fetchProducts = async (): Promise<Product[]> => {
-  try {
-    const state = await NetInfo.fetch();
-
-    if (!state.isConnected) {
-      console.warn('No hay conexión a Internet. Recuperando productos de la base de datos local.');
-      return new Promise((resolve, reject) => {
-        getProducts((products: Product[]) => {
-          resolve(products);
-        });
-      });
-    }
-
-    const response: AxiosResponse = await APIInstance.get("/products");
-    const data = response.data;
-    const products: Product[] = data.data;
-    for (const product of products) {
-      await saveProduct(product);
-    }
-    
-    return products; 
-  } catch (error) {
-    console.error('Error sincronizando la base de datos local:', error);
+export const fetchProducts = async (db: SQLiteDatabase): Promise<Product[]> => {
+  const state = await NetInfo.fetch();
+  if (!state.isConnected) {
+    console.warn(
+      "No hay conexión a Internet. Recuperando productos de la base de datos local."
+    );
+    const products = await getProducts(db);
+    return products;
   }
+
+  const response = await APIInstance.get("/products");
+  const products = response.data.data as Product[];
+
+  for (const product of products) {
+    await saveProduct(db, product);
+  }
+
+  return products;
 };
 
 export const fetchProductSearch = async (query: string): Promise<Product[]> => {
-  return APIInstance.get(`/products/${query}`).then((response: AxiosResponse) => {
-    const data = response.data;
-    return data.data;
-  });
-}
+  return APIInstance.get(`/products/${query}`).then(
+    (response: AxiosResponse) => {
+      const data = response.data;
+      return data.data;
+    }
+  );
+};
 
-export const getProfile = async () => {
+export const getProfile = async (db: SQLiteDatabase) => {
   try {
-    const response = await APIInstance.get("/profile", {
-      headers: {
-        "Authorization": `Bearer ${await getSecuredItem("ACCESS_TOKEN")}`, 
-      },
-    });
-    console.log("user:", response.data.data); 
-    await saveUserData(response.data.data);
-
-    return response.data.data; 
+    const response = await APIInstance.get("/profile");
+    console.log("user:", response.data.data);
+    await saveUserData(db, response.data.data);
+    return response.data.data;
   } catch (error) {
     console.error("Failed to fetch user profile:", error);
-    return null; 
+    return null;
   }
 };
 
@@ -59,12 +51,12 @@ export const updateProfile = async (body: any) => {
   try {
     const response = await APIInstance.put("/profile", body, {
       headers: {
-        "Authorization": `Bearer ${await getSecuredItem("ACCESS_TOKEN")}`, 
+        Authorization: `Bearer ${await getSecuredItem("ACCESS_TOKEN")}`,
       },
     });
-    return response.data.data; 
+    return response.data.data;
   } catch (error) {
     console.error("Failed updating user:", error);
-    return null; 
+    return null;
   }
 };
