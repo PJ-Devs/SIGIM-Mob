@@ -51,6 +51,8 @@ export default function Profile(): JSX.Element {
     }
   };
 
+  //unused
+  
   return (
     <Layout canGoBack = {false}>
       <Modal
