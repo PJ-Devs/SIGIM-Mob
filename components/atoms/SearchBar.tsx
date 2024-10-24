@@ -37,7 +37,6 @@ export default function SearchBar({
       <Icon name="search1" size={20} color="#888"  />
       <TextInput
         autoCorrect={false}
-        autoFocus
         placeholder="Search"
         placeholderTextColor="secondary"
         value={query}
