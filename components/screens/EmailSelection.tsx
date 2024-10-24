@@ -47,13 +47,6 @@ export default function EmailSelection() {
               placeholder="Correo Electronico"
               propertyName="email"
               trigger={trigger}
-              rules={{
-                required: "Este campo es requerido",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: "Ingresa un correo electrónico válido",
-                },
-              }}
             />
           </View>
           <CustomButton

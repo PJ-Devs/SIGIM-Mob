@@ -10,13 +10,15 @@ import AccountMenu from "../molecules/AccountMenu";
 import { useIsFocused } from '@react-navigation/native';
 import {  getProfile } from "../../lib/api/api.fetch";
 import Toast from 'react-native-toast-message';
+import { useSQLiteContext } from "expo-sqlite";
 
 export default function Profile(): JSX.Element {
+  const db = useSQLiteContext();
   const { onLogout } = useAuth();
   const isFocused = useIsFocused();
   const [modalVisible, setModalVisible] = useState(false);
   const [userProfile, setUserProfile] = useState<User>({
-    id: 0,
+    id: "",
     email: "",
     name: "",
     role: {
@@ -26,11 +28,9 @@ export default function Profile(): JSX.Element {
   });
 
   useEffect(() => {
-   
     const fetchProfile = async () => {
       try {
-        const profileData = await getProfile();
-        console.log("Profile data", profileData);
+        const profileData = await getProfile(db);
         setUserProfile(profileData);
       } catch (error) {
         console.log("Error fetching user profile", error);
@@ -46,8 +46,7 @@ export default function Profile(): JSX.Element {
         router.push("/login");
       });
     } catch (error) {
-      console.log("Error al cerrar sesión");
-      console.log(error);
+      console.log("Error al cerrar sesión", error);
     }
   };
 
