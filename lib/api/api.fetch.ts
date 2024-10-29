@@ -68,3 +68,30 @@ export const updateProfile = async (body: any) => {
     return null; 
   }
 };
+
+export const getEnterprise = async () => {
+  try {
+    const response = await APIInstance.get("/enterprise", {
+      headers: {
+        "Authorization": `Bearer ${await getSecuredItem("ACCESS_TOKEN")}`, 
+      },
+    });
+    const enterprise = response.data.data;
+    return enterprise;
+  } catch(error){
+    console.error("Failed to fetch enterprise id:", error); 
+    return null;
+  }
+}
+
+export const deleteEnterprise = async () =>{
+  try{
+    const enterprise = await getEnterprise()
+    const id = enterprise.id
+    const response = await APIInstance.delete(`/enterprises/${id}`);
+    return response.data.data;
+  } catch(error){
+    console.error("Failed to delete enterprise:", error);
+    return null;
+  }
+}
