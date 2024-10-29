@@ -10,6 +10,7 @@ import AccountMenu from "../molecules/AccountMenu";
 import { useIsFocused } from '@react-navigation/native';
 import {  getProfile } from "../../lib/api/api.fetch";
 import Toast from 'react-native-toast-message';
+import { deleteEnterprise } from "../../lib/api/api.fetch";
 
 export default function Profile(): JSX.Element {
   const { onLogout } = useAuth();
@@ -26,7 +27,7 @@ export default function Profile(): JSX.Element {
   });
 
   useEffect(() => {
-   
+
     const fetchProfile = async () => {
       try {
         const profileData = await getProfile();
@@ -37,7 +38,8 @@ export default function Profile(): JSX.Element {
       }
     };
     if (isFocused) {
-    fetchProfile();}
+    fetchProfile();
+  }
   }, [isFocused]);
 
   const handleLogout = async (data: any) => {
@@ -50,6 +52,16 @@ export default function Profile(): JSX.Element {
       console.log(error);
     }
   };
+
+  const enterpriseDeleting = async () => {
+    try {
+      await deleteEnterprise();
+    } catch (error) {
+      console.log("Error al eliminar empresa");
+      console.log(error);
+    }
+  };
+
 
   return (
     <Layout canGoBack = {false}>
@@ -88,9 +100,7 @@ export default function Profile(): JSX.Element {
                   icon="exclamation-triangle"
                   title="Si, eliminar"
                   onPress={() => {
-                    /* Toda la lógica de eliminar la empresa
-                    cuando Manuel tenga lista la función
-                    */
+                    enterpriseDeleting();
                     setModalVisible(false);
                     router.push("/login");
                   }}
@@ -125,7 +135,7 @@ export default function Profile(): JSX.Element {
 
      <AccountMenu/>
 
-      <View className="flex-col justify-center" style={{ gap: 10 }}>
+      <View className="flex-col justify-center mb-16" style={{ gap: 10 }}>
         <CustomButton
           type="error"
           icon="exclamation-triangle"
