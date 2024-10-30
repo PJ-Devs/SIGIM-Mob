@@ -64,7 +64,7 @@ export const saveProduct = async (product: Product): Promise<void> => {
       product.supplier_id
     ]);
     
-    console.log('Producto guardado localmente:', result);
+    // console.log('Producto guardado localmente:', result);
   } catch (error) {
     console.error('Error al guardar producto:', error);
   }
@@ -96,7 +96,7 @@ export const saveUserData = async (user: User): Promise<void> => {
 export const getProducts = async (callback: (products: Product[]) => void): Promise<void> => {
   const query = 'SELECT * FROM products';
   await initializeDB(); 
-  const results = await db.getAllAsync<Product>(query);
+  const results = await db.getAllAsync(query);
   callback(results);
 };
 
@@ -117,7 +117,7 @@ export const getOfflineToken = async (): Promise<string | null> => {
   
   await initializeDB(); 
   
-  const resultSet = await db.getAllAsync<{ token: string }>(query);
+  const resultSet = await db.getAllAsync(query);
   if (resultSet.length > 0) {
     return resultSet[0].token;
   }
