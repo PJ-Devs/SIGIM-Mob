@@ -10,6 +10,7 @@ export const fetchProducts = async (): Promise<Product[]> => {
     const state = await NetInfo.fetch();
 
     if (!state.isConnected) {
+      console.log(1)
       console.warn('No hay conexión a Internet. Recuperando productos de la base de datos local.');
       return new Promise((resolve, reject) => {
         getProducts((products: Product[]) => {
