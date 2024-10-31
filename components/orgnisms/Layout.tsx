@@ -5,12 +5,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import CustomButton from "../atoms/CustomButton";
 import { SIZES } from "../../utils/consts";
-import { getEnterprise } from "../../lib/api/api.fetch";
 import { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface LayoutProps {
   includeHeader?: boolean;
   includeSearch?: boolean;
+  includeProfile?: boolean;
   canGoBack?: boolean;
   onSearch?: (query: string) => void;
   children: React.ReactNode;
@@ -20,22 +21,30 @@ export default function Layout({
   includeHeader = true,
   includeSearch = false,
   canGoBack = true,
+  includeProfile = true,
   onSearch,
   children,
 }: LayoutProps) {
   const [enterprise, setEnterprise] = useState<string>("");
 
   useEffect(() => {
-    const fetchEnterpriseName = async () => {
+    const getEnterpriseInfo = async () => {
       try {
-        const enterpriseData = await getEnterprise();
-        setEnterprise(enterpriseData.name);
+        const enterpriseData = await AsyncStorage.getItem("enterprise");
+
+        if (enterpriseData !== null) {
+          const enterprise = JSON.parse(enterpriseData) 
+          setEnterprise(enterprise.name);
+          return;
+        }
+
+        setEnterprise("");
       } catch (error) {
-        console.error("Failed to fetch enterprise name:", error);
+        console.error("Failed to retrieve enterprise data:", error);
+        return null;
       }
     };
-
-    fetchEnterpriseName();
+    getEnterpriseInfo();
   }, []);
 
   return (

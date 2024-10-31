@@ -10,10 +10,22 @@ import { restorePassword } from "../../lib/api/api.auth";
 import { AxiosResponse } from "axios";
 import Toast from "react-native-toast-message";
 import { useState } from "react";
+import * as z from "zod";
 
 export default function ResetPassword() {
   const [loading, setLoading] = useState<boolean>(false);
-  const { control, handleSubmit } = useForm();
+  const {
+    handleSubmit,
+    control,
+    trigger,
+    formState: { errors },
+  } = useForm<FormFields>({
+    mode: "onBlur",
+    reValidateMode: "onBlur",
+    resolver: zodResolver(resetPasswordSchema),
+  });
+    
+  type FormFields = z.infer<typeof resetPasswordSchema>;
 
   const handlePasswordReset = async (data: any) => {
     try {
@@ -63,8 +75,7 @@ export default function ResetPassword() {
           </Text>
           <Text className="text-gray-600 text-center">
             Al restablecer su contraseña, su cuenta estará protegida. No
-            comparta esta con nadie para mantener la seguridad de su
-            cuenta.
+            comparta esta con nadie para mantener la seguridad de su cuenta.
           </Text>
         </View>
         <View className="py-4" style={{ gap: 10 }}>
@@ -73,12 +84,16 @@ export default function ResetPassword() {
             control={control}
             secureTextEntry={true}
             placeholder="Contraseña"
+            errors={errors}
+            trigger={trigger}
           />
           <CustomInput
             propertyName="confirm_password"
             control={control}
             secureTextEntry={true}
             placeholder="Confirmar contraseña"
+            errors={errors}
+            trigger={trigger}
           />
         </View>
         <CustomButton

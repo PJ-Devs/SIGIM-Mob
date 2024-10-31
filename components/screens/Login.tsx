@@ -10,6 +10,8 @@ import {
 import Layout from "../orgnisms/Layout";
 import CustomInput from "../atoms/CustomInput";
 import CustomButton from "../atoms/CustomButton";
+import { getEnterprise } from "../../lib/api/api.fetch";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from "react";
 import { router } from "expo-router";
 import { useForm } from "react-hook-form";
@@ -17,11 +19,15 @@ import { useAuth } from "../../contexts/AuthContext";
 import Toast from "react-native-toast-message";
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import { LoginSchema } from "../../lib/schemas/auth";
 
 export default function Login(): JSX.Element {
+
   const specialCharacters = /[!@#$%^&*(),.?":{}|<>]/;
+
   const schema = z.object({
-    email: z.string({ message: "El correo es obligatorio." })
+    email: z
+      .string({ message: "El correo es obligatorio." })
       .email({ message: "El correo electrónico no es válido." })
       .min(1, { message: "El correo es obligatorio." }),
   
@@ -29,9 +35,9 @@ export default function Login(): JSX.Element {
       .regex(/^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]*$/, { message: "La contraseña solo puede contener caracteres alfanuméricos y caracteres especiales válidos." })
       .min(8, { message: "La contraseña debe tener al menos 8 caracteres." })
       .refine(val => !val.includes('ñ'), { message: "La contraseña no puede contener la letra 'ñ'." })
-      .refine(val => specialCharacters.test(val), { message: "La contraseña debe contener al menos un carácter especial válido." })
+      /* .refine(val => specialCharacters.test(val), { message: "La contraseña debe contener al menos un carácter especial válido." }), */
   });
-  
+
   type FormFields = z.infer<typeof schema>;
 
   const [loading, setLoading] = useState(false);
@@ -44,8 +50,18 @@ export default function Login(): JSX.Element {
   } = useForm<FormFields>({
     mode: "onBlur",
     reValidateMode: "onBlur",
-    resolver: zodResolver(schema),
+    resolver: zodResolver(LoginSchema),
   });
+
+  const fetchEnterpriseInfo = async () => {
+    try {
+      const enterpriseData = await getEnterprise();
+      await AsyncStorage.setItem("enterprise", JSON.stringify(enterpriseData));
+      console.log("Enterprise", enterpriseData);
+    } catch (error) {
+      console.error("Failed to fetch enterprise name:", error);
+    }
+  };
 
   const handleLogin = async (data: any) => {
     if (!onLogin) {
@@ -54,6 +70,7 @@ export default function Login(): JSX.Element {
 
     setLoading(true);
     const result = await onLogin!(data);
+    await fetchEnterpriseInfo();
     setLoading(false);
 
     if (!result?.err) {
@@ -96,7 +113,9 @@ export default function Login(): JSX.Element {
                     errors={errors}
                     trigger={trigger}
                   />
-                  <Pressable onPress={() => router.push('/password-reset/email')}>
+                  <Pressable
+                    onPress={() => router.push("/password-reset/email")}
+                  >
                     <Text className={anchorContainer}>
                       Olvidaste tu contraseña?{" "}
                       <Text className="text-blue-500">Recuperar</Text>

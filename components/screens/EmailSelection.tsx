@@ -9,9 +9,28 @@ import { textStyles } from "../../tokens";
 import { requestPasswordResetOTP } from "../../lib/api/api.auth";
 import { setItem } from "../../utils/secureStore";
 import Toast from "react-native-toast-message";
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 
 export default function EmailSelection() {
-  const { control, trigger, handleSubmit } = useForm();
+
+  const schema = z.object({
+    email: z.string({ message: "El correo es obligatorio." })
+      .email({ message: "El correo electrónico no es válido." })
+      .min(1, { message: "El correo es obligatorio." }),
+  });
+  type FormFields = z.infer<typeof schema>;
+
+  const {
+    handleSubmit,
+    control,
+    trigger,
+    formState: { errors },
+  } = useForm<FormFields>({
+    mode: "onBlur",
+    reValidateMode: "onBlur",
+    resolver: zodResolver(schema),
+  });
   const [loading, setLoading] = useState(false);
 
   const handleSendAuthCode = async (data: any) => {
@@ -57,6 +76,7 @@ export default function EmailSelection() {
               placeholder="Correo Electronico"
               propertyName="email"
               trigger={trigger}
+              errors={errors}
             />
           </View>
           <CustomButton
