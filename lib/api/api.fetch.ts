@@ -35,11 +35,10 @@ export const fetchProductSearch = async (query: string): Promise<Product[]> => {
   );
 };
 
-export const getProfile = async (db: SQLiteDatabase) => {
+export const getProfile = async () => {
   try {
     const response = await APIInstance.get("/profile");
     console.log("user:", response.data.data);
-    await saveUserData(db, response.data.data);
     return response.data.data;
   } catch (error) {
     console.error("Failed to fetch user profile:", error);
@@ -48,15 +47,9 @@ export const getProfile = async (db: SQLiteDatabase) => {
 };
 
 export const updateProfile = async (body: any) => {
-  try {
-    const response = await APIInstance.put("/profile", body, {
-      headers: {
-        Authorization: `Bearer ${await getSecuredItem("ACCESS_TOKEN")}`,
-      },
-    });
-    return response.data.data;
-  } catch (error) {
-    console.error("Failed updating user:", error);
-    return null;
-  }
+  return APIInstance.put("/profile", body).then(
+    (response: AxiosResponse) => {
+      return response.data;
+    }
+  );
 };

@@ -2,12 +2,9 @@ import { Stack } from "expo-router";
 import { useAuth } from "../../contexts/AuthContext";
 import { View } from "react-native";
 import LottieView from "lottie-react-native";
-import { useSQLiteContext } from "expo-sqlite";
-import { getProducts } from "../../lib/sqlite";
 
 export default function AppLayout(): JSX.Element {
   const { loading } = useAuth();
-  const db = useSQLiteContext();
 
   if (loading) {
     return (

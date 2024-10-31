@@ -63,19 +63,13 @@ export const saveUserData = async (db: SQLite.SQLiteDatabase, user: User): Promi
        name, email
     ) VALUES (?, ?);
   `;
-
-  try {
-    await db.withTransactionAsync(async () => {
       const result = await db.runAsync(query, [user.name, user.email]);
 
       console.log(
         "Información del usuario guardada localmente:",
         result.changes
       );
-    });
-  } catch (error) {
-    console.error("Error al guardar usuario:", error);
-  }
+  
 };
 
 export const getProducts = async (db: SQLite.SQLiteDatabase): Promise<Product[]> => {

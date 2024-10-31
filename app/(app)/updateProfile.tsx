@@ -3,7 +3,7 @@ import Layout from "../../components/orgnisms/Layout";
 
 export default function () {
   return (
-    <Layout includeHeader>
+    <Layout canGoBack={false}>
       <UpdateProfileForm />
     </Layout>
   );

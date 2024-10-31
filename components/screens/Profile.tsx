@@ -62,7 +62,7 @@ export default function Profile(): JSX.Element {
           setModalVisible(!modalVisible);
         }}
       >
-        <View className="bg-slate-100 p-4" style={{ flex: 1 }}>
+        <View className="bg-slate-100 p-4">
           <View
             className="justify-center items-center"
             style={{ flex: 1, zIndex: 999 }}
@@ -126,7 +126,7 @@ export default function Profile(): JSX.Element {
 
      <AccountMenu/>
 
-      <View className="flex-col justify-center" style={{ gap: 10 }}>
+      <View className="flex-col justify-center p-4" style={{ gap: 10 }}>
         <CustomButton
           type="error"
           icon="exclamation-triangle"

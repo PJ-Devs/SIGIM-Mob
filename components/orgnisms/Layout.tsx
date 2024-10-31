@@ -26,11 +26,12 @@ export default function Layout({
     <SafeAreaView
     className={`flex-1`}
     style={{
-      width: SIZES.width * 0.85,
+      width: SIZES.width,
       minHeight: SIZES.height * 0.85,
+      justifyContent: 'center'
     }}
     >
-      <View className="py-1">
+      <View className="py-2">
         {includeHeader && <Header enterpriseName="La empresita" />}
         {includeSearch && onSearch && (
           <View>
@@ -39,14 +40,14 @@ export default function Layout({
         )}
       </View>
       {(router.canGoBack() && canGoBack) && (
-        <CustomButton
+          <CustomButton
           type="icon"
           icon="arrow-left"
           iconSize={20}
           onPress={() => {
             router.back();
           }}
-          style="absolute top-16 p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md"
+          style="absolute top-16 left-4 p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md"
         />
       )}
       {children}
