@@ -34,7 +34,7 @@ export default function Login(): JSX.Element {
       .regex(/^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]*$/, { message: "La contraseña solo puede contener caracteres alfanuméricos y caracteres especiales válidos." })
       .min(8, { message: "La contraseña debe tener al menos 8 caracteres." })
       .refine(val => !val.includes('ñ'), { message: "La contraseña no puede contener la letra 'ñ'." })
-      .refine(val => specialCharacters.test(val), { message: "La contraseña debe contener al menos un carácter especial válido." }),
+      /* .refine(val => specialCharacters.test(val), { message: "La contraseña debe contener al menos un carácter especial válido." }), */
   });
 
   type FormFields = z.infer<typeof schema>;

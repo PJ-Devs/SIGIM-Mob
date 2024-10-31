@@ -3,13 +3,18 @@ import CustomButton from "../atoms/CustomButton";
 import { Link, router } from "expo-router";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useAuth } from "../../contexts/AuthContext";
+import { useNavigationState } from "@react-navigation/native";
 
 interface props {
   enterpriseName: string;
+  includeProfile?: boolean;
 }
 
 export default function Header({ enterpriseName }: props): JSX.Element {
   const { authState } = useAuth();
+  const isProfileScreen = useNavigationState(
+    (state) => state.routes[state.index].name === "profile"
+  );
 
   return (
     <View className="flex-row justify-between items-center bg-white w-full pb-2 px-2">
@@ -38,6 +43,9 @@ export default function Header({ enterpriseName }: props): JSX.Element {
           icon="user"
           iconSize={20}
           onPress={() => {
+            if (isProfileScreen) {
+              return;
+            }
             router.push("/profile");
           }}
           style="p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md"
