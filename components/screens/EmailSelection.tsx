@@ -8,6 +8,7 @@ import Layout from "../orgnisms/Layout";
 import { textStyles } from "../../tokens";
 import { requestPasswordResetOTP } from "../../lib/api/api.auth";
 import { setItem } from "../../utils/secureStore";
+import Toast from "react-native-toast-message";
 
 export default function EmailSelection() {
   const { control, trigger, handleSubmit } = useForm();
@@ -18,6 +19,15 @@ export default function EmailSelection() {
       setLoading(true);
       const response = await requestPasswordResetOTP(data);
       if (response) {
+        Toast.show({
+          type: "success",
+          text1: "Código de verificación enviado",
+          visibilityTime: 3000,
+          swipeable: true,
+          text1Style: { fontSize: 16 },
+          text2Style: { fontSize: 14 },
+          topOffset: 60,
+        });
         setItem("email", data.email);
         router.push("/password-reset/verify-otp");
       }

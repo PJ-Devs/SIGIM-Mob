@@ -57,7 +57,7 @@ export default function Login(): JSX.Element {
     setLoading(false);
 
     if (!result?.err) {
-      router.push("/");
+      router.replace("/");
     }
   };
 

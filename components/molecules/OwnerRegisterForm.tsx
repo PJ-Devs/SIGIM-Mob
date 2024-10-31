@@ -36,7 +36,7 @@ export default function RegisterOwnerForm({
   };
 
   return (
-      <View>
+      <View className="h-screen justify-center relative bottom-10">
             <Text className="text-center text-xl font-semibold">
               Añade tus datos como dueño de la empresa
             </Text>
@@ -57,10 +57,19 @@ export default function RegisterOwnerForm({
               <CustomInput
                 placeholder="Contraseña"
                 propertyName="owner_password"
+                secureTextEntry={true}
                 control={control}
                 errors={errors}
                 trigger={trigger}
               />
+              {/* <CustomInput
+                placeholder="Contraseña"
+                propertyName="owner_password"
+                secureTextEntry={true}
+                control={control}
+                errors={errors}
+                trigger={trigger}
+              /> */}
             </View>
         <CustomButton
           type="primary"

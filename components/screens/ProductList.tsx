@@ -12,14 +12,25 @@ import { useSQLiteContext } from "expo-sqlite";
 export default function ProductList() {
   const db = useSQLiteContext();
   const [products, setProducts] = useState<Product[]>([]);
+  const [queryProducts, setQueryProducts] = useState<Product[]>([]);
+  const [query, setQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   const onSearch = async (query: string) => {
     setLoading(true);
-    const fetchedProducts = await fetchProductSearch(query).finally(() => {
-      setLoading(false);
-    });
-    setProducts(fetchedProducts);
+    // const fetchedProducts = await fetchProductSearch(query).finally(() => {
+    //   setLoading(false);
+    // });
+
+    const qProducts = products.filter((product) => {
+      return product.name.toLowerCase().includes(query.toLowerCase())
+    })
+
+    setQueryProducts(qProducts);
+    setQuery(query);
+    setLoading(false);  
+
+    // setProducts(fetchedProducts);
   };
 
   useEffect(() => {
@@ -43,7 +54,7 @@ export default function ProductList() {
         <View style = {{flex:1}}>
           <CategoriesCarrousel />
           <FlatList
-            data={products}
+            data={query ? queryProducts : products}
             keyExtractor={(item) => item.id!.toString()}
             renderItem={({ item }) => (
               <View className="flex items-center my-2 w-full px-1.5">
