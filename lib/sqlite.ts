@@ -50,8 +50,6 @@ export const saveProduct = async (db: SQLite.SQLiteDatabase, product: Product): 
       product.category_id,
       product.supplier_id,
     ]);
-    
-     console.log('Producto guardado localmente:', result);
   } catch (error) {
     console.error("Error al guardar producto:", error);
   }
@@ -64,11 +62,6 @@ export const saveUserData = async (db: SQLite.SQLiteDatabase, user: User): Promi
     ) VALUES (?, ?);
   `;
       const result = await db.runAsync(query, [user.name, user.email]);
-
-      console.log(
-        "Información del usuario guardada localmente:",
-        result.changes
-      );
   
 };
 
