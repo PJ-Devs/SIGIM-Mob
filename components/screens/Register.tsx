@@ -2,7 +2,7 @@ import RegisterEnterpriseForm from "../molecules/EnterpriseRegisterForm";
 import Layout from "../orgnisms/Layout";
 import { useState } from "react";
 import RegisterOwnerForm from "../molecules/OwnerRegisterForm";
-import { Pressable, Text } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import { router } from "expo-router";
@@ -12,6 +12,7 @@ import * as z from 'zod';
 export default function Register(): JSX.Element {
   const [currentStep, setCurrentStep] = useState(1);
   const { onRegister } = useAuth();
+  const specialCharacters = /[!@#$%^&*(),.?":{}|<>]/;
 
   const schema = z.object({
     enterprise_email: z.string({ message: "El correo es obligatorio." })
@@ -27,13 +28,12 @@ export default function Register(): JSX.Element {
     enterprise_NIT: z.string({ message: "El NIT de la empresa es obligatorio." })
       .min(1, { message: "El NIT de la empresa es obligatorio." }),
 
-    owner_password: z.string({ message: "Este campo es obligatorio." })
-      .min(8, { message: "La contraseña debe tener al menos 8 caracteres." })
-      .regex(/^[^ñ]*$/, { message: "La contraseña no debe contener la letra 'ñ'." })
-      .regex(/[A-Z]/, { message: "La contraseña debe contener al menos una letra mayúscula." })
-      .regex(/[a-z]/, { message: "La contraseña debe contener al menos una letra minúscula." })
-      .regex(/\d/, { message: "La contraseña debe contener al menos un número." }),
-    owner_name: z.string()
+    owner_password:z.string({ message: "Este campo es obligatorio" })
+    .regex(/^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]*$/, { message: "La contraseña solo puede contener caracteres alfanuméricos y caracteres especiales válidos." })
+    .min(8, { message: "La contraseña debe tener al menos 8 caracteres." })
+    .refine(val => !val.includes('ñ'), { message: "La contraseña no puede contener la letra 'ñ'." })
+    .refine(val => specialCharacters.test(val), { message: "La contraseña debe contener al menos un carácter especial válido." }),
+    owner_name: z.string({ message: "El nombre del propietario es obligatorio." })
       .min(1, { message: "El nombre del propietario es obligatorio." })
       .max(100, { message: "El nombre del propietario no debe exceder 100 caracteres." }),
   
@@ -79,13 +79,7 @@ export default function Register(): JSX.Element {
   
     if (isValid) {
       setCurrentStep((prev) => prev + 1); 
-    } else {
-      Toast.show({
-        type: 'error',
-        text1: 'Error',
-        text2: 'Por favor, corrige los errores antes de continuar.',
-      });
-    }
+    } 
   };
 
   const goToPreviousStep = () => {
@@ -94,6 +88,7 @@ export default function Register(): JSX.Element {
 
   return (
     <Layout includeHeader={false}>
+      <View className="px-5">
       {currentStep === 1 && (
         <RegisterEnterpriseForm 
           control={control}
@@ -120,6 +115,7 @@ export default function Register(): JSX.Element {
       )}
 
       <Toast />
+      </View>
     </Layout>
   );
 }

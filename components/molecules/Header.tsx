@@ -12,7 +12,7 @@ export default function Header({ enterpriseName }: props): JSX.Element {
   const { authState } = useAuth();
 
   return (
-    <View className="flex-row justify-between items-center bg-white w-full pb-2">
+    <View className="flex-row justify-between items-center bg-white w-full pb-2 px-2">
       <CustomButton
         type="icon"
         icon={router.canGoBack() ? "arrow-left" : "bars"}
@@ -24,7 +24,7 @@ export default function Header({ enterpriseName }: props): JSX.Element {
             router.navigate("/");
           }
         }}
-        style="p-2.5 rounded-full border-[1px] border-solid border-dark z-10 shadow-md"
+        style="p-2.5 rounded-full border-[1px] border-solid border-dark z-10 shadow-md hideen"
       />
       <Link href={"/"}>
         <View className="flex-row items-center gap-x-2">

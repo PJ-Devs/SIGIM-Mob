@@ -36,7 +36,7 @@ export default function RegisterOwnerForm({
   };
 
   return (
-      <View className="flex-1 justify-center w-full h-full">
+      <View>
             <Text className="text-center text-xl font-semibold">
               Añade tus datos como dueño de la empresa
             </Text>

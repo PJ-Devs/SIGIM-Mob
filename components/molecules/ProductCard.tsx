@@ -3,6 +3,7 @@ import Icon from "@expo/vector-icons/AntDesign";
 import { useState } from "react";
 import { Product } from "../../types/products";
 import LottieView from "lottie-react-native";
+import { SIZES } from "../../utils/consts";
 
 interface ProductCardProps {
   product: Product;
@@ -16,7 +17,7 @@ export default function ProductCard({
   onPress,
 }: ProductCardProps): JSX.Element {
   const [isFav, setIsFav] = useState<boolean>(isFavorite);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const handleFavorite = () => {
     setIsFav(!isFav);
@@ -34,23 +35,24 @@ export default function ProductCard({
           loop
           speed={1.5}
           resizeMode="cover"
-          className={`w-1/3`}
+          style={{ width: "33%", zIndex: 1 }}
         />
       )}
       <Image
         alt="Product Image"
-        className={`w-1/3 ${loading ? "hidden" : "block"}`}
+        resizeMode="contain"
+        className="w-1/3 h-30"
         source={{
-          uri: product.thumbnail,
+          uri: `${process.env.EXPO_PUBLIC_SERVER_URL}/${product.thumbnail}`,
         }}
-        onLoadStart={() => setLoading(true)}
         onLoadEnd={() => setLoading(false)}
+        onError={() => setLoading(false)}
       />
 
       <View className="w-2/3 pl-2 pr-3">
         <View className="flex-row justify-between items-center gap-x-2 mb-1">
           <Text className="font-semibold shrink grow">{product.name}</Text>
-          <Pressable onPress={() => handleFavorite()}>
+          <Pressable onPress={handleFavorite}>
             {isFav ? (
               <Icon name="heart" size={22} color="red" />
             ) : (
@@ -58,10 +60,10 @@ export default function ProductCard({
             )}
           </Pressable>
         </View>
-        <Text>{`Categoria: ${product.category}`}</Text>
-        <Text>{`Marca: ${product.brand || 'no disponible'}`}</Text>
+        <Text>{`Categoria:`}</Text>
+        <Text>{`Marca:`}</Text>
         <Text>{`Cantidad: ${product.stock}`}</Text>
-        <Text className="font-semibold text-green-600 text-right mt-2">{`$${product.price}`}</Text>
+        <Text className="font-semibold text-green-600 text-right mt-2">{`$${product.sale_price}`}</Text>
       </View>
     </Pressable>
   );

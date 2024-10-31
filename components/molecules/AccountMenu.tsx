@@ -24,13 +24,13 @@ const DATA = [
 
 export default function AccountMenu() {
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="p-4">
       <SectionList
         sections={DATA}
         keyExtractor={(item, index) => item.name + index}
         renderItem={({ item }) => (
           <View
-            className={`p-5 my-2 ${
+            className={`p-5 my-2 rounded ${
               item.available ? "bg-blue-400" : "bg-gray-300"
             }`}
           >

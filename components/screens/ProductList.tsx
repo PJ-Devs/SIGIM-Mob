@@ -6,9 +6,11 @@ import Layout from "../orgnisms/Layout";
 import { fetchProducts, fetchProductSearch } from "../../lib/api/api.fetch";
 import Loading from "../molecules/Loading";
 import CategoriesCarrousel from "../orgnisms/CategoriesCarrousel";
-import Toast from "react-native-toast-message";
+import Toast from 'react-native-toast-message';
+import { useSQLiteContext } from "expo-sqlite";
 
 export default function ProductList() {
+  const db = useSQLiteContext();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -23,10 +25,10 @@ export default function ProductList() {
   useEffect(() => {
     const loadProducts = async () => {
       setLoading(true);
-      const fetchedProducts = await fetchProducts().finally(() => {
+      const fetchedProducts = await fetchProducts(db)
+      .finally(() => {
         setLoading(false);
       });
-      console.log(fetchedProducts);
       setProducts(fetchedProducts);
     };
 
@@ -42,7 +44,7 @@ export default function ProductList() {
           <CategoriesCarrousel />
           <FlatList
             data={products}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item.id!.toString()}
             renderItem={({ item }) => (
               <View className="flex items-center my-2 w-full px-1.5">
                 <ProductCard product={item} />
@@ -56,7 +58,7 @@ export default function ProductList() {
           />
         </View>
       )}
-      <Toast></Toast>
+      <Toast />
     </Layout>
   );
 }
