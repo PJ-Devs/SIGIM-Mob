@@ -3,14 +3,15 @@ import CustomInput from "../atoms/CustomInput";
 import { useForm } from "react-hook-form";
 import CustomButton from "../atoms/CustomButton";
 import Toast from "react-native-toast-message";
-import { updateProfile } from "../../lib/api/api.fetch";
 import { useState, useEffect } from "react";
 import { User } from "../../types/products";
-import { getProfile } from "../../lib/api/api.fetch";
+import { getProfile , updateProfile} from "../../lib/api/api.fetch";
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 
 function UpdateProfileForm() {
   const [userProfile, setUserProfile] = useState<User>({
-    id: 0,
+    id: "",
     email: "",
     name: "",
     role: {
@@ -18,6 +19,14 @@ function UpdateProfileForm() {
       name: "",
     },
   });
+
+  const schema = z.object({
+    email: z.optional(z.string()
+    .email({ message: "El correo electrónico no es válido." })
+  )});
+
+  type FormFields = z.infer<typeof schema>;
+  
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -35,16 +44,18 @@ function UpdateProfileForm() {
     control,
     trigger,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormFields>({
+    mode: "onBlur",
+    reValidateMode: "onBlur",
+    resolver: zodResolver(schema),
+  });
   const handleProfileUpdate = async (data: any) => {
     try {
-      data = await updateProfile(data);
+       await updateProfile(data);
       Toast.show({
         type: "success",
         text1: "Perfil actualizado",
-        position: "top",
-        visibilityTime: 1000,
-        topOffset: 10,
+        text2: "Tu perfil ha sido actualizado exitosamente",
       });
     } catch (error: any) {
       Toast.show({
@@ -56,7 +67,7 @@ function UpdateProfileForm() {
   };
 
   return (
-    <View className="flex-col mt-8" style={{ gap: 15 }}>
+    <View className="flex-col mt-8 h-[80%] justify-center px-4" style={{ gap: 15 }}>
       <Text className="font-bold text-xl text-blue-400">
         {"Cambia tu información"}
       </Text>
@@ -70,12 +81,6 @@ function UpdateProfileForm() {
         placeholder={userProfile.email || "Correo electronico"}
         control={control}
         trigger={trigger}
-        rules={{
-          pattern: {
-            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-            message: "Ingresa un correo electrónico válido",
-          },
-        }}
       />
       <CustomButton
         onPress={handleSubmit(handleProfileUpdate)}

@@ -19,15 +19,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 
 export default function Login(): JSX.Element {
-
-  
+  const specialCharacters = /[!@#$%^&*(),.?":{}|<>]/;
   const schema = z.object({
     email: z.string({ message: "El correo es obligatorio." })
       .email({ message: "El correo electrónico no es válido." })
       .min(1, { message: "El correo es obligatorio." }),
-    
+  
     password: z.string({ message: "Este campo es obligatorio" })
-      .min(1, { message: "Este campo es obligatorio" })
+      .regex(/^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]*$/, { message: "La contraseña solo puede contener caracteres alfanuméricos y caracteres especiales válidos." })
+      .min(8, { message: "La contraseña debe tener al menos 8 caracteres." })
+      .refine(val => !val.includes('ñ'), { message: "La contraseña no puede contener la letra 'ñ'." })
+      .refine(val => specialCharacters.test(val), { message: "La contraseña debe contener al menos un carácter especial válido." })
   });
   
   type FormFields = z.infer<typeof schema>;
@@ -61,10 +63,9 @@ export default function Login(): JSX.Element {
 
   return (
     <Layout includeHeader={false} canGoBack={false}>
-      <View>
-        <View className="justify-center w-full h-full">
+        <View className="justify-center px-10 w-full h-full">
           <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
             keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
           >
             <ScrollView
@@ -123,7 +124,6 @@ export default function Login(): JSX.Element {
             </Text>
           </Pressable>
         </View>
-      </View>
       <Toast />
     </Layout>
   );

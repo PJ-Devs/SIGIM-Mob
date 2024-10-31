@@ -40,14 +40,15 @@ export default function Layout({
 
   return (
     <SafeAreaView
-      className={`flex-1`}
-      style={{
-        width: SIZES.width * 0.85,
-        minHeight: SIZES.height * 0.85,
-      }}
+    className={`flex-1`}
+    style={{
+      width: SIZES.width,
+      minHeight: SIZES.height * 0.85,
+      justifyContent: 'center'
+    }}
     >
-      <View className="py-1">
-        {includeHeader && <Header enterpriseName={enterprise} />}
+      <View className="py-2">
+        {includeHeader && <Header enterpriseName={enterprise}/>}
         {includeSearch && onSearch && (
           <View>
             <SearchBar onSearch={onSearch} />
@@ -62,7 +63,7 @@ export default function Layout({
           onPress={() => {
             router.back();
           }}
-          style="absolute top-16 p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md"
+          style="absolute top-16 left-4 p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md"
         />
       )}
       {children}

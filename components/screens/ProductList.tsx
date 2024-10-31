@@ -6,9 +6,11 @@ import Layout from "../orgnisms/Layout";
 import { fetchProducts, fetchProductSearch } from "../../lib/api/api.fetch";
 import Loading from "../molecules/Loading";
 import CategoriesCarrousel from "../orgnisms/CategoriesCarrousel";
-import Toast from "react-native-toast-message";
+import Toast from 'react-native-toast-message';
+import { useSQLiteContext } from "expo-sqlite";
 
 export default function ProductList() {
+  const db = useSQLiteContext();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -23,7 +25,8 @@ export default function ProductList() {
   useEffect(() => {
     const loadProducts = async () => {
       setLoading(true);
-      const fetchedProducts = await fetchProducts().finally(() => {
+      const fetchedProducts = await fetchProducts(db)
+      .finally(() => {
         setLoading(false);
       });
       setProducts(fetchedProducts);

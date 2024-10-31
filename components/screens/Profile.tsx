@@ -17,7 +17,7 @@ export default function Profile(): JSX.Element {
   const isFocused = useIsFocused();
   const [modalVisible, setModalVisible] = useState(false);
   const [userProfile, setUserProfile] = useState<User>({
-    id: 0,
+    id: "",
     email: "",
     name: "",
     role: {
@@ -27,11 +27,9 @@ export default function Profile(): JSX.Element {
   });
 
   useEffect(() => {
-
     const fetchProfile = async () => {
       try {
         const profileData = await getProfile();
-        console.log("Profile data", profileData);
         setUserProfile(profileData);
       } catch (error) {
         console.log("Error fetching user profile", error);
@@ -48,8 +46,7 @@ export default function Profile(): JSX.Element {
         router.push("/login");
       });
     } catch (error) {
-      console.log("Error al cerrar sesión");
-      console.log(error);
+      console.log("Error al cerrar sesión", error);
     }
   };
 
@@ -73,7 +70,7 @@ export default function Profile(): JSX.Element {
           setModalVisible(!modalVisible);
         }}
       >
-        <View className="bg-slate-100 p-4" style={{ flex: 1 }}>
+        <View className="bg-slate-100 p-4">
           <View
             className="justify-center items-center"
             style={{ flex: 1, zIndex: 999 }}
@@ -135,7 +132,7 @@ export default function Profile(): JSX.Element {
 
      <AccountMenu/>
 
-      <View className="flex-col justify-center mb-16" style={{ gap: 10 }}>
+      <View className="flex-col justify-center mb-16 px-4" style={{ gap: 10 }}>
         <CustomButton
           type="error"
           icon="exclamation-triangle"
