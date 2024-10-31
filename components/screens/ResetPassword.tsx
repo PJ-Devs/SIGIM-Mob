@@ -5,14 +5,28 @@ import { Text, View } from "react-native";
 import CustomInput from "../atoms/CustomInput";
 import CustomButton from "../atoms/CustomButton";
 import { router } from "expo-router";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { resetPasswordSchema } from "../../lib/schemas/reset_password";
+import * as z from "zod";
 
 export default function ResetPassword() {
   const { authState } = useAuth();
-  const { control } = useForm();
+  
 
-  const handlePasswordReset = async () => {
+  type FormFields = z.infer<typeof resetPasswordSchema>;
 
-  }
+  const {
+    handleSubmit,
+    control,
+    trigger,
+    formState: { errors },
+  } = useForm<FormFields>({
+    mode: "onBlur",
+    reValidateMode: "onBlur",
+    resolver: zodResolver(resetPasswordSchema),
+  });
+
+  const handlePasswordReset = async () => {};
 
   return (
     <Layout includeHeader={false}>
@@ -23,8 +37,7 @@ export default function ResetPassword() {
           </Text>
           <Text className="text-gray-600 text-center">
             Al restablecer su contraseña, su cuenta estará protegida. No
-            comparta esta con nadie para mantener la seguridad de su
-            cuenta.
+            comparta esta con nadie para mantener la seguridad de su cuenta.
           </Text>
         </View>
         <View className="py-4" style={{ gap: 10 }}>
@@ -33,12 +46,16 @@ export default function ResetPassword() {
             control={control}
             secureTextEntry={true}
             placeholder="Contraseña"
+            errors={errors}
+            trigger={trigger}
           />
           <CustomInput
-            propertyName="confirm-password"
+            propertyName="confirm_password"
             control={control}
             secureTextEntry={true}
             placeholder="Confirmar contraseña"
+            errors={errors}
+            trigger={trigger}
           />
         </View>
         <CustomButton

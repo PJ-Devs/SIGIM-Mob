@@ -17,8 +17,9 @@ import { router } from "expo-router";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import Toast from "react-native-toast-message";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { LoginSchema } from "../../lib/schemas/auth";
 
 export default function Login(): JSX.Element {
 
@@ -49,7 +50,7 @@ export default function Login(): JSX.Element {
   } = useForm<FormFields>({
     mode: "onBlur",
     reValidateMode: "onBlur",
-    resolver: zodResolver(schema),
+    resolver: zodResolver(LoginSchema),
   });
 
   const fetchEnterpriseInfo = async () => {
