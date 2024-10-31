@@ -6,24 +6,27 @@ import { saveProduct, getProducts, saveUserData } from "../sqlite";
 import NetInfo from "@react-native-community/netinfo";
 import { SQLiteDatabase } from "expo-sqlite";
 
-export const fetchProducts = async (db: SQLiteDatabase): Promise<Product[]> => {
-  const state = await NetInfo.fetch();
-  if (!state.isConnected) {
-    console.warn(
-      "No hay conexión a Internet. Recuperando productos de la base de datos local."
-    );
-    const products = await getProducts(db);
-    return products;
+export const fetchProducts = async (db:SQLiteDatabase): Promise<Product[]> => {
+  try {
+    const state = await NetInfo.fetch();
+
+    if (!state.isConnected) {
+      console.warn('No hay conexión a Internet. Recuperando productos de la base de datos local.');
+      return new Promise((resolve, reject) => {
+        getProducts(db)
+      });
+    }
+    const response: AxiosResponse = await APIInstance.get("/products");
+    const data = response.data;
+    const products: Product[] = data.data;
+    for (const product of products) {
+      await saveProduct(db, product);
+    }
+    
+    return products; 
+  } catch (error) {
+    console.error('Error sincronizando la base de datos local:', error);
   }
-
-  const response = await APIInstance.get("/products");
-  const products = response.data.data as Product[];
-
-  for (const product of products) {
-    await saveProduct(db, product);
-  }
-
-  return products;
 };
 
 export const fetchProductSearch = async (query: string): Promise<Product[]> => {
@@ -53,3 +56,30 @@ export const updateProfile = async (body: any) => {
     }
   );
 };
+
+export const getEnterprise = async () => {
+  try {
+    const response = await APIInstance.get("/enterprise", {
+      headers: {
+        "Authorization": `Bearer ${await getSecuredItem("ACCESS_TOKEN")}`, 
+      },
+    });
+    const enterprise = response.data.data;
+    return enterprise;
+  } catch(error){
+    console.error("Failed to fetch enterprise id:", error); 
+    return null;
+  }
+}
+
+export const deleteEnterprise = async () =>{
+  try{
+    const enterprise = await getEnterprise()
+    const id = enterprise.id
+    const response = await APIInstance.delete(`/enterprises/${id}`);
+    return response.data.data;
+  } catch(error){
+    console.error("Failed to delete enterprise:", error);
+    return null;
+  }
+}

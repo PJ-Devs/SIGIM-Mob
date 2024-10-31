@@ -50,8 +50,8 @@ export const saveProduct = async (db: SQLite.SQLiteDatabase, product: Product): 
       product.category_id,
       product.supplier_id,
     ]);
-
-    console.log("Producto guardado localmente:", result);
+    
+     console.log('Producto guardado localmente:', result);
   } catch (error) {
     console.error("Error al guardar producto:", error);
   }

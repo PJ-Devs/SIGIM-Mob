@@ -1,10 +1,12 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import Header from "../molecules/Header";
 import SearchBar from "../atoms/SearchBar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import CustomButton from "../atoms/CustomButton";
 import { SIZES } from "../../utils/consts";
+import { getEnterprise } from "../../lib/api/api.fetch";
+import { useState, useEffect } from "react";
 
 interface LayoutProps {
   includeHeader?: boolean;
@@ -14,7 +16,6 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-
 export default function Layout({
   includeHeader = true,
   includeSearch = false,
@@ -22,6 +23,21 @@ export default function Layout({
   onSearch,
   children,
 }: LayoutProps) {
+  const [enterprise, setEnterprise] = useState<string>("");
+
+  useEffect(() => {
+    const fetchEnterpriseName = async () => {
+      try {
+        const enterpriseData = await getEnterprise();
+        setEnterprise(enterpriseData.name);
+      } catch (error) {
+        console.error("Failed to fetch enterprise name:", error);
+      }
+    };
+
+    fetchEnterpriseName();
+  }, []);
+
   return (
     <SafeAreaView
     className={`flex-1`}
@@ -32,15 +48,15 @@ export default function Layout({
     }}
     >
       <View className="py-2">
-        {includeHeader && <Header enterpriseName="La empresita" />}
+        {includeHeader && <Header enterpriseName={enterprise}/>}
         {includeSearch && onSearch && (
           <View>
             <SearchBar onSearch={onSearch} />
           </View>
         )}
       </View>
-      {(router.canGoBack() && canGoBack) && (
-          <CustomButton
+      {router.canGoBack() && canGoBack && (
+        <CustomButton
           type="icon"
           icon="arrow-left"
           iconSize={20}

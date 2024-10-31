@@ -10,10 +10,9 @@ import AccountMenu from "../molecules/AccountMenu";
 import { useIsFocused } from '@react-navigation/native';
 import {  getProfile } from "../../lib/api/api.fetch";
 import Toast from 'react-native-toast-message';
-import { useSQLiteContext } from "expo-sqlite";
+import { deleteEnterprise } from "../../lib/api/api.fetch";
 
 export default function Profile(): JSX.Element {
-  const db = useSQLiteContext();
   const { onLogout } = useAuth();
   const isFocused = useIsFocused();
   const [modalVisible, setModalVisible] = useState(false);
@@ -30,14 +29,15 @@ export default function Profile(): JSX.Element {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const profileData = await getProfile(db);
+        const profileData = await getProfile();
         setUserProfile(profileData);
       } catch (error) {
         console.log("Error fetching user profile", error);
       }
     };
     if (isFocused) {
-    fetchProfile();}
+    fetchProfile();
+  }
   }, [isFocused]);
 
   const handleLogout = async (data: any) => {
@@ -50,8 +50,16 @@ export default function Profile(): JSX.Element {
     }
   };
 
-  //unused
-  
+  const enterpriseDeleting = async () => {
+    try {
+      await deleteEnterprise();
+    } catch (error) {
+      console.log("Error al eliminar empresa");
+      console.log(error);
+    }
+  };
+
+
   return (
     <Layout canGoBack = {false}>
       <Modal
@@ -89,9 +97,7 @@ export default function Profile(): JSX.Element {
                   icon="exclamation-triangle"
                   title="Si, eliminar"
                   onPress={() => {
-                    /* Toda la lógica de eliminar la empresa
-                    cuando Manuel tenga lista la función
-                    */
+                    enterpriseDeleting();
                     setModalVisible(false);
                     router.push("/login");
                   }}
@@ -126,7 +132,7 @@ export default function Profile(): JSX.Element {
 
      <AccountMenu/>
 
-      <View className="flex-col justify-center p-4" style={{ gap: 10 }}>
+      <View className="flex-col justify-center mb-16 px-4" style={{ gap: 10 }}>
         <CustomButton
           type="error"
           icon="exclamation-triangle"
