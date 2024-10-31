@@ -11,6 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 interface LayoutProps {
   includeHeader?: boolean;
   includeSearch?: boolean;
+  includeProfile?: boolean;
   canGoBack?: boolean;
   onSearch?: (query: string) => void;
   children: React.ReactNode;
@@ -20,6 +21,7 @@ export default function Layout({
   includeHeader = true,
   includeSearch = false,
   canGoBack = true,
+  includeProfile = true,
   onSearch,
   children,
 }: LayoutProps) {
