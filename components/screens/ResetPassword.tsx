@@ -5,16 +5,15 @@ import { Text, View } from "react-native";
 import CustomInput from "../atoms/CustomInput";
 import CustomButton from "../atoms/CustomButton";
 import { router } from "expo-router";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { resetPasswordSchema } from "../../lib/schemas/reset_password";
+import { getItem, getSecuredItem } from "../../utils/secureStore";
+import { restorePassword } from "../../lib/api/api.auth";
+import { AxiosResponse } from "axios";
+import Toast from "react-native-toast-message";
+import { useState } from "react";
 import * as z from "zod";
 
 export default function ResetPassword() {
-  const { authState } = useAuth();
-  
-
-  type FormFields = z.infer<typeof resetPasswordSchema>;
-
+  const [loading, setLoading] = useState<boolean>(false);
   const {
     handleSubmit,
     control,
@@ -25,8 +24,47 @@ export default function ResetPassword() {
     reValidateMode: "onBlur",
     resolver: zodResolver(resetPasswordSchema),
   });
+    
+  type FormFields = z.infer<typeof resetPasswordSchema>;
 
-  const handlePasswordReset = async () => {};
+  const handlePasswordReset = async (data: any) => {
+    try {
+      setLoading(true);
+      const { password, confirm_password } = data;
+      if (password !== confirm_password) {
+        console.log("Las contraseñas no coinciden");
+        return;
+      }
+
+      const requestBody = {
+        email: getItem("email") as string,
+        password,
+      }
+
+      const resetPasswordToken = await getSecuredItem("PASSWORD_RESET_TOKEN");
+      console.log(resetPasswordToken);
+      await restorePassword(requestBody, resetPasswordToken as string)
+        .then((response) => {
+          if (response) {
+            Toast.show({
+              type: "success",
+              text1: "Contraseña cambiada",
+              text2: "Su contraseña ha sido cambiada exitosamente",
+              visibilityTime: 3000,
+              swipeable: true,
+              text1Style: { fontSize: 16 },
+              text2Style: { fontSize: 14 },
+              topOffset: 60,
+            });
+            router.push("/login");
+          }
+        });
+    } catch (error) {
+      console.log("Error al cambiar contraseña", error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <Layout includeHeader={false}>
@@ -59,11 +97,12 @@ export default function ResetPassword() {
           />
         </View>
         <CustomButton
+          loading={loading}
           type="primary"
           title="Cambiar contraseña"
           icon="key"
           iconSize={20}
-          onPress={() => {}}
+          onPress={handleSubmit(handlePasswordReset)}
         />
       </View>
     </Layout>

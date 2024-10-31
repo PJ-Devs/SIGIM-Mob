@@ -10,6 +10,7 @@ import Toast from 'react-native-toast-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterSchema } from "../../lib/schemas/auth";
 import * as z from 'zod';
+
 export default function Register(): JSX.Element {
   const [currentStep, setCurrentStep] = useState(1);
   const { onRegister } = useAuth();
@@ -57,9 +58,9 @@ export default function Register(): JSX.Element {
   const goToPreviousStep = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 1)); 
   };
-
+  
   return (
-    <Layout includeHeader={false}>
+    <Layout includeHeader={false} canGoBack={currentStep === 1}>
       <View className="px-5">
       {currentStep === 1 && (
         <RegisterEnterpriseForm 

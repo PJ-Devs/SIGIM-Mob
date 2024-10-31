@@ -49,11 +49,10 @@ export default function Layout({
 
   return (
     <SafeAreaView
-    className={`flex-1`}
+    className={`flex-1 px-3`}
     style={{
       width: SIZES.width,
-      minHeight: SIZES.height * 0.85,
-      justifyContent: 'center'
+      minHeight: SIZES.height,
     }}
     >
       <View className="py-2">

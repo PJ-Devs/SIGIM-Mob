@@ -61,7 +61,7 @@ export default function Profile(): JSX.Element {
 
 
   return (
-    <Layout canGoBack = {false}>
+    <Layout canGoBack={false}>
       <Modal
         animationType="slide"
         transparent={true}
