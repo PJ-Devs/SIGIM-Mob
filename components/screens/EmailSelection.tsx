@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Text, View } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, Text, View } from "react-native";
 import CustomInput from "../atoms/CustomInput";
 import CustomButton from "../atoms/CustomButton";
 import { useState } from "react";
@@ -9,13 +9,14 @@ import { textStyles } from "../../tokens";
 import { requestPasswordResetOTP } from "../../lib/api/api.auth";
 import { setItem } from "../../utils/secureStore";
 import Toast from "react-native-toast-message";
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Image } from "react-native";
 
 export default function EmailSelection() {
-
   const schema = z.object({
-    email: z.string({ message: "El correo es obligatorio." })
+    email: z
+      .string({ message: "El correo es obligatorio." })
       .email({ message: "El correo electrónico no es válido." })
       .min(1, { message: "El correo es obligatorio." }),
   });
@@ -59,36 +60,51 @@ export default function EmailSelection() {
 
   return (
     <Layout includeHeader={false}>
-      <View className="h-screen justify-center relative bottom-[10%]">
-        <View className="gap-1">
-          <Text className={`${textStyles.h2} text-center`}>
-            Ingrese su direccion de correo
-          </Text>
-          <Text className={`${textStyles.commonText} text-center`}>
-            Ingresa el correo electrónico asociado a tu cuenta para enviar el
-            código de verificación.
-          </Text>
-        </View>
-        <View>
-          <View className="py-6">
-            <CustomInput
-              control={control}
-              placeholder="Correo Electronico"
-              propertyName="email"
-              trigger={trigger}
-              errors={errors}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+        style={{ flex: 1 }}
+      >
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View className="flex-1 justify-center">
+            <Image
+              source={require("../../assets/images/email_sent.jpg")}
+              resizeMode="contain"
+              className="w-full h-2/5"
+            />
+            <View className="gap-1">
+              <Text className={`${textStyles.h2} text-center`}>
+                Ingrese su direccion de correo
+              </Text>
+              <Text className={`${textStyles.commonText} text-center`}>
+                Ingresa el correo electrónico asociado a tu cuenta para enviar
+                el código de verificación.
+              </Text>
+            </View>
+            <View className="py-6">
+              <CustomInput
+                control={control}
+                placeholder="Correo Electronico"
+                propertyName="email"
+                trigger={trigger}
+                errors={errors}
+              />
+              ;
+            </View>
+            <CustomButton
+              type="primary"
+              title="Enviar código"
+              icon="paper-plane"
+              iconSize={20}
+              loading={loading}
+              onPress={handleSubmit(handleSendAuthCode)}
             />
           </View>
-          <CustomButton
-            type="primary"
-            title="Enviar codigo"
-            icon="paper-plane"
-            iconSize={20}
-            loading={loading}
-            onPress={handleSubmit(handleSendAuthCode)}  
-          />
-        </View>
-      </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Layout>
   );
 }
