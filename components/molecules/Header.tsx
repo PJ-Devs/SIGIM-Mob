@@ -16,6 +16,10 @@ export default function Header({ enterpriseName }: props): JSX.Element {
     (state) => state.routes[state.index].name === "profile"
   );
 
+  const isHomeScreen = useNavigationState(
+    (state) => state.routes[state.index].name === "index"
+  );
+
   return (
     <View className="flex-row justify-between items-center bg-white w-full pb-2 px-2">
       <CustomButton
@@ -23,7 +27,7 @@ export default function Header({ enterpriseName }: props): JSX.Element {
         icon={router.canGoBack() ? "arrow-left" : "bars"}
         iconSize={20}
         onPress={() => {
-          if (router.canGoBack()) {
+          if (router.canGoBack()  && !isHomeScreen) {
             router.back();
           } else {
             router.navigate("/");

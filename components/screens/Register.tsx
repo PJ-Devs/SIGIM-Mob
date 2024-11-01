@@ -9,6 +9,8 @@ import { router } from "expo-router";
 import Toast from 'react-native-toast-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterSchema } from "../../lib/schemas/auth";
+import { getEnterprise } from "../../lib/api/api.fetch";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as z from 'zod';
 
 export default function Register(): JSX.Element {
@@ -28,6 +30,17 @@ export default function Register(): JSX.Element {
     resolver: zodResolver(RegisterSchema),
   });
   
+  const fetchEnterpriseInfo = async () => {
+    try {
+      const enterpriseData = await getEnterprise();
+      await AsyncStorage.setItem("enterprise", JSON.stringify(enterpriseData));
+      console.log("Enterprise", enterpriseData);
+    } catch (error) {
+      console.error("Failed to fetch enterprise name:", error);
+    }
+  };
+
+
   const handleRegisterAll = async (data: any) => {
     const result = await onRegister!(data);
 
@@ -43,6 +56,7 @@ export default function Register(): JSX.Element {
         text1: 'Registro exitoso',
         text2: '¡Bienvenido!',
       });
+      await fetchEnterpriseInfo();
       router.push("/");
     }
   };

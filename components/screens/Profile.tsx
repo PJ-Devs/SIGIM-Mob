@@ -70,7 +70,7 @@ export default function Profile(): JSX.Element {
           setModalVisible(!modalVisible);
         }}
       >
-        <View className="bg-slate-100 p-4">
+        <View className="bg-slate-100 p-4 flex-1">
           <View
             className="justify-center items-center"
             style={{ flex: 1, zIndex: 999 }}
@@ -116,12 +116,12 @@ export default function Profile(): JSX.Element {
         </View>
       </Modal>
 
-      <View className="flex-row p-2 gap-x-6 justify-center">
+      <View className="flex-row justify-center items-center max-w-[100%] z ">
         <CircularLogo
           img={require("../../assets/atom.png")}
           alt="profile_img"
         />
-        <View className="flex-col justify-center gap-y-0">
+        <View className="flex-coljustify-center gap-y-0">
           <Text className="font-bold text-xl text-blue-400">
             {userProfile?.name || "Cargando..."}
           </Text>
