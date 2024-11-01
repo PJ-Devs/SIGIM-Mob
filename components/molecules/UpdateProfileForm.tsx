@@ -5,12 +5,14 @@ import CustomButton from "../atoms/CustomButton";
 import Toast from "react-native-toast-message";
 import { useState, useEffect } from "react";
 import { User } from "../../types/products";
-import { getProfile , updateProfile} from "../../lib/api/api.fetch";
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+import { getProfile, updateProfile } from "../../lib/api/api.fetch";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
 
 function UpdateProfileForm() {
-  const [userProfile, setUserProfile] = useState<User>({
+  const [userProfile, setUserProfile] = useState<User | null>({
     id: "",
     email: "",
     name: "",
@@ -21,21 +23,26 @@ function UpdateProfileForm() {
   });
 
   const schema = z.object({
-    email: z.optional(z.string()
-    .email({ message: "El correo electrónico no es válido." })
-  )});
+    email: z.optional(
+      z.string().email({ message: "El correo electrónico no es válido." })
+    ),
+    name: z.optional(z.string()),
+  });
 
   type FormFields = z.infer<typeof schema>;
-  
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const profileData = await getProfile();
-        setUserProfile(profileData);
-      } catch (error) {}
+        const profileData = await AsyncStorage.getItem("profile");
+        if (profileData) {
+          setUserProfile(JSON.parse(profileData));
+        }
+      } catch (error) {
+        console.error("Failed to retrieve enterprise data:", error);
+        return null;
+      }
     };
-
     fetchProfile();
   }, []);
 
@@ -51,12 +58,15 @@ function UpdateProfileForm() {
   });
   const handleProfileUpdate = async (data: any) => {
     try {
-       await updateProfile(data);
+      await updateProfile(data);
+      const new_profile = await getProfile();
+      await AsyncStorage.setItem("profile", JSON.stringify(new_profile));
       Toast.show({
         type: "success",
         text1: "Perfil actualizado",
         text2: "Tu perfil ha sido actualizado exitosamente",
       });
+      router.push("/profile");
     } catch (error: any) {
       Toast.show({
         type: "error",
@@ -67,18 +77,21 @@ function UpdateProfileForm() {
   };
 
   return (
-    <View className="flex-col mt-8 h-[80%] justify-center px-4" style={{ gap: 15 }}>
+    <View
+      className="flex-col mt-8 h-[80%] justify-center px-4"
+      style={{ gap: 15 }}
+    >
       <Text className="font-bold text-xl text-blue-400">
         {"Cambia tu información"}
       </Text>
       <CustomInput
         propertyName="name"
-        placeholder={userProfile.name || "Nombre"}
+        placeholder={userProfile?.name || "Nombre"}
         control={control}
       />
       <CustomInput
         propertyName="email"
-        placeholder={userProfile.email || "Correo electronico"}
+        placeholder={userProfile?.email || "Correo electronico"}
         control={control}
         trigger={trigger}
       />

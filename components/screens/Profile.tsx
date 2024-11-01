@@ -11,12 +11,13 @@ import { useIsFocused } from '@react-navigation/native';
 import {  getProfile } from "../../lib/api/api.fetch";
 import Toast from 'react-native-toast-message';
 import { deleteEnterprise } from "../../lib/api/api.fetch";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Profile(): JSX.Element {
   const { onLogout } = useAuth();
   const isFocused = useIsFocused();
   const [modalVisible, setModalVisible] = useState(false);
-  const [userProfile, setUserProfile] = useState<User>({
+  const [userProfile, setUserProfile] = useState<User | null>({
     id: "",
     email: "",
     name: "",
@@ -29,10 +30,16 @@ export default function Profile(): JSX.Element {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const profileData = await getProfile();
-        setUserProfile(profileData);
+        const profileData = await AsyncStorage.getItem("profile");
+        if (profileData !== null) {
+          const profile = JSON.parse(profileData) 
+          setUserProfile(profile);
+          return;
+        }
       } catch (error) {
-        console.log("Error fetching user profile", error);
+        setUserProfile(null);
+        console.error("Failed to retrieve enterprise data:", error);
+        return null;
       }
     };
     if (isFocused) {
@@ -116,7 +123,7 @@ export default function Profile(): JSX.Element {
         </View>
       </Modal>
 
-      <View className="flex-row justify-center items-center max-w-[100%] z ">
+      <View className="flex-row justify-center items-center max-w-full min-w-full" style={{gap:15}}>
         <CircularLogo
           img={require("../../assets/atom.png")}
           alt="profile_img"
