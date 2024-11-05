@@ -9,7 +9,7 @@ import { router } from "expo-router";
 import Toast from 'react-native-toast-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterSchema } from "../../lib/schemas/auth";
-import { getEnterprise } from "../../lib/api/api.fetch";
+import { getEnterprise, getProfile } from "../../lib/api/api.fetch";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as z from 'zod';
 
@@ -40,6 +40,16 @@ export default function Register(): JSX.Element {
     }
   };
 
+  const fetchProfile = async () => {
+    try {
+      const profileData = await getProfile();
+      await AsyncStorage.setItem("profile", JSON.stringify(profileData));
+      console.log("Profile", profileData);
+    } catch (error) {
+      console.log("Error fetching user profile", error);
+    }
+  };
+
 
   const handleRegisterAll = async (data: any) => {
     const result = await onRegister!(data);
@@ -57,6 +67,7 @@ export default function Register(): JSX.Element {
         text2: '¡Bienvenido!',
       });
       await fetchEnterpriseInfo();
+      await fetchProfile();
       router.push("/");
     }
   };

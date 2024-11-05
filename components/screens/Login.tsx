@@ -10,7 +10,7 @@ import {
 import Layout from "../orgnisms/Layout";
 import CustomInput from "../atoms/CustomInput";
 import CustomButton from "../atoms/CustomButton";
-import { getEnterprise } from "../../lib/api/api.fetch";
+import { getEnterprise, getProfile } from "../../lib/api/api.fetch";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from "react";
 import { router } from "expo-router";
@@ -63,6 +63,16 @@ export default function Login(): JSX.Element {
     }
   };
 
+  const fetchProfile = async () => {
+    try {
+      const profileData = await getProfile();
+      await AsyncStorage.setItem("profile", JSON.stringify(profileData));
+      console.log("Profile", profileData);
+    } catch (error) {
+      console.log("Error fetching user profile", error);
+    }
+  };
+
   const handleLogin = async (data: any) => {
     if (!onLogin) {
       return;
@@ -71,6 +81,7 @@ export default function Login(): JSX.Element {
     setLoading(true);
     const result = await onLogin!(data);
     await fetchEnterpriseInfo();
+    await fetchProfile();
     setLoading(false);
 
     if (!result?.err) {
