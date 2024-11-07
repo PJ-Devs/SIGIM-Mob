@@ -91,7 +91,7 @@ export default function Login(): JSX.Element {
 
   return (
     <Layout includeHeader={false} canGoBack={false}>
-        <View className="justify-center px-10 w-full h-full">
+        <View className="justify-center w-full h-full">
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : undefined}
             keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}

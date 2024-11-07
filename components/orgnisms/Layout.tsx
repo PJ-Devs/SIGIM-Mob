@@ -50,7 +50,7 @@ export default function Layout({
 
   return (
     <SafeAreaView
-    className={`flex-1 px-3`}
+    className={`flex-1 px-5`}
     style={{
       width: SIZES.width,
       minHeight: SIZES.height,
