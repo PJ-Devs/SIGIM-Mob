@@ -7,6 +7,7 @@ import CustomButton from "../atoms/CustomButton";
 import { SIZES } from "../../utils/consts";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
 
 interface LayoutProps {
   includeHeader?: boolean;
@@ -75,6 +76,8 @@ export default function Layout({
         />
       )}
       {children}
+      <Toast config={{
+      }}/>
     </SafeAreaView>
   );
 }

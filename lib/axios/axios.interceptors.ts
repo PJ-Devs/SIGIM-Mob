@@ -34,7 +34,8 @@ export const errorInterceptor = () => {
       Toast.show({
         type: "error",
         text1: "Ha ocurrido un error",
-        text2: error.response?.data?.message ?? "Error desconocido",
+        text2: error.response?.data?.data.message ?? "Error desconocido",
+        
         visibilityTime: 3000,
         swipeable: true,
         text1Style: { fontSize: 16 },
