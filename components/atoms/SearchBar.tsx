@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TextInput, View } from "react-native";
-import Icon from "@expo/vector-icons/AntDesign";
+import {AntDesign} from '@expo/vector-icons';
 
 type CustomSearchProps = {
   initialText?: string;
@@ -34,7 +34,7 @@ export default function SearchBar({
 
   return (
     <View className="flex flex-row gap-2 items-center rounded-md p-2">
-      <Icon name="search1" size={20} color="#888"  />
+      <AntDesign name="search1" size={20} color="#888"  />
       <TextInput
         autoCorrect={false}
         placeholder="Search"
