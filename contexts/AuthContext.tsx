@@ -41,8 +41,8 @@ export const AuthProvider = ({ children }: any) => {
       await getSecuredItem("ACCESS_TOKEN").then(
         (token) => {
           if (token) {
-            router.replace("/");
             setAuthState(true);
+            router.replace("/");
           } else {
             setAuthState(false);
             router.replace("/login");

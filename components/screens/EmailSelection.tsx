@@ -92,7 +92,6 @@ export default function EmailSelection() {
                 trigger={trigger}
                 errors={errors}
               />
-              ;
             </View>
             <CustomButton
               type="primary"

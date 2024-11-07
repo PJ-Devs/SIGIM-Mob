@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Product } from "../../types/products";
-import { FlatList, ScrollView, View } from "react-native";
+import { FlatList, View } from "react-native";
 import ProductCard from "../molecules/ProductCard";
 import Layout from "../orgnisms/Layout";
 import { fetchProducts, fetchProductSearch } from "../../lib/api/api.fetch";
