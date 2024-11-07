@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Layout from "../orgnisms/Layout";
 import CustomInput from "../atoms/CustomInput";
+import CustomInputPassword from "../atoms/CustomInputPassword";
 import CustomButton from "../atoms/CustomButton";
 import { getEnterprise, getProfile } from "../../lib/api/api.fetch";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -116,7 +117,7 @@ export default function Login(): JSX.Element {
                   trigger={trigger}
                 />
                 <View>
-                  <CustomInput
+                  <CustomInputPassword
                     propertyName="password"
                     placeholder="Password"
                     secureTextEntry={true}
