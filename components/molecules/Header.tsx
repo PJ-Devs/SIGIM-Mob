@@ -37,8 +37,8 @@ export default function Header({ enterpriseName }: props): JSX.Element {
       />
       <Link href={"/"}>
         <View className="flex-row items-center gap-x-2">
-          <Icon name="home" size={18} />
-          <Text>{enterpriseName}</Text>
+          <Icon name="home" size={24} />
+          <Text className="text-lg font-semibold">{enterpriseName}</Text>
         </View>
       </Link>
       {authState ? (

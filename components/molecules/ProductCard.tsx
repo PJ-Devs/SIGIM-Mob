@@ -3,6 +3,7 @@ import Icon from "@expo/vector-icons/AntDesign";
 import { useState } from "react";
 import { Product } from "../../types/products";
 import LottieView from "lottie-react-native";
+import { router } from "expo-router";
 
 interface ProductCardProps {
   product: Product;
@@ -22,7 +23,9 @@ export default function ProductCard({
 
   return (
     <Pressable
-      onPress={() => {}}
+      onPress={() => {
+        router.push(`/products/${product.id}`);
+      }}
       className="flex-row bg-white w-full gap-x-2 py-2 px-4 rounded-lg shadow-sm"
     >
       {loading && (

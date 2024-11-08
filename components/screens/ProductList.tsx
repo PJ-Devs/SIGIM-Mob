@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { Product } from "../../types/products";
-import { FlatList, View, StyleSheet } from "react-native";
+import { FlatList, View } from "react-native";
 import ProductCard from "../molecules/ProductCard";
 import Layout from "../orgnisms/Layout";
-import { fetchProducts, fetchProductSearch } from "../../lib/api/api.fetch";
+import { fetchProducts, fetchProductSearch } from "../../lib/api/api.products";
 import Loading from "../molecules/Loading";
 import CategoriesCarrousel from "../orgnisms/CategoriesCarrousel";
-import Toast from 'react-native-toast-message';
 import { useSQLiteContext } from "expo-sqlite";
 import FloatingButton from "../atoms/FloatingButton";
+import { router } from "expo-router";
 
 export default function ProductList() {
   const db = useSQLiteContext();
@@ -21,7 +21,7 @@ export default function ProductList() {
       const response = await fetchProductSearch(query);
       setProducts(response);
     } catch (error) {
-      console.error("Failed to fetch products:", error); 
+      console.error("Failed to fetch products:", error);
     } finally {
       setLoading(false);
     }
@@ -31,12 +31,12 @@ export default function ProductList() {
     const loadProducts = async () => {
       setLoading(true);
       await fetchProducts(db)
-      .then((response) => {
-        setProducts(response);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+        .then((response) => {
+          setProducts(response);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     };
 
     loadProducts();
@@ -63,7 +63,10 @@ export default function ProductList() {
             ListHeaderComponent={() => <View className="h-3" />}
             ListFooterComponent={() => <View className="h-20" />}
           />
-            <FloatingButton loading={loading} onPress={() => {}} />
+          <FloatingButton
+            loading={loading}
+            onPress={() => router.push("/createProductForm")}
+          />
         </View>
       )}
     </Layout>

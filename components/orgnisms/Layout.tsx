@@ -12,7 +12,6 @@ import Toast from "react-native-toast-message";
 interface LayoutProps {
   includeHeader?: boolean;
   includeSearch?: boolean;
-  includeProfile?: boolean;
   canGoBack?: boolean;
   onSearch?: (query: string) => void;
   children: React.ReactNode;
@@ -22,7 +21,6 @@ export default function Layout({
   includeHeader = true,
   includeSearch = false,
   canGoBack = true,
-  includeProfile = true,
   onSearch,
   children,
 }: LayoutProps) {

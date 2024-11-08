@@ -7,10 +7,10 @@ export const LoginSchema = z.object({
       .email({ message: "El correo electrónico no es válido." })
       .min(1, { message: "El correo es obligatorio." }),
   
-    password: z.string({ message: "Este campo es obligatorio" })
+      password: z.string({ message: "Este campo es obligatorio" })
       .regex(/^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]*$/, { message: "La contraseña solo puede contener caracteres alfanuméricos y caracteres especiales válidos." })
       .min(8, { message: "La contraseña debe tener al menos 8 caracteres." })
-      .refine(val => !val.includes('ñ'), { message: "La contraseña no puede contener la letra 'ñ'." })
+      .refine(val => !val.includes('ñ') && !val.includes('Ñ'), { message: "La contraseña no puede contener la letra 'ñ' ni 'Ñ'." })    
 /*       .refine(val => specialCharacters.test(val), { message: "La contraseña debe contener al menos un carácter especial válido." })
  */  });
 
