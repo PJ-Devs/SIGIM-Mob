@@ -1,4 +1,3 @@
-import { useAuth } from "../../contexts/AuthContext";
 import { useForm } from "react-hook-form";
 import Layout from "../orgnisms/Layout";
 import { Text, View } from "react-native";
@@ -7,10 +6,11 @@ import CustomButton from "../atoms/CustomButton";
 import { router } from "expo-router";
 import { getItem, getSecuredItem } from "../../utils/secureStore";
 import { restorePassword } from "../../lib/api/api.auth";
-import { AxiosResponse } from "axios";
 import Toast from "react-native-toast-message";
 import { useState } from "react";
 import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { resetPasswordSchema } from "../../lib/schemas/reset_password";
 
 export default function ResetPassword() {
   const [loading, setLoading] = useState<boolean>(false);

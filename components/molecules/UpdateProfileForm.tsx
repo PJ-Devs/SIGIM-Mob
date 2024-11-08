@@ -78,7 +78,7 @@ function UpdateProfileForm() {
 
   return (
     <View
-      className="flex-col mt-8 h-[80%] justify-center px-4"
+      className="flex-col mt-8 h-[80%] justify-center"
       style={{ gap: 15 }}
     >
       <Text className="font-bold text-xl text-blue-400">
@@ -86,14 +86,14 @@ function UpdateProfileForm() {
       </Text>
       <CustomInput
         propertyName="name"
-        placeholder={userProfile?.name || "Nombre"}
         control={control}
+        initialValue={userProfile?.name}
       />
       <CustomInput
         propertyName="email"
-        placeholder={userProfile?.email || "Correo electronico"}
         control={control}
         trigger={trigger}
+        initialValue={userProfile?.email}
       />
       <CustomButton
         onPress={handleSubmit(handleProfileUpdate)}

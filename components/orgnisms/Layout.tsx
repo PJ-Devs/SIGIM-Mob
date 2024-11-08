@@ -34,7 +34,7 @@ export default function Layout({
         const enterpriseData = await AsyncStorage.getItem("enterprise");
 
         if (enterpriseData !== null) {
-          const enterprise = JSON.parse(enterpriseData) 
+          const enterprise = JSON.parse(enterpriseData);
           setEnterprise(enterprise.name);
           return;
         }
@@ -50,16 +50,16 @@ export default function Layout({
 
   return (
     <SafeAreaView
-    className={`flex-1 px-5`}
-    style={{
-      width: SIZES.width,
-      minHeight: SIZES.height,
-    }}
+      className={`flex-1 px-5`}
+      style={{
+        width: SIZES.width,
+        minHeight: SIZES.height,
+      }}
     >
       <View className="py-2">
-        {includeHeader && <Header enterpriseName={enterprise}/>}
+        {includeHeader && <Header enterpriseName={enterprise} />}
         {includeSearch && onSearch && (
-          <View>
+          <View className="pt-2">
             <SearchBar onSearch={onSearch} />
           </View>
         )}
@@ -76,8 +76,7 @@ export default function Layout({
         />
       )}
       {children}
-      <Toast config={{
-      }}/>
+      <Toast config={{}} />
     </SafeAreaView>
   );
 }

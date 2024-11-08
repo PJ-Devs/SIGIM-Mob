@@ -18,8 +18,8 @@ export const resetPasswordSchema = z
         "La contraseña debe contener al menos un carácter especial válido.",
     }),
     confirm_password: z.string({ message: "Este campo es obligatorio" }),
-})
-.refine((data) => data.password === data.confirm_password, {
-  message: "Las contraseñas deben ser iguales",
-  path: ["confirm_password"],
 });
+// .refine((data) => data.password === data.confirm_password, {
+//   message: "Las contraseñas deben ser iguales",
+//   path: ["confirm_password"],
+// });

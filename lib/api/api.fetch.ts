@@ -16,9 +16,8 @@ export const fetchProducts = async (db:SQLiteDatabase): Promise<Product[]> => {
         getProducts(db)
       });
     }
-    const response: AxiosResponse = await APIInstance.get("/products");
-    const data = response.data;
-    const products: Product[] = data.data;
+    const response = await APIInstance.get("/products");
+    const products: Product[] = response.data.data;
     for (const product of products) {
       await saveProduct(db, product);
     }
@@ -30,18 +29,18 @@ export const fetchProducts = async (db:SQLiteDatabase): Promise<Product[]> => {
 };
 
 export const fetchProductSearch = async (query: string): Promise<Product[]> => {
-  return APIInstance.get(`/products/${query}`).then(
-    (response: AxiosResponse) => {
-      const data = response.data;
-      return data.data;
-    }
-  );
+  try {
+    const response = await APIInstance.get(`/products?search=${query}`);
+    return response.data.data;
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+    return [];
+  }
 };
 
 export const getProfile = async () => {
   try {
     const response = await APIInstance.get("/profile");
-    console.log("user:", response.data.data);
     return response.data.data;
   } catch (error) {
     console.error("Failed to fetch user profile:", error);

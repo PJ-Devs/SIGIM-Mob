@@ -12,9 +12,6 @@ export default function Sections() {
           gap: 15,
         }}>
           <SectionCard link="/productList" linkText="Inventario" />
-          <SectionCard link="/profile" linkText="Perfil" />
-          {/* <SectionCard link="/login" linkText="Acceder" />
-          <SectionCard link="/signUp" linkText="Registrarse" /> */}
         </View>
       </ScrollView>
     </Layout>

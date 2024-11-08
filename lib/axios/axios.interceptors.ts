@@ -1,4 +1,4 @@
-import { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { InternalAxiosRequestConfig } from "axios";
 import APIInstance from "./axios.config";
 import { getSecuredItem } from "../../utils/secureStore";
 import Toast from "react-native-toast-message";
@@ -35,7 +35,6 @@ export const errorInterceptor = () => {
         type: "error",
         text1: "Ha ocurrido un error",
         text2: error.response?.data?.data.message ?? "Error desconocido",
-        
         visibilityTime: 3000,
         swipeable: true,
         text1Style: { fontSize: 16 },

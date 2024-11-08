@@ -21,7 +21,7 @@ export default function Header({ enterpriseName }: props): JSX.Element {
   );
 
   return (
-    <View className="flex-row justify-between items-center bg-white w-full pb-2 px-2">
+    <View className="flex-row justify-between items-center bg-white w-full pb-2">
       <CustomButton
         type="icon"
         icon={router.canGoBack() ? "arrow-left" : "bars"}

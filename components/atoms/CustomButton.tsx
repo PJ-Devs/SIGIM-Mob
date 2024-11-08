@@ -39,7 +39,7 @@ export default function CustomButton({
   ...props
 }: CustomButtonProps): JSX.Element {
   const fadeAnim = useRef(new Animated.Value(1)).current;
-  const scaleAnim = useRef(new Animated.Value(1)).current; 
+  const scaleAnim = useRef(new Animated.Value(1)).current;
 
   const fadeInAnimation = () => {
     Animated.parallel([

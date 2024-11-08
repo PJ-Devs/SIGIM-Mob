@@ -3,30 +3,32 @@ import { inputStlye } from "../../tokens";
 import { Controller } from "react-hook-form";
 
 type CustomInputProps = {
-  placeholder: string;
+  placeholder?: string;
   control: any;
   trigger?: any,
   propertyName: string;
   secureTextEntry?: boolean;
   type?: KeyboardTypeOptions;
   errors?: any;
+  initialValue?: string
 };
 
 export default function CustomInput({
-  placeholder,
+  placeholder = "",
   control,
   trigger,
   propertyName,
   secureTextEntry = false,
   type = "default",
-  errors
+  errors,
+  initialValue = ""
 }: CustomInputProps) {
   return (
     <Controller
       control={control}
       name={propertyName}
       render={({
-        field: { onChange, onBlur, value },
+        field: { onChange, onBlur, value = initialValue},
         fieldState: { error },
       }) => (
         <View>

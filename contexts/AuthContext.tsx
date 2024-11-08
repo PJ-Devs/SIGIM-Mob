@@ -74,6 +74,7 @@ export const AuthProvider = ({ children }: any) => {
         ...credentials,
         device_name: Device.deviceName ?? "Other",
       };
+      console.log(formattedData)
       const res = await apiLogin(formattedData);
       await setSecuredItem("ACCESS_TOKEN", res.access_token);
       setAuthState(true);
