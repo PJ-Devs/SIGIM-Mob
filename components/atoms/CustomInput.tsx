@@ -1,6 +1,7 @@
 import { KeyboardTypeOptions, Text, TextInput, View } from "react-native";
 import { inputStlye } from "../../tokens";
 import { Controller } from "react-hook-form";
+import { SIZES } from "../../utils/consts";
 
 type CustomInputProps = {
   placeholder?: string;
@@ -8,6 +9,7 @@ type CustomInputProps = {
   control: any;
   trigger?: any;
   propertyName: string;
+  numberOfLines?: number;
   secureTextEntry?: boolean;
   type?: KeyboardTypeOptions;
   errors?: any;
@@ -24,9 +26,9 @@ export default function CustomInput({
   type = "default",
   errors,
   initialValue = "",
+  numberOfLines = 1,
 }: CustomInputProps) {
-
-  console.log(initialValue)
+  console.log(initialValue);
   return (
     <Controller
       control={control}
@@ -37,14 +39,24 @@ export default function CustomInput({
       }) => (
         <View className="mb-1">
           {label && (
-            <Text className="absolute text-sm left-2 bottom-[27px] bg-white z-10 px-1 font-semibold text-gray-800 mb-1">
+            <Text
+              className="absolute text-sm left-2 top-[-11px] bg-white z-10 px-1 font-semibold text-gray-800 mb-1"
+            >
               {label}
             </Text>
           )}
           <TextInput
             className={`${inputStlye} ${error ? "border-red-500" : ""}`}
+            style={{
+              height:
+                numberOfLines > 1
+                  ? SIZES.inputHeight * numberOfLines
+                  : SIZES.inputHeight,
+            }}
             placeholder={placeholder}
             value={value}
+            numberOfLines={numberOfLines}
+            multiline={numberOfLines > 1}
             keyboardType={type}
             secureTextEntry={secureTextEntry}
             onChangeText={(text) => {
