@@ -14,7 +14,7 @@ export const authInterceptor = () => {
   }
 
   APIInstance.interceptors.request.use((request) => {
-    console.log("Request interceptor", request);
+    // console.log("Request interceptor", request);
     const unAuthenticatedRoutes = ["/auth/signup", "/auth/token"];
     unAuthenticatedRoutes.forEach((route) => {
       if (request.url?.includes(route)) {
@@ -28,7 +28,7 @@ export const authInterceptor = () => {
 export const errorInterceptor = () => {
   APIInstance.interceptors.response.use(
     (response) => {
-      console.log("Error interceptor", response);
+      // console.log("Error interceptor", response);
       return response;
     },
     // Handles any statys code that is not in the range of 2XX

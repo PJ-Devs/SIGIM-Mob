@@ -37,10 +37,10 @@ export default function CustomInput({
         field: { onChange, onBlur, value = initialValue },
         fieldState: { error },
       }) => (
-        <View className="mb-1">
+        <View className="w-full">
           {label && (
             <Text
-              className="absolute text-sm left-2 top-[-11px] bg-white z-10 px-1 font-semibold text-gray-800 mb-1"
+              className="absolute text-sm left-2 top-[-11px] bg-white z-10 px-1 font-semibold text-gray-800"
             >
               {label}
             </Text>

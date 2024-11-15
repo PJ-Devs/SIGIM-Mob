@@ -23,7 +23,7 @@ export default function AppLayout(): JSX.Element {
 
   return (
     <Stack screenOptions={{
-      animation: "ios",
+      animation: "ios_from_right",
       contentStyle: {
         flex: 1,
         justifyContent: "center",
