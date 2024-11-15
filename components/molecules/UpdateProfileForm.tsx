@@ -22,8 +22,10 @@ function UpdateProfileForm() {
 
   const schema = z.object({
     email: z.optional(z.string()
-    .email({ message: "El correo electrónico no es válido." })
-  )});
+    .email({ message: "El correo electrónico no es válido." }),
+  ),
+  name: z.optional(z.string())
+});
 
   type FormFields = z.infer<typeof schema>;
   
@@ -51,6 +53,7 @@ function UpdateProfileForm() {
   });
   const handleProfileUpdate = async (data: any) => {
     try {
+      console.log('dataa', data);
        await updateProfile(data);
       Toast.show({
         type: "success",
@@ -75,6 +78,7 @@ function UpdateProfileForm() {
         propertyName="name"
         placeholder={userProfile.name || "Nombre"}
         control={control}
+        trigger={trigger}
       />
       <CustomInput
         propertyName="email"
