@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TextInput, View } from "react-native";
-import Icon from "@expo/vector-icons/AntDesign";
+import {AntDesign} from '@expo/vector-icons';
 
 type CustomSearchProps = {
   initialText?: string;

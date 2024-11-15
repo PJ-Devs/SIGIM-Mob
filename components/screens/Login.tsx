@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Layout from "../orgnisms/Layout";
 import CustomInput from "../atoms/CustomInput";
+import CustomInputPassword from "../atoms/CustomInputPassword";
 import CustomButton from "../atoms/CustomButton";
 import { getEnterprise, getProfile } from "../../lib/api/api.fetch";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -103,10 +104,12 @@ export default function Login(): JSX.Element {
             contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
           >
             <View className="items-center mb-10">
-              <Image className="w-[150px] h-[150px] bg-primary rounded-full" />
+              <Image
+                className="w-[170px] h-[170px] bg-primary rounded-full"
+                source={require("../../assets/images/logo_sigim.png")}
+              />
             </View>
             <Text className="w-full text-xl font-semibold">Iniciar sesión</Text>
-
             <View className="py-5" style={{ gap: 15 }}>
               <CustomInput
                 propertyName="email"
@@ -117,7 +120,7 @@ export default function Login(): JSX.Element {
                 trigger={trigger}
               />
               <View>
-                <CustomInput
+                <CustomInputPassword
                   propertyName="password"
                   placeholder="Password"
                   secureTextEntry={true}
