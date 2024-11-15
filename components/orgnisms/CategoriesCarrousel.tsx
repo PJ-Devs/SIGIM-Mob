@@ -3,6 +3,8 @@ import CategoryCard from "../molecules/CategoryModal";
 import Icon from "@expo/vector-icons/AntDesign";
 
 function CategoriesCarrousel() {
+  
+
   return (
     <View>
       {/* <View className="flex-row gap-2 justify-items-center">

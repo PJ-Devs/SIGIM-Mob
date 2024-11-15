@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import Layout from "../orgnisms/Layout";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import { Product } from "../../types/products";
 import { getSingleProduct } from "../../lib/api/api.products";
 import Loading from "../molecules/Loading";
@@ -46,13 +46,19 @@ export default function SingleProduct(): JSX.Element {
               propertyName="discount"
               control={control}
             />
-            <CustomInput
-              label="Stock disponible (U)"
-              initialValue={product?.stock.toString()}
-              type="numeric"
-              propertyName="stock"
-              control={control}
-            />
+            <View style={{ gap: 5 }}>
+              <CustomInput
+                label="Stock disponible (U)"
+                initialValue={product?.stock.toString()}
+                type="numeric"
+                propertyName="stock"
+                control={control}
+              />
+              <Text>
+                El stock mínimo seguro es de {product?.minimal_safe_stock}{" "}
+                unidades.
+              </Text>
+            </View>
           </View>
           {product!.stock < product!.minimal_safe_stock && (
             <FixedMessage
