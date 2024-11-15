@@ -8,6 +8,7 @@ import Loading from "../molecules/Loading";
 import ProductInformation from "../molecules/ProductInformation";
 import CustomInput from "../atoms/CustomInput";
 import { useForm } from "react-hook-form";
+import FixedMessage from "../atoms/FixedMessage";
 
 export default function SingleProduct(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
@@ -53,6 +54,14 @@ export default function SingleProduct(): JSX.Element {
               control={control}
             />
           </View>
+          {product!.stock < product!.minimal_safe_stock && (
+            <FixedMessage
+              title="Stock bajo"
+              message={`${product?.name} tiene pocas existencias.`}
+              type="warning"
+              position="bottom"
+            />
+          )}
         </View>
       )}
     </Layout>

@@ -7,6 +7,13 @@ const circularLogoStyle = "border rounded-full p-2";
 //DropDown styles
 const dropDownContainerStyle = "bg-white";
 
+const fixedMessageStyles = {
+  success: "border-l-4 border-green-600",
+  error: "border-l-4 border-red-500",
+  warning: "border-l-4 border-orange-400",
+  info: "border-l-4 border-blue-100",
+}
+
 const textStyles = {
   h1: "text-2xl font-semibold",
   h2: "text-xl font-semibold",
@@ -22,5 +29,6 @@ export {
   circularLogoStyle,
   circularLogoContainerStyle,
   dropDownContainerStyle,
+  fixedMessageStyles,
   textStyles,
 };
