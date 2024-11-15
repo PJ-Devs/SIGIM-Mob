@@ -63,7 +63,6 @@ export default function Login(): JSX.Element {
     try {
       const enterpriseData = await getEnterprise();
       await AsyncStorage.setItem("enterprise", JSON.stringify(enterpriseData));
-      console.log("Enterprise", enterpriseData);
     } catch (error) {
       console.error("Failed to fetch enterprise name:", error);
     }
@@ -73,7 +72,6 @@ export default function Login(): JSX.Element {
     try {
       const profileData = await getProfile();
       await AsyncStorage.setItem("profile", JSON.stringify(profileData));
-      console.log("Profile", profileData);
     } catch (error) {
       console.log("Error fetching user profile", error);
     }
@@ -86,8 +84,8 @@ export default function Login(): JSX.Element {
 
     setLoading(true);
     const result = await onLogin!(data);
-    await fetchEnterpriseInfo();
     await fetchProfile();
+    await fetchEnterpriseInfo();
     setLoading(false);
 
     if (!result?.err) {
@@ -97,7 +95,7 @@ export default function Login(): JSX.Element {
 
   return (
     <Layout includeHeader={false} canGoBack={false}>
-      <View className="justify-center px-10 w-full h-full">
+      <View className="justify-center w-full h-full">
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}
           keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
@@ -112,7 +110,6 @@ export default function Login(): JSX.Element {
               />
             </View>
             <Text className="w-full text-xl font-semibold">Iniciar sesión</Text>
-
             <View className="py-5" style={{ gap: 15 }}>
               <CustomInput
                 propertyName="email"

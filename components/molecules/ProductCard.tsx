@@ -3,18 +3,16 @@ import Icon from "@expo/vector-icons/AntDesign";
 import { useState } from "react";
 import { Product } from "../../types/products";
 import LottieView from "lottie-react-native";
-import { SIZES } from "../../utils/consts";
+import { router } from "expo-router";
 
 interface ProductCardProps {
   product: Product;
   isFavorite?: boolean;
-  onPress?: () => void;
 }
 
 export default function ProductCard({
   product,
   isFavorite = false,
-  onPress,
 }: ProductCardProps): JSX.Element {
   const [isFav, setIsFav] = useState<boolean>(isFavorite);
   const [loading, setLoading] = useState<boolean>(true);
@@ -25,7 +23,9 @@ export default function ProductCard({
 
   return (
     <Pressable
-      onPress={onPress}
+      onPress={() => {
+        router.push(`/products/${product.id}`);
+      }}
       className="flex-row bg-white w-full gap-x-2 py-2 px-4 rounded-lg shadow-sm"
     >
       {loading && (
@@ -60,9 +60,7 @@ export default function ProductCard({
             )}
           </Pressable>
         </View>
-        <Text>{`Categoria:`}</Text>
-        <Text>{`Marca:`}</Text>
-        <Text>{`Cantidad: ${product.stock}`}</Text>
+        <Text className="text-sm text-gray-700">{`Disponibilidad: ${product.stock} unidades`}</Text>
         <Text className="font-semibold text-green-600 text-right mt-2">{`$${product.sale_price}`}</Text>
       </View>
     </Pressable>

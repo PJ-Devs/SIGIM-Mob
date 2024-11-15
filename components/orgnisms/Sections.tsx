@@ -11,11 +11,7 @@ export default function Sections() {
         <View className="justify-center items-center py-4" style={{
           gap: 15,
         }}>
-          <SectionCard link="/profile" linkText="Perfil" />
           <SectionCard link="/productList" linkText="Inventario" />
-          <SectionCard link="/sell" linkText="Crear una venta"/>
-          {/* <SectionCard link="/login" linkText="Acceder" />
-          <SectionCard link="/signUp" linkText="Registrarse" /> */}
         </View>
       </ScrollView>
     </Layout>
