@@ -3,13 +3,14 @@ import CategoryCard from "../molecules/CategoryModal";
 import Icon from "@expo/vector-icons/AntDesign";
 
 function CategoriesCarrousel() {
+  
+
   return (
     <View>
-      <View className="flex-row gap-2 justify-items-center">
+      {/* <View className="flex-row gap-2 justify-items-center">
         <Text>Tags</Text>
         <Icon name="tags"></Icon>
-      </View>
-
+      </View> */}
       <View className="flex-row">
         <CategoryCard
           label="Accesorios"

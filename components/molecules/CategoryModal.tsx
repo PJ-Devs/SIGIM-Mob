@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#c0c0c0",
   },
   label: {
-    fontSize: 12,
+    fontSize: 15,
     color: "#333",
     textAlign: "center",
   },

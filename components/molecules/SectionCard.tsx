@@ -17,23 +17,21 @@ export default function SectionCard({
   const linkTo = useLinkTo();
 
   return (
-    <Pressable onPress={() => linkTo(link)} className="w-[95%] shadow-md">
-      <LinearGradient
-        colors={["#EEE", "#39CDCD"]}
-        start={[0.01, 0.9]}
-        dither={true}
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          borderRadius: 10,
-          height: 120,
-        }}
-      >
-        <Text className="text-white text-2xl font-semibold tracking-widest uppercase">
-          {" "}
-          {linkText}
-        </Text>
-      </LinearGradient>
+    <Pressable
+      onPress={() => linkTo(link)}
+      className="w-[95%] shadow-md"
+      style={{
+        backgroundColor: "#39CDCD",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 10,
+        height: 120,
+      }}
+    >
+      <Text className="text-white text-2xl font-semibold tracking-widest uppercase">
+        {" "}
+        {linkText}
+      </Text>
     </Pressable>
   );
 }

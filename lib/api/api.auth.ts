@@ -35,12 +35,13 @@ export const apiLogOut = async (body: { device_name: string }) => {
 export const restorePassword = async (body: {
   email: string;
   password: string;
-}) => {
-  return APIInstance.post("/auth/password-reset", body).then(
-    (response: AxiosResponse) => {
-      return response.data;
-    }
-  );
+}, resetToken: string) => {
+  return APIInstance.post("/auth/password-reset", body)
+    .then(
+      (response: AxiosResponse) => {
+        return response.data;
+      }
+    );
 };
 
 export const requestPasswordResetOTP = async (body: { email: string }) => {

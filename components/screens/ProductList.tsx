@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { Product } from "../../types/products";
-import { FlatList, ScrollView, View } from "react-native";
+import { FlatList, View } from "react-native";
 import ProductCard from "../molecules/ProductCard";
 import Layout from "../orgnisms/Layout";
-import { fetchProducts, fetchProductSearch } from "../../lib/api/api.fetch";
+import { fetchProducts, fetchProductSearch } from "../../lib/api/api.products";
 import Loading from "../molecules/Loading";
 import CategoriesCarrousel from "../orgnisms/CategoriesCarrousel";
-import Toast from 'react-native-toast-message';
 import { useSQLiteContext } from "expo-sqlite";
+import FloatingButton from "../atoms/FloatingButton";
+import { router } from "expo-router";
 
 export default function ProductList() {
   const db = useSQLiteContext();
@@ -15,21 +16,27 @@ export default function ProductList() {
   const [loading, setLoading] = useState<boolean>(false);
 
   const onSearch = async (query: string) => {
-    setLoading(true);
-    const fetchedProducts = await fetchProductSearch(query).finally(() => {
+    try {
+      setLoading(true);
+      const response = await fetchProductSearch(query);
+      setProducts(response);
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+    } finally {
       setLoading(false);
-    });
-    setProducts(fetchedProducts);
+    }
   };
 
   useEffect(() => {
     const loadProducts = async () => {
       setLoading(true);
-      const fetchedProducts = await fetchProducts(db)
-      .finally(() => {
-        setLoading(false);
-      });
-      setProducts(fetchedProducts);
+      await fetchProducts(db)
+        .then((response) => {
+          setProducts(response);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     };
 
     loadProducts();
@@ -40,25 +47,28 @@ export default function ProductList() {
       {loading ? (
         <Loading />
       ) : (
-        <View style = {{flex:1}}>
+        <View className="flex-1 bg-white">
           <CategoriesCarrousel />
           <FlatList
             data={products}
             keyExtractor={(item) => item.id!.toString()}
             renderItem={({ item }) => (
-              <View className="flex items-center my-2 w-full px-1.5">
+              <View className="flex-1 items-center my-1.5 w-full">
                 <ProductCard product={item} />
               </View>
             )}
             initialNumToRender={5}
             showsVerticalScrollIndicator={false}
             windowSize={5}
-            ListHeaderComponent={() => <View style={{ height: 10 }} />}
-            ListFooterComponent={() => <View style={{ height: 10 }} />}
+            ListHeaderComponent={() => <View className="h-3" />}
+            ListFooterComponent={() => <View className="h-20" />}
+          />
+          <FloatingButton
+            loading={loading}
+            onPress={() => router.push("/createProductForm")}
           />
         </View>
       )}
-      <Toast />
     </Layout>
   );
 }

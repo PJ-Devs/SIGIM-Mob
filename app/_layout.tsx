@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 import { AuthProvider } from "../contexts/AuthContext";
-import { SQLiteProvider } from "expo-sqlite/next";
+import { SQLiteProvider } from "expo-sqlite";
 import {
   authInterceptor,
   errorInterceptor,
@@ -16,7 +16,7 @@ export default function layout () {
       <AuthProvider>
         <Stack
           screenOptions={{
-            animation: "ios",
+            animation: "ios_from_right",
             contentStyle: {
               flex: 1,
               justifyContent: "center",

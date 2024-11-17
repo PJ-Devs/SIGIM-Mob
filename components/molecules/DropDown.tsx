@@ -1,63 +1,57 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import { dropDownContainerStyle} from "../../tokens";
+import { dropDownContainerStyle } from "../../tokens";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
-/**
- * How to use Dropdown component in your project?
- * 
- * When you want to use Dropdown component you have to pass the data prop in this way:
- * <DropDown
-          data={[
-            { label: "Item 1", value: "1" },
-            { label: "Item 2", value: "2" },
-            { label: "Item 3", value: "3" },
-            { label: "Item 4", value: "4" },
-            { label: "Item 5", value: "5" },
-            { label: "Item 6", value: "6" },
-            { label: "Item 7", value: "7" },
-            { label: "Item 8", value: "8" },
-          ]}
-    />
- */
-
-type dropDownProps = {
+interface DropdownProps {
   data: { label: string; value: string }[];
+  placeholder?: string;
+  label?: string;
+  icon?: string;
+  maxHeight?: number;
+  searchable?: boolean;
+  closeModalWhenSelectedItem?: boolean;
 }
 
-export default function DropdownComponent({data}: dropDownProps): JSX.Element {
+export default function DropdownComponent({
+  data,
+  placeholder = "Selecciona una opción",
+  label = "Dropdown",
+  icon = "Safety",
+  maxHeight = 300,
+  searchable = true,
+  closeModalWhenSelectedItem = true,
+}: DropdownProps): JSX.Element {
   const [value, setValue] = useState<string | null>(null);
   const [isFocus, setIsFocus] = useState(false);
 
   const renderLabel = () => {
-    if (value || isFocus) {
-      return (
-        <Text style={[styles.label, isFocus && { color: "blue" }]}>
-          Dropdown label 
-        </Text>
-      );
-    }
-    return null;
+    return (
+      <Text style={[styles.label, isFocus && { color: "#4C9DFF" }]}>
+        {label}
+      </Text>
+    );
   };
 
   return (
     <View className={dropDownContainerStyle}>
       {renderLabel()}
       <Dropdown
-        style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
+        style={[styles.dropdown, isFocus && { borderColor: "#4C9DFF" }]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
         data={data}
-        search
-        maxHeight={300}
+        search={searchable}
+        maxHeight={maxHeight}
         labelField="label"
         valueField="value"
-        placeholder={!isFocus ? "Select item" : "..."}
+        placeholder={placeholder}
         searchPlaceholder="Search..."
         value={value}
+        closeModalWhenSelectedItem={closeModalWhenSelectedItem}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={(item) => {
@@ -65,10 +59,10 @@ export default function DropdownComponent({data}: dropDownProps): JSX.Element {
           setIsFocus(false);
         }}
         renderLeftIcon={() => (
-          <AntDesign
+          <Icon
             style={styles.icon}
-            color={isFocus ? "blue" : "black"}
-            name="Safety"
+            color={isFocus ? "#4C9DFF" : "#000000"}
+            name={icon}
             size={20}
           />
         )}
@@ -78,34 +72,43 @@ export default function DropdownComponent({data}: dropDownProps): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    padding: 16,
-  },
   dropdown: {
     height: 50,
-    borderColor: "gray",
-    borderWidth: 0.5,
-    borderRadius: 8,
-    paddingHorizontal: 8,
+    borderColor: "#000",
+    borderWidth: 1,
+    borderRadius: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    backgroundColor: "white",
+    // shadowColor: "#000000",
+    // shadowOpacity: 0.1,
+    // shadowRadius: 6,
+    // shadowOffset: { width: 0, height: 3 },
+    elevation: 5,
   },
   icon: {
-    marginRight: 5,
+    marginRight: 8,
   },
   label: {
     position: "absolute",
     backgroundColor: "white",
-    left: 22,
-    top: 0,
+    left: 8,
+    top: -8,
     zIndex: 999,
-    paddingHorizontal: 8,
+    paddingHorizontal: 4,
     fontSize: 14,
+    fontWeight: "500",
+    color: "#000",
   },
   placeholderStyle: {
     fontSize: 16,
+    color: "#9E9E9E",
+    fontFamily: "Roboto",
   },
   selectedTextStyle: {
     fontSize: 16,
+    fontFamily: "Roboto",
+    color: "#333333",
   },
   iconStyle: {
     width: 20,
@@ -114,5 +117,6 @@ const styles = StyleSheet.create({
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
+    color: "#333333",
   },
 });

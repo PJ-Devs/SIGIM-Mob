@@ -1,4 +1,4 @@
-import { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { InternalAxiosRequestConfig } from "axios";
 import APIInstance from "./axios.config";
 import { getSecuredItem } from "../../utils/secureStore";
 import Toast from "react-native-toast-message";
@@ -14,6 +14,7 @@ export const authInterceptor = () => {
   }
 
   APIInstance.interceptors.request.use((request) => {
+    // console.log("Request interceptor", request);
     const unAuthenticatedRoutes = ["/auth/signup", "/auth/token"];
     unAuthenticatedRoutes.forEach((route) => {
       if (request.url?.includes(route)) {
@@ -27,6 +28,7 @@ export const authInterceptor = () => {
 export const errorInterceptor = () => {
   APIInstance.interceptors.response.use(
     (response) => {
+      // console.log("Error interceptor", response);
       return response;
     },
     // Handles any statys code that is not in the range of 2XX
@@ -34,7 +36,7 @@ export const errorInterceptor = () => {
       Toast.show({
         type: "error",
         text1: "Ha ocurrido un error",
-        text2: error.response?.data?.message ?? "Error desconocido",
+        // text2: error.response?.data?.data.message ?? "Error desconocido",
         visibilityTime: 3000,
         swipeable: true,
         text1Style: { fontSize: 16 },

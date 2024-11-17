@@ -9,7 +9,6 @@ type Product = {
   id?: number; 
   name: string;
   description: string;
-  status: string;
   stock: number;
   supplier_price: number;
   sale_price: number;
@@ -20,7 +19,7 @@ type Product = {
   enterprise_id: number;
   category_id: number;
   supplier_id: number;
-}
+} 
 
 type Meta = {
   createdAt: string;
@@ -34,18 +33,16 @@ type DTOEnterprise = {
   NIT: string;
   email: string;
   phoneNumber: string;
-  currency: 'USD' | 'COP';
 };
 
-type RegisterEnterpriseFormat= {
-    enterprise_name: string,
+type RegisterEnterpriseFormat = {
+  enterprise_name: string,
   enterprise_NIT:string,
   enterprise_email: string,
   phone_number: string,
-  currency: 'USD' | 'COP',
 }
 
-type RegisterOwnerFormat= {
+type RegisterOwnerFormat = {
  owner_name: string,
   owner_email: string,
   owner_password: string,

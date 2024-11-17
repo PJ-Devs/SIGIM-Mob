@@ -7,6 +7,7 @@ import CustomButton from "../atoms/CustomButton";
 import { SIZES } from "../../utils/consts";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
 
 interface LayoutProps {
   includeHeader?: boolean;
@@ -31,7 +32,7 @@ export default function Layout({
         const enterpriseData = await AsyncStorage.getItem("enterprise");
 
         if (enterpriseData !== null) {
-          const enterprise = JSON.parse(enterpriseData) 
+          const enterprise = JSON.parse(enterpriseData);
           setEnterprise(enterprise.name);
           return;
         }
@@ -47,17 +48,16 @@ export default function Layout({
 
   return (
     <SafeAreaView
-    className={`flex-1`}
-    style={{
-      width: SIZES.width,
-      minHeight: SIZES.height * 0.85,
-      justifyContent: 'center'
-    }}
+      className={`flex-1 px-5`}
+      style={{
+        width: SIZES.width,
+        minHeight: SIZES.height,
+      }}
     >
       <View className="py-2">
-        {includeHeader && <Header enterpriseName={enterprise}/>}
+        {includeHeader && <Header enterpriseName={enterprise} />}
         {includeSearch && onSearch && (
-          <View>
+          <View className="pt-2">
             <SearchBar onSearch={onSearch} />
           </View>
         )}
@@ -74,6 +74,7 @@ export default function Layout({
         />
       )}
       {children}
+      <Toast config={{}} />
     </SafeAreaView>
   );
 }

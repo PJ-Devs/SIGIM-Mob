@@ -9,7 +9,10 @@ import { router } from "expo-router";
 import Toast from 'react-native-toast-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterSchema } from "../../lib/schemas/auth";
+import { getEnterprise, getProfile } from "../../lib/api/api.fetch";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as z from 'zod';
+
 export default function Register(): JSX.Element {
   const [currentStep, setCurrentStep] = useState(1);
   const { onRegister } = useAuth();
@@ -27,6 +30,27 @@ export default function Register(): JSX.Element {
     resolver: zodResolver(RegisterSchema),
   });
   
+  const fetchEnterpriseInfo = async () => {
+    try {
+      const enterpriseData = await getEnterprise();
+      await AsyncStorage.setItem("enterprise", JSON.stringify(enterpriseData));
+      console.log("Enterprise", enterpriseData);
+    } catch (error) {
+      console.error("Failed to fetch enterprise name:", error);
+    }
+  };
+
+  const fetchProfile = async () => {
+    try {
+      const profileData = await getProfile();
+      await AsyncStorage.setItem("profile", JSON.stringify(profileData));
+      console.log("Profile", profileData);
+    } catch (error) {
+      console.log("Error fetching user profile", error);
+    }
+  };
+
+
   const handleRegisterAll = async (data: any) => {
     const result = await onRegister!(data);
 
@@ -42,6 +66,8 @@ export default function Register(): JSX.Element {
         text1: 'Registro exitoso',
         text2: '¡Bienvenido!',
       });
+      await fetchEnterpriseInfo();
+      await fetchProfile();
       router.push("/");
     }
   };
@@ -57,9 +83,9 @@ export default function Register(): JSX.Element {
   const goToPreviousStep = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 1)); 
   };
-
+  
   return (
-    <Layout includeHeader={false}>
+    <Layout includeHeader={false} canGoBack={currentStep === 1}>
       <View className="px-5">
       {currentStep === 1 && (
         <RegisterEnterpriseForm 

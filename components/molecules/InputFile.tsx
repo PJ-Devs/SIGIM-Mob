@@ -20,12 +20,13 @@ export default function InputFile(): JSX.Element {
   };
 
   return (
-    <View className="bg-white items-center justify-center">
+    <View className="bg-white">
       <CustomButton
         type="secondary"
         shape="rounded"
-        icon="file"
-        title="Select an image"
+        icon="image"
+        iconSize={24}
+        title="Seleccionar imagen"
         onPress={pickImage}
       />
       {image && <Image source={{ uri: image }} className="w-52 h-52" />}

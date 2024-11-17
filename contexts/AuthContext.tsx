@@ -41,8 +41,8 @@ export const AuthProvider = ({ children }: any) => {
       await getSecuredItem("ACCESS_TOKEN").then(
         (token) => {
           if (token) {
-            router.replace("/");
             setAuthState(true);
+            router.replace("/");
           } else {
             setAuthState(false);
             router.replace("/login");
@@ -74,6 +74,7 @@ export const AuthProvider = ({ children }: any) => {
         ...credentials,
         device_name: Device.deviceName ?? "Other",
       };
+      console.log(formattedData)
       const res = await apiLogin(formattedData);
       await setSecuredItem("ACCESS_TOKEN", res.access_token);
       setAuthState(true);
