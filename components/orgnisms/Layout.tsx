@@ -54,10 +54,10 @@ export default function Layout({
         minHeight: SIZES.height,
       }}
     >
-      <View className="py-2">
+      <View>
         {includeHeader && <Header enterpriseName={enterprise} />}
         {includeSearch && onSearch && (
-          <View className="pt-2">
+          <View>
             <SearchBar onSearch={onSearch} />
           </View>
         )}

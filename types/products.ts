@@ -1,10 +1,3 @@
-type RootObject = {
-  products: Product[];
-  total: number;
-  skip: number;
-  limit: number;
-}
-
 type Product = {
   id?: number; 
   name: string;
@@ -17,15 +10,23 @@ type Product = {
   minimal_safe_stock: number;
   discount: number;
   enterprise_id: number;
-  category_id: number;
+  category: Category;
   supplier_id: number;
-} 
+}
 
-type Meta = {
-  createdAt: string;
-  updatedAt: string;
-  barcode: string;
-  qrCode: string;
+type Category = {
+  id: number;
+  name: string;
+  description: string;
+}
+
+// ----------------------------------------------------------
+
+type RootObject = {
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
 }
 
 type DTOEnterprise = {
@@ -67,4 +68,4 @@ type User = {
 }
 
 
-export type { RootObject, Product,Role, Meta, DTOEnterprise, DTOEnterpriseColaborator, RegisterEnterpriseFormat, RegisterOwnerFormat, User };
+export type { RootObject, Product,Role, DTOEnterprise, DTOEnterpriseColaborator, RegisterEnterpriseFormat, RegisterOwnerFormat, User, Category };

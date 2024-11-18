@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TextInput, View } from "react-native";
-import {AntDesign} from '@expo/vector-icons';
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 type CustomSearchProps = {
   initialText?: string;
@@ -19,10 +19,10 @@ export default function SearchBar({
 
   return (
     <View className="flex border-[1px] border-dark px-2 rounded-full flex-row items-center">
-      <Icon name="search1" size={20} color="#888"  />
+      <Icon name="search" size={20} color="#888"  />
       <TextInput
         autoCorrect={false}
-        placeholder="Search"
+        placeholder="Buscar elementos"
         placeholderTextColor="secondary"
         value={query}
         onChangeText={setQuery}
@@ -31,11 +31,6 @@ export default function SearchBar({
         selectionColor="black"
         underlineColorAndroid="transparent" 
         keyboardType="visible-password"
-        onKeyPress={(e) => {
-          if (e.nativeEvent.key === "Enter") {
-            console.log("Enter pressed");
-          }
-        }}
         onSubmitEditing={handleSearch}
       />
     </View>
