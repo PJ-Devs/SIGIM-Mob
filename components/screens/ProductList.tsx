@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Product } from "../../types/products";
 import { FlatList, Text, View } from "react-native";
 import ProductCard from "../molecules/ProductCard";
@@ -8,7 +8,7 @@ import Loading from "../molecules/Loading";
 import CategoriesCarrousel from "../orgnisms/CategoriesCarrousel";
 import { useSQLiteContext } from "expo-sqlite";
 import FloatingButton from "../atoms/FloatingButton";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { SIZES } from "../../utils/consts";
 
 export default function ProductList() {
@@ -42,6 +42,26 @@ export default function ProductList() {
 
     loadProducts();
   }, []);
+
+  /**
+   * Fetch products and reloads the page when the user navigates back to it
+   */
+  useFocusEffect(
+    useCallback(() => {
+      const loadProducts = async () => {
+        setLoading(true);
+        await fetchProducts(db)
+          .then((response) => {
+            setProducts(response);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      };
+
+      loadProducts();
+    }, [])
+  );
 
   return (
     <Layout includeSearch={true} onSearch={onSearch} canGoBack={false}>

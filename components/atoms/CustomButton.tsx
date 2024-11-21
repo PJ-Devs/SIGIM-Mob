@@ -80,10 +80,9 @@ export default function CustomButton({
         ${typeStyles[type]} 
         ${shapeStyles[shape]} 
         ${disabled || loading ? "opacity-50" : "opacity-100"} 
-        ${
-          props.style ??
-          "flex-row justify-center items-center py-2 px-3 shadow-sm "
-        }`}    >
+        ${props.style ?? "py-2 px-3 shadow-sm"} 
+        "felx-1 flex-row justify-center items-center"`}
+    >
       <Animated.View
         className="flex-row gap-x-1.5 justify-center items-center"
         style={{
@@ -114,7 +113,11 @@ export default function CustomButton({
           />
         )}
         {props.title && type !== "icon" && (
-          <Text className={`text-center font-semibold text-base ${type === 'error' ? `text-white` : 'text-black'}`}>
+          <Text
+            className={`text-center font-semibold text-base ${
+              type === "error" ? `text-white` : "text-black"
+            }`}
+          >
             {props.title}
           </Text>
         )}
