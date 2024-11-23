@@ -19,7 +19,7 @@ export default function SearchBar({
 
   return (
     <View className="flex border-[1px] border-dark px-2 rounded-full flex-row items-center">
-      <Icon name="search1" size={20} color="#888"  />
+      <AntDesign name="search1" size={20} color="#888"  />
       <TextInput
         autoCorrect={false}
         placeholder="Search"
