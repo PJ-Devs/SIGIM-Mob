@@ -4,7 +4,7 @@ import NetInfo from "@react-native-community/netinfo";
 import { SQLiteDatabase } from "expo-sqlite";
 import { saveProduct, getProducts } from "../sqlite";
 
-export const fetchProducts = async (db:SQLiteDatabase): Promise<Product[]> => {
+export const fetchProducts = async (db:SQLiteDatabase, query: string): Promise<Product[]> => {
   try {
     const state = await NetInfo.fetch();
 
@@ -14,7 +14,7 @@ export const fetchProducts = async (db:SQLiteDatabase): Promise<Product[]> => {
         getProducts(db)
       });
     }
-    const response = await APIInstance.get("/products");
+    const response = await APIInstance.get(`/products${query}`);
     const products: Product[] = response.data.data;
     for (const product of products) {
       await saveProduct(db, product);
@@ -23,16 +23,6 @@ export const fetchProducts = async (db:SQLiteDatabase): Promise<Product[]> => {
     return products; 
   } catch (error) {
     console.error('Error sincronizando la base de datos local:', error);
-  }
-};
-
-export const fetchProductSearch = async (query: string): Promise<Product[]> => {
-  try {
-    const response = await APIInstance.get(`/products?search=${query}`);
-    return response.data.data;
-  } catch (error) {
-    console.error("Failed to fetch products:", error);
-    return [];
   }
 };
 

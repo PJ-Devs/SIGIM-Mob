@@ -1,6 +1,5 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import Header from "../molecules/Header";
-import SearchBar from "../atoms/SearchBar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import CustomButton from "../atoms/CustomButton";
@@ -11,17 +10,13 @@ import Toast from "react-native-toast-message";
 
 interface LayoutProps {
   includeHeader?: boolean;
-  includeSearch?: boolean;
   canGoBack?: boolean;
-  onSearch?: (query: string) => void;
   children: React.ReactNode;
 }
 
 export default function Layout({
   includeHeader = true,
-  includeSearch = false,
   canGoBack = true,
-  onSearch,
   children,
 }: LayoutProps) {
   const [enterprise, setEnterprise] = useState<string>("");
@@ -56,11 +51,6 @@ export default function Layout({
     >
       <View>
         {includeHeader && <Header enterpriseName={enterprise} />}
-        {includeSearch && onSearch && (
-          <View>
-            <SearchBar onSearch={onSearch} />
-          </View>
-        )}
       </View>
       {router.canGoBack() && canGoBack && (
         <CustomButton

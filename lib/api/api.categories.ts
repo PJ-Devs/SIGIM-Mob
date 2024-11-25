@@ -9,7 +9,7 @@ import APIInstance from "../axios/axios.config";
 export const getCategories = async (query?: string) => {
   try {
     const response = await APIInstance.get(
-      `${query ? `/categories?search=${query}` : "/categories"}`
+      `${query ? `/categories${query}` : "/categories"}`
     );
     return response.data.data as Category[];
   } catch (error) {

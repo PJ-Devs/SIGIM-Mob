@@ -1,20 +1,24 @@
 import { useState } from "react";
-import { TextInput, View } from "react-native";
+import { NativeSyntheticEvent, TextInput, TextInputSubmitEditingEventData, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 type CustomSearchProps = {
   initialText?: string;
-  onSearch: (query: string) => void;
+  emitSearch: (query: string) => void;
+  onSearch: () => void;
 };
 
 export default function SearchBar({
   initialText = "",
+  emitSearch,
   onSearch,
 }: CustomSearchProps) {
   const [query, setQuery] = useState(initialText);
 
-  const handleSearch = () => {
-    onSearch(query);
+  const handleSearch = (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
+    e.preventDefault();
+    console.log(1)
+    onSearch();
   };
 
   return (
@@ -25,13 +29,15 @@ export default function SearchBar({
         placeholder="Buscar elementos"
         placeholderTextColor="secondary"
         value={query}
-        onChangeText={setQuery}
-        onEndEditing={handleSearch}
+        onChangeText={(text) => {
+          emitSearch(text);
+          setQuery(text);
+        }}
         className="flex-1 pl-2 h-10 w-2 rounded-md"
         selectionColor="black"
         underlineColorAndroid="transparent" 
         keyboardType="visible-password"
-        onSubmitEditing={handleSearch}
+        onSubmitEditing={(e) => handleSearch(e)}
       />
     </View>
   );

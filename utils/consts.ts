@@ -6,4 +6,15 @@ const SIZES = {
   inputHeight: 40,
 }
 
-export { SIZES }
+const STATES = {
+  categoriesStatus: [
+    { label : "Habilitadas", value: "available" },
+    { label : "Deshabilitadas", value: "unavailable" },
+  ],
+  productsStatus: [
+    { label : "Disponibles", value: "available" },
+    { label : "No disponibles", value: "unavailable" },
+  ],
+}
+
+export { SIZES, STATES }

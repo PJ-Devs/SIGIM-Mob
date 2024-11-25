@@ -6,23 +6,42 @@ import DropdownComponent from "../molecules/DropDown";
 import InputFile from "../molecules/InputFile";
 import CustomButton from "../atoms/CustomButton";
 import CollapseComponent from "../molecules/Collapse";
-
-const data = [
-  { label: "Item 1", value: "1" },
-  { label: "Item 2", value: "2" },
-  { label: "Item 3", value: "3" },
-  { label: "Item 4", value: "4" },
-  { label: "Item 5", value: "5" },
-  { label: "Item 6", value: "6" },
-  { label: "Item 7", value: "7" },
-  { label: "Item 8", value: "8" },
-];
+import { useEffect, useState } from "react";
+import { Category } from "../../types/products";
+import { getCategories } from "../../lib/api/api.categories";
+import Loading from "../molecules/Loading";
 
 export default function CreateProduct(): JSX.Element {
-  const { control } = useForm();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  const {
+    control,
+    handleSubmit,
+    reset,
+    trigger,
+    formState: { errors },
+  } = useForm();
+
+  const loadCategories = async () => {
+    try {
+      await getCategories()
+        .then((response) => {
+          setCategories(response);
+        })
+        .finally(() => setLoading(false));
+    } catch (error) {
+      console.error("Failed to fetch categories:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
 
   return (
     <Layout canGoBack={false}>
+      {loading && <Loading />}
       <ScrollView className="w-full">
         <CollapseComponent title="Información del producto" collapsed={true}>
           <View style={{ gap: 20 }}>
@@ -53,17 +72,22 @@ export default function CreateProduct(): JSX.Element {
               </View>
             </View>
             <DropdownComponent
-              data={data}
+              data={
+                categories.map((category) => ({
+                  label: category.name,
+                  value: category.id,
+                })) as any
+              }
               label="Categoria"
               icon="tags"
               placeholder="Seleccione la categoria"
             />
-            <DropdownComponent
+            {/* <DropdownComponent
               data={data}
               label="Proveedor"
               icon="truck"
               placeholder="Seleccione el proveedor"
-            />
+            /> */}
             <View
               className="flex-row w-[48%]"
               style={{
@@ -86,10 +110,7 @@ export default function CreateProduct(): JSX.Element {
           </View>
         </CollapseComponent>
         <View className="h-4" />
-        <CollapseComponent
-          title="Configuracion de Stock"
-          collapsed={false}
-        >
+        <CollapseComponent title="Configuracion de Stock" collapsed={false}>
           <View style={{ gap: 20 }}>
             <CustomInput
               label="Stock inicial"

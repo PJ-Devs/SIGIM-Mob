@@ -1,80 +1,61 @@
-import React, {useState} from 'react';
-import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
+import React, { useState } from "react";
+import { Text, View } from "react-native";
+import CustomModal from "./CustomModal";
+import CustomButton from "../atoms/CustomButton";
 
-export default function VerifyModal () {
-  const [modalVisible, setModalVisible] = useState(false);
+interface VerifyModalProps {
+  title: string;
+  message: string;
+  modalVisible: boolean;
+  action: () => void;
+  setVisible: (value: boolean) => void;
+}
+
+export default function VerifyModal({
+  title,
+  message,
+  modalVisible,
+  action,
+  setVisible,
+}: VerifyModalProps): JSX.Element {
   return (
-    <View >
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
-        <View className="flex flex-1 justify-center items-center mt">
-          <View className="m-5 bg-white rounded-2xl p-9 items-center shadow-lg">
-            <Text style={styles.modalText}>Estás seguro de que deseas eliminar este item?</Text>
-            <View className='flex-row gap-5'>
-            <Pressable
-            className="rounded-2xl p-2 bg-primary"
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.textStyle}>Aceptar</Text>
-            </Pressable>
-            <Pressable
-            className="rounded-2xl p-2 bg-primary"
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.textStyle}>Cancelar</Text>
-            </Pressable>
-            </View>
-          </View>
+    <CustomModal
+      title={title}
+      visible={modalVisible}
+      onClose={() => setVisible(false)}
+    >
+      <View className="w-full" style={{ gap: 15 }}>
+        <Text className="text-center text-lg text-gray-800">{message}</Text>
+        <View
+          className="w-full flex-row"
+          style={{
+            gap: 8,
+          }}
+        >
+          <CustomButton
+            type="success"
+            title="Estoy seguro!"
+            icon="check"
+            iconSize={20}
+            onPress={() => {
+              action();
+              setVisible(false);
+            }}
+            style="w-1/2 py-1.5"
+          />
+          <CustomButton
+            type="error"
+            title="Cancelar"
+            icon="times"
+            iconSize={20}
+            iconColor="white"
+            onPress={() => {
+              setVisible(false);
+            }}
+            style="w-1/2 py-1.5"
+          />
         </View>
-      </Modal>
-      <Pressable
-         className="rounded-2xl p-2 bg-primary"
-        onPress={() => setModalVisible(true)}>
-        <Text style={styles.textStyle}>Delete</Text>
-      </Pressable>
-    </View>
+      </View>
+    </CustomModal>
   );
-};
-
-const styles = StyleSheet.create({
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-});
-
+}

@@ -10,7 +10,7 @@ interface CategoryFormProps {
   errors: any;
   trigger: any;
   onSubmit: (data: any) => void;
-  initialValues: Category | {};
+  initialValues?: Category | null;
 }
 
 export default function CategoryForm({
@@ -19,7 +19,7 @@ export default function CategoryForm({
   errors,
   trigger,
   onSubmit,
-  initialValues,
+  initialValues = null,
 }: CategoryFormProps): JSX.Element {
 
   return (

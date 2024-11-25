@@ -17,6 +17,7 @@ type Product = {
 type Category = {
   id: number;
   name: string;
+  status: string;
   description: string;
 }
 
