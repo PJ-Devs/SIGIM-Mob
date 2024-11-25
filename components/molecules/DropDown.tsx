@@ -12,6 +12,9 @@ interface DropdownProps {
   maxHeight?: number;
   searchable?: boolean;
   closeModalWhenSelectedItem?: boolean;
+  error?: boolean;
+  errorMessage?: string;
+  emitValue: (value: string) => void;
 }
 
 export default function DropdownComponent({
@@ -22,13 +25,22 @@ export default function DropdownComponent({
   maxHeight = 300,
   searchable = true,
   closeModalWhenSelectedItem = true,
+  error = false,
+  errorMessage = "",
+  emitValue,
 }: DropdownProps): JSX.Element {
   const [value, setValue] = useState<string | null>(null);
   const [isFocus, setIsFocus] = useState(false);
 
   const renderLabel = () => {
     return (
-      <Text style={[styles.label, isFocus && { color: "#4C9DFF" }]}>
+      <Text
+        style={[
+          styles.label,
+          ( error && value === null) && { color: "red" },
+          isFocus && { color: "#4C9DFF" },
+        ]}
+      >
         {label}
       </Text>
     );
@@ -38,7 +50,11 @@ export default function DropdownComponent({
     <View className={dropDownContainerStyle}>
       {renderLabel()}
       <Dropdown
-        style={[styles.dropdown, isFocus && { borderColor: "#4C9DFF" }]}
+        style={[
+          styles.dropdown,
+          (error && value === null) && { borderColor: "red" },
+          isFocus && { borderColor: "#4C9DFF" },
+        ]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
@@ -56,17 +72,21 @@ export default function DropdownComponent({
         onBlur={() => setIsFocus(false)}
         onChange={(item) => {
           setValue(item.value);
+          emitValue(item.value);
           setIsFocus(false);
         }}
         renderLeftIcon={() => (
           <Icon
             style={styles.icon}
-            color={isFocus ? "#4C9DFF" : "#000000"}
+            color={
+              isFocus ? "#4C9DFF" : (error && value === null) ? "red" : "#000000"
+            }
             name={icon}
             size={20}
           />
         )}
       />
+      {(error && value === null) && <Text style={{ color: "red" }}>{errorMessage}</Text>}
     </View>
   );
 }

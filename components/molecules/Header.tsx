@@ -33,7 +33,7 @@ export default function Header({ enterpriseName }: props): JSX.Element {
             router.navigate("/");
           }
         }}
-        style="p-2.5 rounded-full border-[1px] border-solid border-dark z-10 shadow-md hideen"
+        style="p-2.5 rounded-full border-[1px] border-solid border-dark shadow-md hideen"
       />
       <Link href={"/"}>
         <View className="flex-row items-center gap-x-2">
@@ -52,7 +52,7 @@ export default function Header({ enterpriseName }: props): JSX.Element {
             }
             router.push("/profile");
           }}
-          style="p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md"
+          style="p-2.5 rounded-full border-[1px] border-solid border-dark shadow-md"
         />
       ) : (
         <CustomButton
@@ -62,7 +62,7 @@ export default function Header({ enterpriseName }: props): JSX.Element {
           onPress={() => {
             router.replace("/login");
           }}
-          style="p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md"
+          style="p-2.5 rounded-full border-[1px] border-solid border-dark shadow-md"
         />
       )}
     </View>

@@ -6,6 +6,8 @@ import {
   errorInterceptor,
 } from "../lib/axios/axios.interceptors";
 import { initializeDB } from "../lib/sqlite";
+import Toast from "react-native-toast-message";
+import { toastConfig } from "../lib/toast/toastify";
 
 authInterceptor();
 errorInterceptor();
@@ -25,6 +27,7 @@ export default function layout () {
             headerShown: false,
           }}
         />
+        <Toast config={toastConfig} />
       </AuthProvider>
     </SQLiteProvider>
   );

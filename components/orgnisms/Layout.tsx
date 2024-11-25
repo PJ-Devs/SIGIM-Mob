@@ -6,7 +6,6 @@ import CustomButton from "../atoms/CustomButton";
 import { SIZES } from "../../utils/consts";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Toast from "react-native-toast-message";
 
 interface LayoutProps {
   includeHeader?: boolean;
@@ -49,9 +48,7 @@ export default function Layout({
         minHeight: SIZES.height,
       }}
     >
-      <View>
-        {includeHeader && <Header enterpriseName={enterprise} />}
-      </View>
+      <View>{includeHeader && <Header enterpriseName={enterprise} />}</View>
       {router.canGoBack() && canGoBack && (
         <CustomButton
           type="icon"
@@ -64,7 +61,6 @@ export default function Layout({
         />
       )}
       {children}
-      <Toast config={{}} />
     </SafeAreaView>
   );
 }

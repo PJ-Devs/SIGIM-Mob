@@ -10,6 +10,8 @@ import { categorySchema } from "../../lib/schemas/products";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import VerifyModal from "../molecules/VerifyModal";
+import { showNotification } from "../../lib/toast/toastify";
+import Loading from "../molecules/Loading";
 
 interface CategoryCardProps {
   category: Category;
@@ -24,6 +26,7 @@ export default function CategoryCard({
   onAction,
   isActive,
 }: CategoryCardProps): JSX.Element {
+  const [loading, setLoading] = useState<boolean>(false);
   const backgroundColor = useRef(new Animated.Value(0)).current;
   const buttonOpacity = useRef(new Animated.Value(0)).current;
   const buttonTranslateY = useRef(new Animated.Value(-10)).current;
@@ -52,9 +55,25 @@ export default function CategoryCard({
 
   const handleUpdateCategory = async (data: any) => {
     try {
-      await updateCategory(category.id.toString(), data).then(() => {
-        onAction();
-      });
+      setLoading(true);
+      await updateCategory(category.id.toString(), data).then((response) => {
+        if (response) {
+          showNotification(
+            "success",
+            "Categoria actualizada",
+            "La categoria ha sido actualizada correctamente"
+          );
+          onAction();
+          setModalState({ ...modalState, isUpdate: false });
+        } else {
+          showNotification(
+            "error",
+            "Error al actualizar categoria",
+            "Ocurrio un error al actualizar la categoria"
+          );
+        }
+      })
+      .finally(() => setLoading(false));
     } catch (error) {
       console.error("Failed to update category:", error);
     }
@@ -62,9 +81,23 @@ export default function CategoryCard({
 
   const handleDeleteCategory = async () => {
     try {
-      await deleteCategory(category.id.toString()).then(() => {
-        onAction();
-        setModalState({ ...modalState, isDelete: false });
+      setLoading(true);
+      await deleteCategory(category.id.toString()).then((response) => {
+        if (response) {
+          showNotification(
+            "success",
+            "Categoria eliminada",
+            "La categoria ha sido eliminada correctamente"
+          );
+          onAction();
+          setModalState({ ...modalState, isDelete: false });
+        } else {
+          showNotification(
+            "error",
+            "Error al eliminar categoria",
+            "Ocurrio un error al eliminar la categoria"
+          );
+        }
       });
     } catch (error) {
       console.error("Failed to delete category:", error);
@@ -132,6 +165,7 @@ export default function CategoryCard({
         shadowRadius: 4,
       }}
     >
+      {loading && <Loading />}
       <Pressable onPress={() => onPress(category.id)}>
         <View className="flex-row justify-between items-center">
           <View className="flex-row items-center" style={{ gap: 6 }}>
@@ -175,30 +209,28 @@ export default function CategoryCard({
               </View>
             )}
             {category.status === "unavailable" && (
-              (
-                <View className="flex-row" style={{ gap: 8 }}>
-                  <CustomButton
-                    style="flex justify-center items-center bg-[#4C9DFF] p-2 rounded-full shadow-sm"
-                    type="icon"
-                    icon="redo"
-                    iconColor="white"
-                    iconSize={16}
-                    onPress={() =>
-                      setModalState({ ...modalState, isEnable: true })
-                    }
-                  />
-                  <CustomButton
-                    style="flex justify-center items-center bg-red-400 p-2 rounded-full shadow-sm"
-                    type="icon"
-                    iconColor="white"
-                    iconSize={16}
-                    icon="trash"
-                    onPress={() =>
-                      setModalState({ ...modalState, isDelete: true })
-                    }
-                  />
-                </View>
-              )
+              <View className="flex-row" style={{ gap: 8 }}>
+                <CustomButton
+                  style="flex justify-center items-center bg-[#4C9DFF] p-2 rounded-full shadow-sm"
+                  type="icon"
+                  icon="redo"
+                  iconColor="white"
+                  iconSize={16}
+                  onPress={() =>
+                    setModalState({ ...modalState, isEnable: true })
+                  }
+                />
+                <CustomButton
+                  style="flex justify-center items-center bg-red-400 p-2 rounded-full shadow-sm"
+                  type="icon"
+                  iconColor="white"
+                  iconSize={16}
+                  icon="trash"
+                  onPress={() =>
+                    setModalState({ ...modalState, isDelete: true })
+                  }
+                />
+              </View>
             )}
           </Animated.View>
         </View>
@@ -217,14 +249,11 @@ export default function CategoryCard({
           control={control}
           errors={errors}
           trigger={trigger}
-          onSubmit={() => {
-            handleSubmit(handleUpdateCategory)
-            setModalState({ ...modalState, isUpdate: false });
-          }}
+          onSubmit={handleSubmit(handleUpdateCategory)}
           initialValues={category}
         />
       </CustomModal>
-      <VerifyModal 
+      <VerifyModal
         title="Eliminar categoria"
         message="¿Estás seguro de eliminar la categoria?"
         action={() => handleDeleteCategory()}
@@ -232,7 +261,7 @@ export default function CategoryCard({
         setVisible={() => setModalState({ ...modalState, isDelete: false })}
       />
       <VerifyModal
-        title="Habilitar categoria" 
+        title="Habilitar categoria"
         message="¿Estás seguro de habilitar la categoria?"
         modalVisible={modalState.isEnable}
         action={() => handleUpdateCategory({ status: "available" })}
