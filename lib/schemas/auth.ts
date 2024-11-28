@@ -14,7 +14,6 @@ export const LoginSchema = z.object({
 /*       .refine(val => specialCharacters.test(val), { message: "La contraseña debe contener al menos un carácter especial válido." })
  */  });
 
-
 export const RegisterSchema  = z.object({
     enterprise_email: z.string({ message: "El correo es obligatorio." })
       .email({ message: "El correo electrónico no es válido." })
