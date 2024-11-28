@@ -62,8 +62,8 @@ export const updateProduct = async (id: string, product: {
   description?: string;
   supplier_price?: number;
   sale_price?: number;
-  added_stock?: number,
-  decreased_stock?: number,
+  added_stock?: boolean,
+  stock_change?: number,
   minimal_safe_stock?: number;
   discount?: number;
   category_id?: string;

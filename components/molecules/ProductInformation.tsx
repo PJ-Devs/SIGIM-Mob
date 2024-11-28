@@ -43,34 +43,48 @@ export default function ProductInformation({
           onLoadEnd={() => setImageLoading(false)}
           onError={() => setImageLoading(false)}
         />
-        <Text className="text-lg font-semibold text-center mb-1.5">
+        <Text className="text-lg font-semibold text-center mb-1.5 mt-2">
           {product?.name}
         </Text>
         <Text className="text-sm text-center text-gray-800">
           {product?.description}
         </Text>
-        <View className="w-full flex-row justify-between px-[5%] mt-3">
-          <View className="flex-row items-center" style={{ gap: 5 }}>
-            <Icon name="box" size={18} />
-            <Text className="text-base">Categoria:</Text>
-          </View>
-          <Text className="text-base font-semibold">
-            {product?.category.name}
-          </Text>
-        </View>
-        <View className="w-full flex-row justify-between px-[5%]">
-          <View className="flex-row items-center" style={{ gap: 5 }}>
-            <Icon name="truck" size={18} />
-            <Text className="text-base">Proveedor:</Text>
-          </View>
-          <Text className="text-base font-semibold">
-            {product?.supplier_id}
-          </Text>
+        <View className="mt-2">
+          {[
+            {
+              label: "Categoría",
+              value: product?.category.name,
+              icon_name: "box",
+            },
+            {
+              label: "Proveedor",
+              value: product?.supplier_id,
+              icon_name: "truck",
+            },
+            {
+              label: "Stock disponible",
+              value: `${product?.stock} unidades`,
+              icon_name: "layer-group",
+            },
+            {
+              label: "Stock mínimo",
+              value: `${product?.minimal_safe_stock} unidades`,
+              icon_name: "box-open",
+            },
+          ].map((item) => (
+            <View className="w-full flex-row justify-between px-[2%]">
+              <View className="flex-row items-center" style={{ gap: 5 }}>
+                <Icon name={item.icon_name} size={18} />
+                <Text className="text-base">{item.label}:</Text>
+              </View>
+              <Text className="text-base font-semibold">{item.value}</Text>
+            </View>
+          ))}
         </View>
       </View>
 
       <View className="mt-3">
-        <View className="h-[1px] bg-gray-600 my-1 w-full" />
+        <View className="h-[1px] bg-gray-600 w-full" />
         <Text className="text-base font-semibold text-center mb-2">
           Margen de ganancia por unidad
         </Text>

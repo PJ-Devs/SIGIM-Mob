@@ -4,7 +4,7 @@ import CustomButton from "../atoms/CustomButton";
 import CustomInput from "../atoms/CustomInput";
 import DropdownComponent from "./DropDown";
 import { useState } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import { Product } from "../../types/products";
 import { updateProduct } from "../../lib/api/api.products";
 import { showNotification } from "../../lib/toast/toastify";
@@ -23,6 +23,7 @@ export default function UpdateStockForm({
 }: UpdateStockFromProps): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedAction, setSelectedAction] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   type fromFileds = z.infer<typeof updateStockSchema>;
   const {
@@ -30,13 +31,11 @@ export default function UpdateStockForm({
     handleSubmit,
     trigger,
     formState: { errors },
-  } = useForm<fromFileds>(
-    {
-      mode: "onSubmit",
-      reValidateMode: "onSubmit",
-      resolver: zodResolver(updateStockSchema),
-    }
-  );
+  } = useForm<fromFileds>({
+    mode: "onSubmit",
+    reValidateMode: "onSubmit",
+    resolver: zodResolver(updateStockSchema),
+  });
 
   /**
    * Handles the update of the stock for a given product.
@@ -49,23 +48,21 @@ export default function UpdateStockForm({
   const handleUpdateStock = async (data: any) => {
     try {
       setLoading(true);
-      if (selectedAction === "" && (product.stock - data['quantity']) < 0) {
-        showNotification("error", "No se puede actualizar el stock");
+      if (selectedAction === "decrease" && data.stock_change > product.stock) {
+        setError(
+          "No puedes disminuir el stock del producto por debajo del stock actual"
+        );
         setLoading(false);
         return;
       }
 
-      const body = selectedAction && selectedAction === 'added_stock'
-        ? { added_stock: data['quantity'] } 
-        : { added_stock: data['quantity'] } 
-        
-      await updateProduct(product.id.toString(), body)
+      await updateProduct(product.id.toString(), {
+        ... data,
+        added_stock: selectedAction === "add" ? true : false,
+      })
         .then((response) => {
           if (response) {
-            selectedAction && selectedAction === 'added_stock'
-              ? product.stock += data['quantity']
-              : product.stock -= data['quantity']
-            emitChanges(product);
+            emitChanges(response);
             showNotification("success", "Stock Actualizado con exito");
           }
         })
@@ -79,14 +76,30 @@ export default function UpdateStockForm({
   return (
     <View style={{ gap: 20 }}>
       <View style={{ gap: 15 }}>
-        <DropdownComponent
-          data={STATES.stockActions}
-          emitValue={(value) => setSelectedAction(value)}
-          icon="exchange-alt"
-        />
+        {error && (
+          <View className="w-full">
+            <Text className="font-semibold px-2 py-1 bg-red-200 border-l-4 border-red-600 rounded-md">
+              {error}
+            </Text>
+          </View>
+        )}
+        <View>
+          <DropdownComponent
+            data={STATES.stockActions}
+            emitValue={(value) => setSelectedAction(value)}
+            icon="exchange-alt"
+          />
+          <View className="w-full items-end">
+            {selectedAction === "decrease" && (
+              <Text className="pt-0.5 font-semibold">
+                Stock actual del producto: {product.stock} unidades.
+              </Text>
+            )}
+          </View>
+        </View>
         <View>
           <CustomInput
-            propertyName="quantity"
+            propertyName="stock_change"
             placeholder="Selecciona una cantidad"
             label="Cantidad a actualizar"
             initialValue="0"

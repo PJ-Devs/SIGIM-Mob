@@ -67,7 +67,7 @@ export const createProductSchema = z
   });
 
 export const updateStockSchema = z.object({
-  quantity: z.preprocess(
+  stock_change: z.preprocess(
     (val) => (typeof val === "string" ? parseFloat(val) : val),
     z
       .number({ message: "La cantidad es obligatoria." })

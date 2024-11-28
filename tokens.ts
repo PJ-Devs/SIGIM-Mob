@@ -1,5 +1,5 @@
 const inputStlye =
-  "flex-wrap h-10 w-full bg-white border border-black rounded-md p-2";
+  "flex-wrap h-10 w-full bg-white border border-black rounded-md p-2 shadow-sm shadow-gray-700";
 
 const circularLogoContainerStyle =
   "border-[1px] border-solid rounded-full p-2 shadow-md shadow-gray-200";

@@ -18,8 +18,8 @@ const STATES = {
     { label: "Deshabilitados", value: "unavailable" },
   ],
   stockActions: [
-    { label: "Incremenetar stock", value: "added_stock" },
-    { label: "Disminuir stokc", value: "decreased_stock" },
+    { label: "Añadir stock", value: "add" },
+    { label: "Disminuir stock", value: "decrease" },
   ],
 };
 

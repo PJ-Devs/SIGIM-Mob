@@ -140,7 +140,18 @@ export default function SingleProduct(): JSX.Element {
                 justifyContent: "space-between",
               }}
             >
-              <ProductInformation product={product!} />
+              <View style={{ gap: 15 }}>
+                <ProductInformation product={product!} />
+                <CustomButton
+                  type="secondary"
+                  title="Ver registro de ventas"
+                  icon="chart-line"
+                  iconSize={22}
+                  onPress={() => {}}
+                  shape="rounded"
+                  style="mx-auto px-4 py-2"
+                />
+              </View>
               <Pressable
                 className="flex-row items-center rounded-full border-[1px] border-solid px-3 py-1"
                 style={{
@@ -206,7 +217,11 @@ export default function SingleProduct(): JSX.Element {
           >
             <UpdateStockForm
               product={product as Product}
-              emitChanges={(product) => setProduct(product)}
+              emitChanges={(product) => {
+                console.log(product);
+                setProduct(product);
+                setModalSate({ ...modalState, changeStock: false });
+              }}
             />
           </CustomModal>
           <VerifyModal

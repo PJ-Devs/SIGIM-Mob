@@ -23,12 +23,14 @@ export default function Header({
       <View className="flex-1 items-start">
         {leftButton && <View>{leftButton}</View>}
       </View>
-      <Link href={"/"} className="flex-1">
-        <View className="flex-row items-center justify-center gap-x-2">
-          <Icon name="home" size={24} />
-          <Text className="text-lg font-semibold">{enterpriseName}</Text>
-        </View>
-      </Link>
+      {authState && (
+        <Link href={"/"} className="flex-1">
+          <View className="flex-row items-center justify-center gap-x-2">
+            <Icon name="home" size={24} />
+            <Text className="text-lg font-semibold">{enterpriseName}</Text>
+          </View>
+        </Link>
+      )}
       <View className="flex-1 items-end">
         {rightButton && <View>{rightButton}</View>}
       </View>
