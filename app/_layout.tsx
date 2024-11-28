@@ -8,8 +8,9 @@ import {
   errorInterceptor,
 } from "../lib/axios/axios.interceptors";
 import { initializeDB } from "../lib/sqlite";
-import { requestUserPermission } from "../lib/notifications";
 import Toast from "react-native-toast-message";
+import { toastConfig } from "../lib/toast/toastify";
+import { requestUserPermission } from "../lib/notifications";
 
 authInterceptor();
 errorInterceptor();
@@ -37,7 +38,6 @@ export default function layout () {
     });
 
     return unsubscribe;
-
   }, []);
 
   return (
@@ -55,6 +55,7 @@ export default function layout () {
           }}
         />
       </AuthProvider>
+      <Toast config={toastConfig} />
     </SQLiteProvider>
   );
 }

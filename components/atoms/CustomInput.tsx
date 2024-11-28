@@ -28,19 +28,21 @@ export default function CustomInput({
   initialValue = "",
   numberOfLines = 1,
 }: CustomInputProps) {
-  console.log(initialValue);
   return (
     <Controller
       control={control}
       name={propertyName}
+      defaultValue={initialValue}
       render={({
-        field: { onChange, onBlur, value = initialValue },
+        field: { onChange, onBlur, value },
         fieldState: { error },
       }) => (
         <View className="w-full">
           {label && (
             <Text
-              className="absolute text-sm left-2 top-[-11px] bg-white z-10 px-1 font-semibold text-gray-800"
+              className={`absolute text-sm left-2 top-[-11px] bg-white z-10 px-1 font-semibold text-gray-800 ${
+                errors && errors[propertyName] ? "text-red-500" : ""
+              }`}
             >
               {label}
             </Text>
@@ -48,24 +50,27 @@ export default function CustomInput({
           <TextInput
             className={`${inputStlye} ${error ? "border-red-500" : ""}`}
             style={{
+              maxWidth: "100%",
               height:
                 numberOfLines > 1
                   ? SIZES.inputHeight * numberOfLines
                   : SIZES.inputHeight,
+              textAlignVertical: "top",
+              flexWrap: "wrap",
             }}
             placeholder={placeholder}
-            value={value}
             numberOfLines={numberOfLines}
             multiline={numberOfLines > 1}
             keyboardType={type}
             secureTextEntry={secureTextEntry}
+            value={value}
             onChangeText={(text) => {
               onChange(text);
               if (trigger) trigger(propertyName);
             }}
             onBlur={onBlur}
           />
-          {errors && (
+          {errors && errors[propertyName] && (
             <Text className="text-red-600 text-start mt-1">
               {errors[propertyName]?.message}
             </Text>

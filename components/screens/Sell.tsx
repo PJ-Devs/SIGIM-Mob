@@ -4,7 +4,7 @@ import SectionCard from "../molecules/SectionCard";
 
 export default function Sell(): JSX.Element {
   return (
-    <Layout canGoBack={false}>
+    <Layout>
       <View style={{ flex: 1, alignItems:'center' }}>
         <SectionCard link="/orders" linkText="Mis ventas" />
       </View>

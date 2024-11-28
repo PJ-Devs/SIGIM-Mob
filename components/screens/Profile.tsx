@@ -7,155 +7,166 @@ import CustomButton from "../atoms/CustomButton";
 import { useAuth } from "../../contexts/AuthContext";
 import { User } from "../../types/products";
 import AccountMenu from "../molecules/AccountMenu";
-import { useIsFocused } from '@react-navigation/native';
-import {  getProfile } from "../../lib/api/api.fetch";
-import Toast from 'react-native-toast-message';
+import { useIsFocused } from "@react-navigation/native";
 import { deleteEnterprise } from "../../lib/api/api.fetch";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import VerifyModal from "../molecules/VerifyModal";
+import { deleteSecuredItem } from "../../utils/secureStore";
+import { showNotification } from "../../lib/toast/toastify";
+import Loading from "../molecules/Loading";
+import BackButton from "../atoms/BackButton";
 
 export default function Profile(): JSX.Element {
-  const { onLogout } = useAuth();
-  const isFocused = useIsFocused();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [userProfile, setUserProfile] = useState<User | null>({
-    id: "",
-    email: "",
-    name: "",
-    role: {
-      id: 0,
-      name: "",
-    },
+  const [userProfile, setUserProfile] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [modalState, setmodalState] = useState({
+    deleteEnterprise: false,
+    logOut: false,
   });
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const profileData = await AsyncStorage.getItem("profile");
-        if (profileData !== null) {
-          const profile = JSON.parse(profileData) 
-          setUserProfile(profile);
-          return;
-        }
-      } catch (error) {
-        setUserProfile(null);
-        console.error("Failed to retrieve enterprise data:", error);
-        return null;
-      }
-    };
-    if (isFocused) {
-    fetchProfile();
-  }
-  }, [isFocused]);
+  const isFocused = useIsFocused();
+  const { onLogout } = useAuth();
 
-  const handleLogout = async (data: any) => {
+  const fetchProfile = async () => {
     try {
-      await onLogout().then(() =>{
-        router.push("/login");
-      });
+      setLoading(true);
+      const profileData = await AsyncStorage.getItem("profile");
+      if (profileData !== null) {
+        const profile = JSON.parse(profileData);
+        setUserProfile(profile);
+        setLoading(false);
+        return;
+      }
+    } catch (error) {
+      setUserProfile(null);
+      console.error("Failed to retrieve enterprise data:", error);
+      return null;
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      setLoading(true);
+      await onLogout()
+        .then(async () => {
+          await deleteSecuredItem("ACCESS_TOKEN");
+          showNotification(
+            "info",
+            `Nos vemos luego, ${userProfile?.name.split(" ")[0]}!`
+          );
+          setLoading(false);
+          router.push("/login");
+        })
+        .finally(() => setLoading(false));
     } catch (error) {
       console.log("Error al cerrar sesión", error);
+      showNotification("error", "No se pudo cerrar sesión");
     }
   };
 
   const enterpriseDeleting = async () => {
     try {
-      await deleteEnterprise();
+      setLoading(true);
+      await deleteEnterprise()
+        .then(async (response) => {
+          if (response) {
+            await deleteSecuredItem("ACCESS_TOKEN");
+            showNotification("success", "Empresa eliminada con éxito");
+            router.push("/login");
+          }
+        })
+        .finally(() => setLoading(false));
     } catch (error) {
-      console.log("Error al eliminar empresa");
-      console.log(error);
+      console.log("Error al eliminar empresa", error);
+      showNotification("error", "No se pudo eliminar la empresa");
     }
   };
 
+  useEffect(() => {
+    if (isFocused) {
+      fetchProfile();
+    }
+  }, [isFocused]);
 
   return (
-    <Layout canGoBack={false}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View className="bg-slate-100 p-4 flex-1">
-          <View
-            className="justify-center items-center"
-            style={{ flex: 1, zIndex: 999 }}
-          >
-            <View
-              className="bg-white p-10 border border-white rounded-xl items-center"
-              style={{
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 4,
-                elevation: 5,
-              }}
-            >
-              <Text className="text-center mb-4 text-base">
-                ¿Estás completamente seguro de eliminar tu empresa?
-              </Text>
-              <View className="flex-row mt-6" style={{ gap: 10 }}>
-                <CustomButton
-                  type="error"
-                  icon="exclamation-triangle"
-                  title="Si, eliminar"
-                  onPress={() => {
-                    enterpriseDeleting();
-                    setModalVisible(false);
-                    router.push("/login");
-                  }}
+    <Layout leftButton={<BackButton />}>
+      {loading && !userProfile ? (
+        <Loading />
+      ) : (
+        <View className="w-full h-[93%] justify-between">
+          <View style={{ gap: 30 }}>
+            <View className="w-full rounded-lg" style={{ gap: 20 }}>
+              <Text className="text-xl font-semibold">Hola denuevo</Text>
+              <View
+                className="flex-row justify-center items-center"
+                style={{ gap: 15 }}
+              >
+                <CircularLogo
+                  img={require("../../assets/atom.png")}
+                  alt="profile_img"
                 />
-                <CustomButton
-                  type="success"
-                  icon="door-closed"
-                  title="No eliminar"
-                  onPress={() => {
-                    setModalVisible(false);
-                  }}
-                />
+                <View>
+                  <Text className="text-2xl font-bold text-blue-600">
+                    {userProfile?.name || "Cargando..."}
+                  </Text>
+                </View>
+              </View>
+              <View className="flex-row justify-center items-center px-2 py-4 bg-dark rounded-md shadow-sm">
+                <Text className="text-white font-normal">
+                  Haces parte de la empresa{" "}
+                </Text>
+                <Text className="text-white font-semibold">
+                  como {userProfile?.role.name || "Cargando..."}
+                </Text>
               </View>
             </View>
+            <AccountMenu />
           </View>
+
+          <View style={{ gap: 10 }}>
+            <CustomButton
+              title="Cerrar Sesión"
+              type="error"
+              icon="door-closed"
+              iconSize={20}
+              iconColor="white"
+              disabled={loading}
+              loading={loading && modalState.logOut}
+              onPress={() => setmodalState({ ...modalState, logOut: true })}
+            />
+            <CustomButton
+              title="Eliminar Empresa"
+              type="error"
+              icon="exclamation-triangle"
+              iconSize={20}
+              iconColor="white"
+              disabled={loading}
+              loading={loading && modalState.deleteEnterprise}
+              onPress={() =>
+                setmodalState({ ...modalState, deleteEnterprise: true })
+              }
+            />
+          </View>
+          <VerifyModal
+            title="Cerrar Sesión"
+            message="¿Estás completamente seguro de cerrar sesión?"
+            action={() => handleLogout()}
+            modalVisible={modalState.logOut}
+            setVisible={(value) =>
+              setmodalState({ ...modalState, logOut: value })
+            }
+          />
+          <VerifyModal
+            title="Eliminar Empresa"
+            message="¿Estás completamente seguro de eliminar tu empresa?"
+            action={() => enterpriseDeleting()}
+            modalVisible={modalState.deleteEnterprise}
+            setVisible={(value) =>
+              setmodalState({ ...modalState, deleteEnterprise: value })
+            }
+          />
         </View>
-      </Modal>
-
-      <View className="flex-row justify-center items-center max-w-full min-w-full" style={{gap:15}}>
-        <CircularLogo
-          img={require("../../assets/atom.png")}
-          alt="profile_img"
-        />
-        <View className="flex-coljustify-center gap-y-0">
-          <Text className="font-bold text-xl text-blue-400">
-            {userProfile?.name || "Cargando..."}
-          </Text>
-          <Text className="">{userProfile?.email || "Cargando..."} </Text>
-          <Text className="">{userProfile?.role.name || "Cargando..."} </Text>
-        </View>
-      </View>
-
-     <AccountMenu/>
-
-      <View className="flex-col justify-center mb-16 px-4" style={{ gap: 10 }}>
-        <CustomButton
-          type="error"
-          icon="exclamation-triangle"
-          title="Eliminar Empresa"
-          onPress={() => {
-            setModalVisible(true);
-          }}
-        />
-        <CustomButton
-          type="error"
-          icon="door-closed"
-          title="Cerrar Sesión"
-          onPress={handleLogout}
-        />
-      </View>
-      <Toast />
+      )}
     </Layout>
   );
 }
