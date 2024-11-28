@@ -29,15 +29,15 @@ export const createProductSchema = z
       .string({ message: "La descripción del producto es obligatoria." })
       .min(10, { message: "La descripción debe tener al menos 10 caracteres." })
       .max(255, { message: "La descripción no debe exceder 255 caracteres." }),
-    provider_price: z.preprocess(
+    supplier_price: z.preprocess(
       (val) => (typeof val === "string" ? parseFloat(val) : val),
-      z.number({ message: "El precio de proveedor es obligatorio." }).min(0.01, {
+      z.number({ message: "El precio de proveedor es obligatorio." }).min(1, {
         message: "El precio de proveedor debe ser mayor a 0.",
       })
     ),
     sale_price: z.preprocess(
       (val) => (typeof val === "string" ? parseFloat(val) : val),
-      z.number({ message: "El precio de venta es obligatorio." }).min(0.01, {
+      z.number({ message: "El precio de venta es obligatorio." }).min(1, {
         message: "El precio de venta debe ser mayor a 0.",
       })
     ),
@@ -55,14 +55,22 @@ export const createProductSchema = z
     ),
     discount: z.preprocess(
       (val) => (typeof val === "string" ? parseFloat(val) : val),
-      z.number({ message: "El descuento del producto es obligatorio." })
+      z
+        .number({ message: "El descuento del producto es obligatorio." })
         .min(0, { message: "El descuento no puede ser menor a 0%." })
         .max(100, { message: "El descuento no puede exceder el 100%." })
     ),
   })
-  .refine((data) => data.sale_price > data.provider_price, {
+  .refine((data) => data.sale_price > data.supplier_price, {
     message: "El precio de venta debe ser mayor que el precio de proveedor.",
     path: ["sale_price"],
   });
 
-
+export const updateStockSchema = z.object({
+  quantity: z.preprocess(
+    (val) => (typeof val === "string" ? parseFloat(val) : val),
+    z
+      .number({ message: "La cantidad es obligatoria." })
+      .min(1, { message: "La cantidad debe ser mayor a 0" })
+  ),
+});

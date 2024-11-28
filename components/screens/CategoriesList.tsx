@@ -15,6 +15,8 @@ import * as z from "zod";
 import { categorySchema } from "../../lib/schemas/products";
 import { useForm } from "react-hook-form";
 import CategoryForm from "../molecules/CategoryForm";
+import BackButton from "../atoms/BackButton";
+import ProfileButton from "../atoms/ProfileButton";
 
 export default function CategoriesList(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
@@ -43,7 +45,9 @@ export default function CategoriesList(): JSX.Element {
     try {
       setLoading(true);
       let query = `?search=${filters.search}`;
-      status ? (query += `&status=${status}`) : query += `&status=${filters.status}`;
+      status
+        ? (query += `&status=${status}`)
+        : (query += `&status=${filters.status}`);
       await getCategories(query)
         .then((response) => {
           setCategories(response);
@@ -83,7 +87,7 @@ export default function CategoriesList(): JSX.Element {
   }, []);
 
   return (
-    <Layout canGoBack={false}>
+    <Layout leftButton={<BackButton />} rightButton={<ProfileButton />}>
       {loading ?? <Loading />}
       <View className="flex-1 bg-white">
         <SearchBar

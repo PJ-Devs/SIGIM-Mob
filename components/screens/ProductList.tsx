@@ -12,6 +12,8 @@ import { router, useFocusEffect } from "expo-router";
 import { SIZES, STATES } from "../../utils/consts";
 import SearchBar from "../atoms/SearchBar";
 import DropDownFilter from "../molecules/DropDownFilter";
+import BackButton from "../atoms/BackButton";
+import ProfileButton from "../atoms/ProfileButton";
 
 export default function ProductList() {
   const db = useSQLiteContext();
@@ -48,7 +50,7 @@ export default function ProductList() {
   );
 
   return (
-    <Layout canGoBack={false}>
+    <Layout leftButton={<BackButton />} rightButton={<ProfileButton />}>
       {loading ?? <Loading />}
       <View className="flex-1 bg-white">
         <SearchBar
@@ -70,7 +72,10 @@ export default function ProductList() {
             keyExtractor={(item) => item.id!.toString()}
             renderItem={({ item }) => (
               <View className="flex-1 items-center my-1.5 w-full">
-                <ProductCard product={item} />
+                <ProductCard
+                  product={item}
+                  emitLoading={(value) => setLoading(value)}
+                />
               </View>
             )}
             initialNumToRender={5}

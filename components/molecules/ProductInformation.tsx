@@ -3,6 +3,8 @@ import { Product } from "../../types/products";
 import LottieView from "lottie-react-native";
 import { SIZES } from "../../utils/consts";
 import { useState } from "react";
+import { showCurrency } from "../../utils/helpser";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 interface ProductInformationProps {
   product: Product;
@@ -13,12 +15,9 @@ export default function ProductInformation({
 }: ProductInformationProps): JSX.Element {
   const [imageLoading, setImageLoading] = useState(false);
 
-  const discount = (product.sale_price * (product.discount / 100)).toFixed(2);
-  const gainMargin = (product.sale_price - product.supplier_price - parseFloat(discount)).toFixed(2);
-
   return (
     <View>
-      <View className="items-center">
+      <View className="items-center mt-10">
         {imageLoading && (
           <LottieView
             source={require("../../assets/animations/image-loader.json")}
@@ -50,34 +49,76 @@ export default function ProductInformation({
         <Text className="text-sm text-center text-gray-800">
           {product?.description}
         </Text>
+        <View className="w-full flex-row justify-between px-[5%] mt-3">
+          <View className="flex-row items-center" style={{ gap: 5 }}>
+            <Icon name="box" size={18} />
+            <Text className="text-base">Categoria:</Text>
+          </View>
+          <Text className="text-base font-semibold">
+            {product?.category.name}
+          </Text>
+        </View>
+        <View className="w-full flex-row justify-between px-[5%]">
+          <View className="flex-row items-center" style={{ gap: 5 }}>
+            <Icon name="truck" size={18} />
+            <Text className="text-base">Proveedor:</Text>
+          </View>
+          <Text className="text-base font-semibold">
+            {product?.supplier_id}
+          </Text>
+        </View>
       </View>
 
-      <View className="mt-5">
+      <View className="mt-3">
         <View className="h-[1px] bg-gray-600 my-1 w-full" />
         <Text className="text-base font-semibold text-center mb-2">
           Margen de ganancia por unidad
         </Text>
-        <View className="w-[90%] mx-auto">
+        <View className="w-[95%] mx-auto">
           {[
-            { label: "Precio del proveedor", value: `$${product?.supplier_price}` },
-            { label: "Precio de venta", value: `$${product?.sale_price}` },
+            {
+              label: "Precio de venta",
+              value: `${showCurrency(product?.sale_price)}`,
+            },
+            {
+              label: "Precio del proveedor",
+              value: `${showCurrency(product?.supplier_price)}`,
+            },
             {
               label: "Descuento",
-              value: `(${product?.discount}%) $${discount}`,
+              value: `${showCurrency(product.sale_price * product.discount)} (${
+                product?.discount * 100
+              }%)`,
               textColor: "text-red-600",
               borderBottom: true,
             },
-            { label: "Ganancia", value: `$${gainMargin}`, textColor: "text-green-700" },
-          ].map(({ label, value, textColor = "text-gray-800", borderBottom }, index) => (
-            <View
-              key={index}
-              className={`flex-row justify-between ${borderBottom ? "border-b-[1px] border-gray-600" : ""
+            {
+              label: "Ganancia",
+              value: `${showCurrency(
+                product.sale_price -
+                  product.supplier_price -
+                  product.sale_price * product.discount
+              )}`,
+              textColor: "text-green-700",
+            },
+          ].map(
+            (
+              { label, value, textColor = "text-gray-800", borderBottom },
+              index
+            ) => (
+              <View
+                key={index}
+                className={`flex-row justify-between ${
+                  borderBottom ? "border-b-[1px] border-gray-600" : ""
                 }`}
-            >
-              <Text className="text-sm font-semibold">{label}</Text>
-              <Text className={`text-sm text-center ${textColor}`}>{value}</Text>
-            </View>
-          ))}
+              >
+                <Text className="text-sm font-semibold">{label}</Text>
+                <Text className={`text-sm text-center ${textColor}`}>
+                  {value}
+                </Text>
+              </View>
+            )
+          )}
         </View>
         <View className="h-[1px] bg-gray-600 my-1 w-full" />
       </View>

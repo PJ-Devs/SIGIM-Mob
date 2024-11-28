@@ -35,3 +35,46 @@ export const getSingleProduct = async (id: string): Promise<Product> => {
     return {} as Product;   
   }
 }
+
+export const createProduct = async (product: {
+  name: string;
+  description: string;
+  supplier_price: number;
+  sale_price: number;
+  stock: number;
+  minimal_safe_stock: number;
+  discount: number;
+  category_id: string;
+  supplier_id: number;
+  is_favorite: boolean;
+}) => {
+  try {
+    const response = await APIInstance.post("/products", product);
+    return response.data.data;
+  } catch (error) {
+    console.error("Failed to create product:", error);
+    return null;
+  }
+}
+
+export const updateProduct = async (id: string, product: {
+  name?: string;
+  description?: string;
+  supplier_price?: number;
+  sale_price?: number;
+  added_stock?: number,
+  decreased_stock?: number,
+  minimal_safe_stock?: number;
+  discount?: number;
+  category_id?: string;
+  supplier_id?: number;
+  is_favorite?: boolean;
+}) => {
+  try {
+    const response = await APIInstance.put(`/products/${id}`, product);
+    return response.data.data;
+  } catch (error) {
+    console.error("Failed to update product:", error);
+    return null;
+  }
+}

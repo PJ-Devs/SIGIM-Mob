@@ -50,10 +50,13 @@ export default function CustomInput({
           <TextInput
             className={`${inputStlye} ${error ? "border-red-500" : ""}`}
             style={{
+              maxWidth: "100%",
               height:
                 numberOfLines > 1
                   ? SIZES.inputHeight * numberOfLines
                   : SIZES.inputHeight,
+              textAlignVertical: "top",
+              flexWrap: "wrap",
             }}
             placeholder={placeholder}
             numberOfLines={numberOfLines}

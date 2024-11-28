@@ -77,11 +77,7 @@ export default function CustomButton({
       onPress={props.onPress}
       disabled={disabled || loading}
       className={` 
-        ${typeStyles[type]} 
-        ${shapeStyles[shape]} 
-        ${disabled || loading ? "opacity-50" : "opacity-100"} 
-        ${props.style ?? "py-2 px-3 shadow-sm"} 
-        "felx-1 flex-row justify-center items-center"`}
+        ${typeStyles[type]} ${shapeStyles[shape]} ${disabled || loading ? "opacity-50" : "opacity-100"} ${props.style ?? "py-2 px-3 shadow-sm"} "felx-1 flex-row justify-center items-center"`}
     >
       <Animated.View
         className="flex-row gap-x-1.5 justify-center items-center"

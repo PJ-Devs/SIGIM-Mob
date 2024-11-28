@@ -85,7 +85,7 @@ export default function Register(): JSX.Element {
   };
   
   return (
-    <Layout includeHeader={false} canGoBack={currentStep === 1}>
+    <Layout includeHeader={false}>
       <View className="px-5">
       {currentStep === 1 && (
         <RegisterEnterpriseForm 

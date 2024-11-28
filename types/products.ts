@@ -1,5 +1,5 @@
 type Product = {
-  id?: number; 
+  id: number; 
   name: string;
   description: string;
   stock: number;
@@ -9,6 +9,7 @@ type Product = {
   barcode: string;
   minimal_safe_stock: number;
   discount: number;
+  is_favorite: boolean;
   enterprise_id: number;
   category: Category;
   supplier_id: number;

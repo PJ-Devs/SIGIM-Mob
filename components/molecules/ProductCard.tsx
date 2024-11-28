@@ -4,21 +4,44 @@ import { useState } from "react";
 import { Product } from "../../types/products";
 import LottieView from "lottie-react-native";
 import { router } from "expo-router";
+import { SIZES } from "../../utils/consts";
+import { showCurrency } from "../../utils/helpser";
+import { updateProduct } from "../../lib/api/api.products";
+import { showNotification } from "../../lib/toast/toastify";
 
 interface ProductCardProps {
   product: Product;
-  isFavorite?: boolean;
+  emitLoading: (loading: boolean) => void;
 }
 
 export default function ProductCard({
   product,
-  isFavorite = false,
+  emitLoading,
 }: ProductCardProps): JSX.Element {
-  const [isFav, setIsFav] = useState<boolean>(isFavorite);
+  const [isFav, setIsFav] = useState<boolean>(product.is_favorite);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const handleFavorite = () => {
-    setIsFav(!isFav);
+  const handleFavorite = async () => {
+    try {
+      emitLoading(true);
+      console.log(!isFav);
+      await updateProduct(product.id!.toString(), { is_favorite: !isFav }).then(
+        (response) => {
+          if (response) {
+            setIsFav(!isFav);
+            showNotification(
+              "success",
+              `Producto ${isFav ? "eliminado de" : "agregado a"} favoritos`
+            );
+            emitLoading(false);
+          }
+        }
+      );
+    } catch (error) {
+      console.error("Failed to update favorite status:", error);
+      showNotification("error", "No se pudo actualizar el estado del producto");
+      emitLoading(false);
+    }
   };
 
   return (
@@ -26,7 +49,7 @@ export default function ProductCard({
       onPress={() => {
         router.push(`/products/${product.id}`);
       }}
-      className="flex-row bg-white w-full gap-x-2 py-2 px-4 rounded-lg shadow-sm"
+      className="flex-row bg-white w-full gap-x-2 py-2 px-3 rounded-lg shadow-sm"
     >
       {loading && (
         <LottieView
@@ -35,23 +58,56 @@ export default function ProductCard({
           loop
           speed={1.5}
           resizeMode="cover"
-          style={{ width: "33%", zIndex: 1 }}
+          style={{ width: SIZES.width * 0.28, height: SIZES.width * 0.28 }}
         />
       )}
-      <Image
-        alt="Product Image"
-        resizeMode="contain"
-        className="w-1/3 h-30"
-        source={{
-          uri: `${process.env.EXPO_PUBLIC_SERVER_URL}/${product.thumbnail}`,
-        }}
-        onLoadEnd={() => setLoading(false)}
-        onError={() => setLoading(false)}
-      />
+      {product.thumbnail ? (
+        <Image
+          alt="Product Image"
+          resizeMode="contain"
+          resizeMethod="scale"
+          style={{ width: SIZES.width * 0.28, height: SIZES.width * 0.28 }}
+          source={{
+            uri: `${process.env.EXPO_PUBLIC_SERVER_URL}/${product.thumbnail}`,
+          }}
+          onLoadEnd={() => setLoading(false)}
+          onError={() => setLoading(false)}
+        />
+      ) : (
+        <Image
+          alt="Product Image"
+          resizeMode="cover"
+          style={{ width: SIZES.width * 0.28, height: SIZES.width * 0.28 }}
+          source={require("../../assets/images/img_placeholder.png")}
+          onLoadEnd={() => setLoading(false)}
+          onError={() => setLoading(false)}
+        />
+      )}
 
-      <View className="w-2/3 pl-2 pr-3">
+      <View
+        style={{
+          flex: 1,
+          height: SIZES.width * 0.28,
+          justifyContent: "space-between",
+        }}
+      >
         <View className="flex-row justify-between items-center gap-x-2 mb-1">
-          <Text className="font-semibold shrink grow">{product.name}</Text>
+          <View>
+            <Text className="font-semibold text-sm shrink grow">
+              {product.name}
+            </Text>
+            {product.stock > 0 &&
+              product.stock < product.minimal_safe_stock && (
+                <Text className=" text-xs font-semibold text-gray-800 bg-orange-300 px-1 rounded-sm">
+                  Disponibilidad baja
+                </Text>
+              )}
+            {product.stock === 0 && (
+              <Text className=" text-xs font-semibold text-white bg-red-600 px-1 rounded-sm">
+                Producto agotado
+              </Text>
+            )}
+          </View>
           <Pressable onPress={handleFavorite}>
             {isFav ? (
               <Icon name="heart" size={22} color="red" />
@@ -60,8 +116,43 @@ export default function ProductCard({
             )}
           </Pressable>
         </View>
-        <Text className="text-sm text-gray-700">{`Disponibilidad: ${product.stock} unidades`}</Text>
-        <Text className="font-semibold text-green-600 text-right mt-2">{`$${product.sale_price}`}</Text>
+
+        <Text className="text-xs text-gray-700">
+          {`Disponibilidad: ${product.stock} unidades`}
+        </Text>
+        <Text className="text-xs text-gray-700">
+          {`Categoria": ${product.category.name}`}
+        </Text>
+
+        <View>
+          {product.discount > 0 ? (
+            <View className="justify-end">
+              <View
+                className="flex relative top-2 flex-row justify-end items-center"
+                style={{ gap: 3 }}
+              >
+                <Text className="text-xs text-right line-through text-red-700">
+                  {`${showCurrency(product.sale_price)}`}
+                </Text>
+                <Text className="text-xs text-red-700">
+                  {`(-${(product.discount * 100).toFixed(0)}%)`}
+                </Text>
+              </View>
+              <Text className="font-semibold text-green-700 text-right mt-2">
+                {`${showCurrency(product.sale_price * (1 - product.discount))}`}
+              </Text>
+            </View>
+          ) : (
+            <View className="justify-end">
+              <Text className="flex relative text-xs text-right mt-2 text-gray-700">
+                No aplica descuento
+              </Text>
+              <Text className="font-semibold text-green-700 text-right">
+                {`${showCurrency(product.sale_price)}`}
+              </Text>
+            </View>
+          )}
+        </View>
       </View>
     </Pressable>
   );

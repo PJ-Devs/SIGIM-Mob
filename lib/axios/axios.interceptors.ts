@@ -28,11 +28,11 @@ export const authInterceptor = () => {
 export const errorInterceptor = () => {
   APIInstance.interceptors.response.use(
     (response) => {
-      // console.log("Error interceptor", response);
       return response;
     },
     // Handles any statys code that is not in the range of 2XX
     (error) => {
+      // console.log(error)
       Toast.show({
         type: "error",
         text1: "Ha ocurrido un error",

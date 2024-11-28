@@ -19,6 +19,8 @@ import Loading from "../molecules/Loading";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { createProductSchema } from "../../lib/schemas/products";
+import { createProduct } from "../../lib/api/api.products";
+import { showNotification } from "../../lib/toast/toastify";
 
 export default function CreateProduct(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
@@ -61,16 +63,27 @@ export default function CreateProduct(): JSX.Element {
         category: true,
       });
     }
-  }
+  };
 
   const handleCreateProduct = async (data: any) => {
-    data = {
-      ...data,
-      category_id: selectedCategory,
+    try {
+      setLoading(true);
+      await createProduct({
+        ...data,
+        discount: data.discount / 100,
+        category_id: selectedCategory,
+        supplier_id: 1,
+      }).then((response) => {
+        console.log("Product created:", response);
+        if(response) {
+          showNotification("success", "Producto creado correctamente");
+          reset();
+        }
+      }).finally(() => setLoading(false));
+    } catch (error) {
+      console.error("Failed to create product:", error);
     }
-
-    console.log(data);
-  }
+  };
 
   useEffect(() => {
     loadCategories();
@@ -147,7 +160,7 @@ export default function CreateProduct(): JSX.Element {
                   <CustomInput
                     label="Precio proveedor *"
                     placeholder="Precio de proveedor"
-                    propertyName="provider_price"
+                    propertyName="supplier_price"
                     control={control}
                     trigger={trigger}
                     errors={errors}
@@ -173,7 +186,7 @@ export default function CreateProduct(): JSX.Element {
               </View>
             </CollapseComponent>
             <View className="h-4" />
-            <CollapseComponent title="Configuracion de Stock" collapsed={false}>
+            <CollapseComponent title="Configuracion de Stock" collapsed={true}>
               <View style={{ gap: 20 }}>
                 <CustomInput
                   label="Stock inicial *"
@@ -204,7 +217,7 @@ export default function CreateProduct(): JSX.Element {
             onPress={() => {
               evalSelections();
               handleSubmit(handleCreateProduct)();
-            }}  
+            }}
           />
         </View>
       </KeyboardAvoidingView>

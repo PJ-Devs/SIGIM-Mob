@@ -9,13 +9,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface LayoutProps {
   includeHeader?: boolean;
-  canGoBack?: boolean;
+  leftButton?: JSX.Element | null;
+  rightButton?: JSX.Element | null;
   children: React.ReactNode;
 }
 
 export default function Layout({
   includeHeader = true,
-  canGoBack = true,
+  leftButton = null,
+  rightButton = null,
   children,
 }: LayoutProps) {
   const [enterprise, setEnterprise] = useState<string>("");
@@ -48,16 +50,11 @@ export default function Layout({
         minHeight: SIZES.height,
       }}
     >
-      <View>{includeHeader && <Header enterpriseName={enterprise} />}</View>
-      {router.canGoBack() && canGoBack && (
-        <CustomButton
-          type="icon"
-          icon="arrow-left"
-          iconSize={20}
-          onPress={() => {
-            router.back();
-          }}
-          style="absolute top-16 left-4 p-2.5 rounded-full border-[1px] border-solid border-dark z-1 shadow-md"
+      {includeHeader && (
+        <Header
+          enterpriseName={enterprise}
+          leftButton={leftButton}
+          rightButton={rightButton}
         />
       )}
       {children}

@@ -12,7 +12,7 @@ import { toastConfig } from "../lib/toast/toastify";
 authInterceptor();
 errorInterceptor();
 
-export default function layout () {
+export default function layout() {
   return (
     <SQLiteProvider databaseName="test.db" onInit={initializeDB}>
       <AuthProvider>
@@ -27,8 +27,8 @@ export default function layout () {
             headerShown: false,
           }}
         />
-        <Toast config={toastConfig} />
       </AuthProvider>
+      <Toast config={toastConfig} />
     </SQLiteProvider>
   );
 }
