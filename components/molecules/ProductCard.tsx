@@ -23,6 +23,8 @@ export default function ProductCard({
     setIsFav(!isFav);
   };
 
+  console.log(`${process.env.EXPO_PUBLIC_SERVER_URL}/${product.thumbnail}`);
+
   return (
     <Pressable
       onPress={onPress}

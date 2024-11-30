@@ -1,8 +1,9 @@
 import React from "react";
 import { View, Dimensions } from "react-native";
-import SectionCard from "../molecules/SectionCard";
 import { ScrollView } from "react-native";
 import Layout from "./Layout";
+import SectionCard from "../molecules/SectionCard";
+import FloatingMenu from "../molecules/FloatingMenu";
 
 export default function Sections() {
   return (
@@ -13,11 +14,11 @@ export default function Sections() {
         }}>
           <SectionCard link="/profile" linkText="Perfil" />
           <SectionCard link="/productList" linkText="Inventario" />
-          <SectionCard link="/sell" linkText="Crear una venta"/>
           {/* <SectionCard link="/login" linkText="Acceder" />
           <SectionCard link="/signUp" linkText="Registrarse" /> */}
         </View>
       </ScrollView>
+      <FloatingMenu />
     </Layout>
   );
 }

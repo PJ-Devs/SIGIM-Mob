@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { dropDownContainerStyle} from "../../tokens";
+import { dropDownContainerStyle } from "../../tokens";
+import { Controller } from "react-hook-form";
 
 /**
  * How to use Dropdown component in your project?
@@ -23,10 +24,15 @@ import { dropDownContainerStyle} from "../../tokens";
  */
 
 type dropDownProps = {
+  name?: string
   data: { label: string; value: string }[];
+  control: any;
+  triger?: any;
+  propertyName: string;
+  errors?: any;
 }
 
-export default function DropdownComponent({data}: dropDownProps): JSX.Element {
+export default function DropdownComponent({ name, data, control, propertyName, triger }: dropDownProps): JSX.Element {
   const [value, setValue] = useState<string | null>(null);
   const [isFocus, setIsFocus] = useState(false);
 
@@ -34,7 +40,7 @@ export default function DropdownComponent({data}: dropDownProps): JSX.Element {
     if (value || isFocus) {
       return (
         <Text style={[styles.label, isFocus && { color: "blue" }]}>
-          Dropdown label 
+          Dropdown label
         </Text>
       );
     }
@@ -42,38 +48,51 @@ export default function DropdownComponent({data}: dropDownProps): JSX.Element {
   };
 
   return (
-    <View className={dropDownContainerStyle}>
-      {renderLabel()}
-      <Dropdown
-        style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
-        placeholderStyle={styles.placeholderStyle}
-        selectedTextStyle={styles.selectedTextStyle}
-        inputSearchStyle={styles.inputSearchStyle}
-        iconStyle={styles.iconStyle}
-        data={data}
-        search
-        maxHeight={300}
-        labelField="label"
-        valueField="value"
-        placeholder={!isFocus ? "Select item" : "..."}
-        searchPlaceholder="Search..."
-        value={value}
-        onFocus={() => setIsFocus(true)}
-        onBlur={() => setIsFocus(false)}
-        onChange={(item) => {
-          setValue(item.value);
-          setIsFocus(false);
-        }}
-        renderLeftIcon={() => (
-          <AntDesign
-            style={styles.icon}
-            color={isFocus ? "blue" : "black"}
-            name="Safety"
-            size={20}
-          />
-        )}
-      />
-    </View>
+    <Controller
+      control={control}
+      name={propertyName}
+      render={
+        (
+          {
+            field: { onChange, onBlur, value },
+            fieldState: { error },
+          }
+        ) => (
+          <View className={dropDownContainerStyle}>
+            {renderLabel()}
+            < Dropdown
+              style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={data}
+              search
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? (name ? name : "Select Item") : "..."}
+              searchPlaceholder="Search..."
+              value={value}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                onChange(item.label);
+                if (triger) triger(propertyName);
+              }}
+              renderLeftIcon={() => (
+                <AntDesign
+                  style={styles.icon}
+                  color={isFocus ? "blue" : "black"}
+                  name="Safety"
+                  size={20}
+                />
+              )}
+            />
+          </View >
+        )
+      }
+    />
   );
 }
 
