@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, Pressable } from "react-native";
+import { Text, Pressable } from "react-native";
 import { useLinkTo } from "@react-navigation/native";
-import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 
 interface CardProps {
   color?: string;
@@ -18,7 +18,7 @@ export default function SectionCard({
 
   return (
     <Pressable
-      onPress={() => linkTo(link)}
+      onPress={() => router.navigate(link)}
       className="w-[95%] shadow-md"
       style={{
         backgroundColor: "#39CDCD",

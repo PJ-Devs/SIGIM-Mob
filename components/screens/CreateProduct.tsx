@@ -18,9 +18,11 @@ import { getCategories } from "../../lib/api/api.categories";
 import Loading from "../molecules/Loading";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { createProductSchema } from "../../lib/schemas/products";
+import { productSchema } from "../../lib/schemas/products";
 import { createProduct } from "../../lib/api/api.products";
 import { showNotification } from "../../lib/toast/toastify";
+import BackButton from "../atoms/BackButton";
+import ProfileButton from "../atoms/ProfileButton";
 
 export default function CreateProduct(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
@@ -30,7 +32,7 @@ export default function CreateProduct(): JSX.Element {
     category: false,
   });
 
-  type FormFields = z.infer<typeof createProductSchema>;
+  type FormFields = z.infer<typeof productSchema>;
   const {
     control,
     handleSubmit,
@@ -40,7 +42,7 @@ export default function CreateProduct(): JSX.Element {
   } = useForm<FormFields>({
     mode: "onSubmit",
     reValidateMode: "onSubmit",
-    resolver: zodResolver(createProductSchema),
+    resolver: zodResolver(productSchema),
   });
 
   const loadCategories = async () => {
@@ -73,13 +75,15 @@ export default function CreateProduct(): JSX.Element {
         discount: data.discount / 100,
         category_id: selectedCategory,
         supplier_id: 1,
-      }).then((response) => {
-        console.log("Product created:", response);
-        if(response) {
-          showNotification("success", "Producto creado correctamente");
-          reset();
-        }
-      }).finally(() => setLoading(false));
+      })
+        .then((response) => {
+          console.log("Product created:", response);
+          if (response) {
+            showNotification("success", "Producto creado correctamente");
+            reset();
+          }
+        })
+        .finally(() => setLoading(false));
     } catch (error) {
       console.error("Failed to create product:", error);
     }
@@ -90,7 +94,7 @@ export default function CreateProduct(): JSX.Element {
   }, []);
 
   return (
-    <Layout canGoBack={false}>
+    <Layout leftButton={<BackButton />} rightButton={<ProfileButton />}>
       {loading && <Loading />}
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}

@@ -24,7 +24,6 @@ export default function ProductCard({
   const handleFavorite = async () => {
     try {
       emitLoading(true);
-      console.log(!isFav);
       await updateProduct(product.id!.toString(), { is_favorite: !isFav }).then(
         (response) => {
           if (response) {
@@ -61,28 +60,24 @@ export default function ProductCard({
           style={{ width: SIZES.width * 0.28, height: SIZES.width * 0.28 }}
         />
       )}
-      {product.thumbnail ? (
-        <Image
-          alt="Product Image"
-          resizeMode="contain"
-          resizeMethod="scale"
-          style={{ width: SIZES.width * 0.28, height: SIZES.width * 0.28 }}
-          source={{
-            uri: `${process.env.EXPO_PUBLIC_SERVER_URL}/${product.thumbnail}`,
-          }}
-          onLoadEnd={() => setLoading(false)}
-          onError={() => setLoading(false)}
-        />
-      ) : (
-        <Image
-          alt="Product Image"
-          resizeMode="cover"
-          style={{ width: SIZES.width * 0.28, height: SIZES.width * 0.28 }}
-          source={require("../../assets/images/img_placeholder.png")}
-          onLoadEnd={() => setLoading(false)}
-          onError={() => setLoading(false)}
-        />
-      )}
+      <Image
+        alt="Product Image"
+        resizeMode="contain"
+        style={{
+          width: loading ? 0 : SIZES.width * 0.28,
+          height: loading ? 0 : SIZES.width * 0.28,
+        }}
+        source={
+          product.thumbnail
+            ? {
+                uri: `${process.env.EXPO_PUBLIC_SERVER_URL}/${product.thumbnail}`,
+              }
+            : require("../../assets/images/img_placeholder.png")
+        }
+        onLoadEnd={() => setLoading(false)}
+        onError={() => setLoading(false)}
+
+      />
 
       <View
         style={{

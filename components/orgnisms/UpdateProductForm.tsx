@@ -8,35 +8,69 @@ import DropdownComponent from "../molecules/DropDown";
 import { useState } from "react";
 import { Category, Product } from "../../types/products";
 import { useForm } from "react-hook-form";
+import { productSchema } from "../../lib/schemas/products";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { updateProduct } from "../../lib/api/api.products";
+import { showNotification } from "../../lib/toast/toastify";
 
 interface UpdateProductFormProps {
   product: Product;
   categories: Category[];
-  emitLoading: (state: boolean) => void;
+  emitChanges: (product: Product) => void;
 }
 
 export default function UpdateProductForm({
   product,
   categories,
-  emitLoading,
+  emitChanges,
 }: UpdateProductFormProps): JSX.Element {
+  const [loading, setLoading] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<string>(
-    product.category.name
+    product.category.id.toString()
   );
 
+  type fromFields = z.infer<typeof productSchema>;
   const {
     control,
     handleSubmit,
     trigger,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isDirty },
+  } = useForm<fromFields>({
+    mode: "onSubmit",
+    reValidateMode: "onSubmit",
+    resolver: zodResolver(productSchema),
+  });
 
-  const updateProduct = (data: any)  => {
+  const canUpdate = (): boolean => {
+    return (
+      isDirty ||
+      Object.keys(errors).length > 0 ||
+      selectedCategory !== product.category.id.toString()
+    );
+  };
+
+  const update = (data: any) => {
     try {
-      console.log(data)
+      setLoading(true);
+      updateProduct(product.id.toString(), {
+        ...data,
+        discount: data.discount / 100,
+        category_id: selectedCategory,
+        supplier_id: 1,
+      })
+        .then((response) => {
+          if (response) {
+            showNotification("success", "Producto actualizado correctamente");
+            emitChanges(response);
+          }
+        })
+        .finally(() => setLoading(false));
     } catch (error) {
+      console.error("Failed to update product:", error);
+      showNotification("error", "No se pudo actualizar el producto");
     }
-  }
+  };
 
   return (
     <View
@@ -45,9 +79,11 @@ export default function UpdateProductForm({
         justifyContent: "space-between",
       }}
     >
-      <View style={{
-        gap: 20
-      }}>
+      <View
+        style={{
+          gap: 20,
+        }}
+      >
         <View
           className="flex-row items-center pb-1 border-b-[1px]"
           style={{ gap: 5 }}
@@ -85,9 +121,10 @@ export default function UpdateProductForm({
             initialValue={
               {
                 label: product?.category.name,
-                value: product?.category.id,
+                value: product?.category.id.toString(),
               } as any
             }
+            searchable={false}
             label="Categoria"
             icon="tags"
             placeholder="Seleccione la categoria"
@@ -164,11 +201,16 @@ export default function UpdateProductForm({
           </View>
         </View>
       </View>
-      <CustomButton
-        type="secondary"
-        title="Actualizar Producto"
-        onPress={handleSubmit(updateProduct)}
-      />
+      <View style={{ gap: 2 }}>
+        <CustomButton
+          type="secondary"
+          title="Actualizar Producto"
+          disabled={!canUpdate()}
+          loading={loading}
+          onPress={handleSubmit(update)}
+        />
+        {!canUpdate() && <Text className="text-center text-gray-700">No se han realizado cambios</Text>}
+      </View>
     </View>
   );
 }

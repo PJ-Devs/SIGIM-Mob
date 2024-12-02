@@ -7,14 +7,14 @@ import {
 } from "../lib/api/api.auth";
 import {
   deleteSecuredItem,
-  getItem,
   getSecuredItem,
   setSecuredItem,
 } from "../utils/secureStore";
 import { router } from "expo-router";
-import { showNotification } from "../lib/toast/toastify";
+import { User } from "../types/products";
 
 interface AuthContextData {
+  user: User | null;
   authState: boolean;
   loading: boolean;
   onRegister: (enterpriseData: any) => Promise<any>;
@@ -36,15 +36,14 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }: any) => {
   const [authState, setAuthState] = useState<boolean>(false);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const checkAuthState = async () => {
       await getSecuredItem("ACCESS_TOKEN").then(
-        (token) => {
+        async (token) => {
           if (token) {
-            // const profile = JSON.parse(getItem('profile') as string);
-            // showNotification('success', profile.name)
             setAuthState(true);
             router.replace("/");
           } else {
@@ -98,6 +97,7 @@ export const AuthProvider = ({ children }: any) => {
   };
 
   const value = {
+    user: user,
     authState: authState,
     loading: loading,
     onRegister: register,

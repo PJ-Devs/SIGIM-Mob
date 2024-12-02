@@ -11,7 +11,7 @@ import CustomButton from "../atoms/CustomButton";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { SIZES } from "../../utils/consts";
 import { showNotification } from "../../lib/toast/toastify";
-import UpdateProductForm from "../orgnisms/UpdateProfuctForm";
+import UpdateProductForm from "../orgnisms/UpdateProductForm";
 import { getCategories } from "../../lib/api/api.categories";
 import CustomModal from "../molecules/CustomModal";
 import VerifyModal from "../molecules/VerifyModal";
@@ -30,6 +30,7 @@ export default function SingleProduct(): JSX.Element {
   const [modalState, setModalSate] = useState({
     changeStock: false,
     disableProduct: false,
+    enableProduct: false,
     deleteProduct: false,
   });
 
@@ -38,8 +39,7 @@ export default function SingleProduct(): JSX.Element {
   const handleFavorite = async () => {
     try {
       setLoading(true);
-      console.log(!isFav);
-      await updateProduct(product!.id!.toString(), {
+      await updateProduct(product!.id.toString(), {
         is_favorite: !isFav,
       }).then((response) => {
         if (response) {
@@ -55,6 +55,23 @@ export default function SingleProduct(): JSX.Element {
       console.error("Failed to update favorite status:", error);
       showNotification("error", "No se pudo actualizar el estado del producto");
       setLoading(false);
+    }
+  };
+
+  const updateProductStatus = async (newStatus: string) => {
+    try {
+      setLoading(true);
+      await updateProduct(product!.id.toString(), { status: newStatus }).then(
+        (response) => {
+          if (response) {
+            setProduct(response);
+            setLoading(false);
+            showNotification("success", "Producto actualizado correctamente");
+          }
+        }
+      );
+    } catch (error) {
+      showNotification("error", "No se pudo actualizar el producto");
     }
   };
 
@@ -179,7 +196,9 @@ export default function SingleProduct(): JSX.Element {
               <UpdateProductForm
                 product={product!}
                 categories={categories}
-                emitLoading={(value) => setLoading(value)}
+                emitChanges={(product) => {
+                  setProduct(product);
+                }}
               />
             </View>
 
@@ -192,13 +211,23 @@ export default function SingleProduct(): JSX.Element {
                 <Text className="text-base font-semibold">Zona de peligro</Text>
               </View>
               <View style={{ gap: 10 }}>
-                <CustomButton
-                  type="warning"
-                  title="Deshabilitar producto"
-                  onPress={() =>
-                    setModalSate({ ...modalState, disableProduct: true })
-                  }
-                />
+                {product?.status === "available" && (
+                  <CustomButton
+                    type="warning"
+                    title="Deshabilitar producto"
+                    onPress={() =>
+                      setModalSate({ ...modalState, disableProduct: true })
+                    }
+                  />
+                )}
+                {product?.status === "unavailable" && (
+                  <CustomButton
+                    title="Habilitar producto"
+                    onPress={() =>
+                      setModalSate({ ...modalState, enableProduct: true })
+                    }
+                  />
+                )}
                 <CustomButton
                   type="error"
                   title="Eliminar producto"
@@ -218,12 +247,20 @@ export default function SingleProduct(): JSX.Element {
             <UpdateStockForm
               product={product as Product}
               emitChanges={(product) => {
-                console.log(product);
                 setProduct(product);
                 setModalSate({ ...modalState, changeStock: false });
               }}
             />
           </CustomModal>
+          <VerifyModal
+            title="Habilitar producto"
+            message="Esta seguro de que desea habilitar el producto?"
+            modalVisible={modalState.enableProduct}
+            setVisible={(visible) =>
+              setModalSate({ ...modalState, enableProduct: visible })
+            }
+            action={() => updateProductStatus("available")}
+          />
           <VerifyModal
             title="Deshabilitar producto"
             message="Esta seguro de que desea deshabilitar el producto?"
@@ -231,7 +268,7 @@ export default function SingleProduct(): JSX.Element {
             setVisible={(visible) =>
               setModalSate({ ...modalState, disableProduct: visible })
             }
-            action={() => {}}
+            action={() => updateProductStatus("unavailable")}
           />
           <VerifyModal
             title="Ekiminar producto"
@@ -240,7 +277,7 @@ export default function SingleProduct(): JSX.Element {
             setVisible={(visible) =>
               setModalSate({ ...modalState, deleteProduct: visible })
             }
-            action={() => {}}
+            action={() => updateProductStatus("deleted")}
           />
         </View>
       )}

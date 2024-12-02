@@ -14,7 +14,7 @@ const STATES = {
   productsStatus: [
     { label: "Habilitados", value: "available" },
     { label: "Disponibilidad baja", value: "low_stock" },
-    { label: "Agotados", value: "no_stock" },
+    { label: "Agotados", value: "out_of_stock" },
     { label: "Deshabilitados", value: "unavailable" },
   ],
   stockActions: [

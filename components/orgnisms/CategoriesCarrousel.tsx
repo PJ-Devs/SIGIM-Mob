@@ -2,8 +2,6 @@ import {
   View,
   Text,
   FlatList,
-  TouchableOpacity,
-  Pressable,
 } from "react-native";
 import CategoryTag from "../molecules/CategoryTag";
 import { useEffect, useState } from "react";
