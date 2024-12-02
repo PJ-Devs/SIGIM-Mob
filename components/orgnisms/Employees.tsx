@@ -119,7 +119,6 @@ export default function Employees({ defaultEmployees = [], viewType="register" }
                 })
                
                 if (response) {
-                    console.log("lo hizooooo");
                     setCreateModal(false);
                     const fetchedEmployees = await getCollaborators();
                     setEmployees(fetchedEmployees);
