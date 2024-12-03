@@ -23,11 +23,11 @@ function UpdateProfileForm() {
   });
 
   const schema = z.object({
-    email: z.optional(
-      z.string().email({ message: "El correo electrónico no es válido." })
-    ),
-    name: z.optional(z.string()),
-  });
+    email: z.optional(z.string()
+    .email({ message: "El correo electrónico no es válido." }),
+  ),
+  name: z.optional(z.string())
+});
 
   type FormFields = z.infer<typeof schema>;
 
@@ -87,6 +87,7 @@ function UpdateProfileForm() {
       <CustomInput
         propertyName="name"
         control={control}
+        trigger={trigger}
         initialValue={userProfile?.name}
       />
       <CustomInput

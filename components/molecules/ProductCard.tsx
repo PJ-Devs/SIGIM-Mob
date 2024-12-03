@@ -43,6 +43,8 @@ export default function ProductCard({
     }
   };
 
+  console.log(`${process.env.EXPO_PUBLIC_SERVER_URL}/${product.thumbnail}`);
+
   return (
     <Pressable
       onPress={() => {

@@ -4,12 +4,7 @@ import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import { Platform } from "react-native";
 
-export interface PushNotificationState {
-  expoPushToken?: Notifications.ExpoPushToken;
-  notification?: Notifications.Notification;
-}
-
-export const usePushNotifications = (): PushNotificationState => {
+export const usePushNotifications = () => {
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldPlaySound: false,

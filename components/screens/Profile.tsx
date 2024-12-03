@@ -54,6 +54,8 @@ export default function Profile(): JSX.Element {
             "info",
             `Nos vemos luego, ${userProfile?.name.split(" ")[0]}!`
           );
+          AsyncStorage.removeItem("profile");
+          AsyncStorage.removeItem("enterprise");
           setLoading(false);
           router.push("/login");
         })

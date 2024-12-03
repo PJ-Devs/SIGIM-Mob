@@ -17,7 +17,6 @@ export default function SearchBar({
 
   const handleSearch = (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
     e.preventDefault();
-    console.log(1)
     onSearch();
   };
 
