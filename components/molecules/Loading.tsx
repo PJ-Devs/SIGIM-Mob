@@ -1,5 +1,6 @@
 import { View } from "react-native";
 import LottieView from "lottie-react-native";
+import { SIZES } from "../../utils/consts";
 
 interface LoadingProps {
   size?: number;
@@ -8,9 +9,11 @@ interface LoadingProps {
 
 export default function Loading({ size, speed }: LoadingProps) {
   return (
-    <View
-    className="absolute inset-0 flex justify-center items-center w-full h-full"
-    >
+    <View className="absolute z-30 flex justify-center items-center" style={{
+      width: SIZES.width,
+      height: SIZES.height,
+      backgroundColor: "rgba(0,0,0,0.03)"
+    }}>
       <LottieView
         source={require("../../assets/animations/loading-animation.json")}
         autoPlay

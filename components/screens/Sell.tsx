@@ -55,7 +55,7 @@ export default function Sell(): JSX.Element {
   }, []);
 
   return (
-    <Layout includeSearch={true} onSearch={onSearch} canGoBack={false}>
+    <Layout>
       <Text className="uppercase text-[#39cdcd] text-lg font-bold text-center mb-4">Crear una venta</Text>
       {loading ? (
         <Loading />
@@ -78,7 +78,6 @@ export default function Sell(): JSX.Element {
         </View>
 
       )}
-      <Toast />
     </Layout>
   );
 }

@@ -1,15 +1,7 @@
-type RootObject = {
-  products: Product[];
-  total: number;
-  skip: number;
-  limit: number;
-}
-
 type Product = {
-  id?: number; 
+  id: number; 
   name: string;
   description: string;
-  status: string;
   stock: number;
   supplier_price: number;
   sale_price: number;
@@ -17,16 +9,26 @@ type Product = {
   barcode: string;
   minimal_safe_stock: number;
   discount: number;
+  is_favorite: boolean;
   enterprise_id: number;
-  category_id: number;
+  category: Category;
   supplier_id: number;
 }
 
-type Meta = {
-  createdAt: string;
-  updatedAt: string;
-  barcode: string;
-  qrCode: string;
+type Category = {
+  id: number;
+  name: string;
+  status: string;
+  description: string;
+}
+
+// ----------------------------------------------------------
+
+type RootObject = {
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
 }
 
 type DTOEnterprise = {
@@ -34,28 +36,34 @@ type DTOEnterprise = {
   NIT: string;
   email: string;
   phoneNumber: string;
-  currency: 'USD' | 'COP';
 };
 
-type RegisterEnterpriseFormat= {
-    enterprise_name: string,
+type RegisterEnterpriseFormat = {
+  enterprise_name: string,
   enterprise_NIT:string,
   enterprise_email: string,
   phone_number: string,
-  currency: 'USD' | 'COP',
 }
 
-type RegisterOwnerFormat= {
+type RegisterOwnerFormat = {
  owner_name: string,
   owner_email: string,
   owner_password: string,
 }
 
 type DTOEnterpriseColaborator = {
+  id: number;
   name: string;
   email: string;
   accessCode?: string;
 };
+
+type EnterpriseCollaborator ={
+  id: number;
+  name: string;
+  email: string;
+  role: Role;
+}
 
 type Role = {
   id: number;
@@ -69,5 +77,17 @@ type User = {
   role: Role;
 }
 
+type Supplier ={
+  id: number;
+  name: string;
+  email: string;
+  phone_number: string;
+  NIT: string;
+}
 
-export type { RootObject, Product,Role, Meta, DTOEnterprise, DTOEnterpriseColaborator, RegisterEnterpriseFormat, RegisterOwnerFormat, User };
+type Client = {
+  id: number;
+  name: string;
+}
+
+export type { RootObject, Product,Role, DTOEnterprise, DTOEnterpriseColaborator, RegisterEnterpriseFormat, RegisterOwnerFormat, User, Category, Supplier, Client, EnterpriseCollaborator };
