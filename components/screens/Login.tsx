@@ -73,7 +73,7 @@ export default function Login(): JSX.Element {
   };
 
   return (
-    <Layout includeHeader={false} canGoBack={false}>
+    <Layout includeHeader={false}>
       <View className="justify-center w-full h-full">
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}

@@ -122,7 +122,7 @@ export default function Profile(): JSX.Element {
                 </Text>
               </View>
             </View>
-            <AccountMenu />
+            <AccountMenu user={userProfile!} />
           </View>
 
           <View style={{ gap: 10 }}>
@@ -136,18 +136,20 @@ export default function Profile(): JSX.Element {
               loading={loading && modalState.logOut}
               onPress={() => setmodalState({ ...modalState, logOut: true })}
             />
-            <CustomButton
-              title="Eliminar Empresa"
-              type="error"
-              icon="exclamation-triangle"
-              iconSize={20}
-              iconColor="white"
-              disabled={loading}
-              loading={loading && modalState.deleteEnterprise}
-              onPress={() =>
-                setmodalState({ ...modalState, deleteEnterprise: true })
-              }
-            />
+            {userProfile?.role.id === 5 && (
+              <CustomButton
+                title="Eliminar Empresa"
+                type="error"
+                icon="exclamation-triangle"
+                iconSize={20}
+                iconColor="white"
+                disabled={loading}
+                loading={loading && modalState.deleteEnterprise}
+                onPress={() =>
+                  setmodalState({ ...modalState, deleteEnterprise: true })
+                }
+              />
+            )}
           </View>
           <VerifyModal
             title="Cerrar Sesión"

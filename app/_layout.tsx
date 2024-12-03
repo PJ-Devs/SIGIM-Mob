@@ -17,7 +17,6 @@ authInterceptor();
 errorInterceptor();
 
 export default function layout () {
-
   const { expoPushToken } = usePushNotifications();
 
   useEffect(() => {

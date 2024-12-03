@@ -71,8 +71,8 @@ export default function ProductInformation({
               value: `${product?.minimal_safe_stock} unidades`,
               icon_name: "box-open",
             },
-          ].map((item) => (
-            <View className="w-full flex-row justify-between px-[2%]">
+          ].map((item, index) => (
+            <View className="w-full flex-row justify-between px-[2%]" key={index}>
               <View className="flex-row items-center" style={{ gap: 5 }}>
                 <Icon name={item.icon_name} size={18} />
                 <Text className="text-base">{item.label}:</Text>

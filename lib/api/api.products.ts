@@ -64,11 +64,13 @@ export const updateProduct = async (id: string, product: {
   sale_price?: number;
   added_stock?: boolean,
   stock_change?: number,
+  stock?: number;
+  status?: string;
   minimal_safe_stock?: number;
   discount?: number;
+  is_favorite?: boolean;
   category_id?: string;
   supplier_id?: number;
-  is_favorite?: boolean;
 }) => {
   try {
     const response = await APIInstance.put(`/products/${id}`, product);

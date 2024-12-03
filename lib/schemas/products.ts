@@ -15,7 +15,7 @@ export const categorySchema = z.object({
     }),
 });
 
-export const createProductSchema = z
+export const productSchema = z
   .object({
     name: z
       .string({ message: "El nombre del producto es obligatorio." })

@@ -3,6 +3,7 @@ type Product = {
   name: string;
   description: string;
   stock: number;
+  status: string;
   supplier_price: number;
   sale_price: number;
   thumbnail: string;
