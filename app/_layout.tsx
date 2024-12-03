@@ -11,18 +11,17 @@ import { initializeDB } from "../lib/sqlite";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "../lib/toast/toastify";
 import { requestUserPermission } from "../lib/notifications";
+import { usePushNotifications } from "../contexts/usePushNotifications";
 
 authInterceptor();
 errorInterceptor();
 
 export default function layout () {
 
+  const { expoPushToken } = usePushNotifications();
+
   useEffect(() => {
     requestUserPermission();
-
-    messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-      console.log("new notification background", remoteMessage);
-    });
 
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
       Toast.show({
@@ -37,7 +36,10 @@ export default function layout () {
       });
     });
 
+    console.log(expoPushToken?.data || "");
+    console.log(expoPushToken);
     return unsubscribe;
+
   }, []);
 
   return (

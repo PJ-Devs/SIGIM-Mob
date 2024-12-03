@@ -52,10 +52,18 @@ type RegisterOwnerFormat = {
 }
 
 type DTOEnterpriseColaborator = {
+  id: number;
   name: string;
   email: string;
   accessCode?: string;
 };
+
+type EnterpriseCollaborator ={
+  id: number;
+  name: string;
+  email: string;
+  role: Role;
+}
 
 type Role = {
   id: number;
@@ -69,5 +77,17 @@ type User = {
   role: Role;
 }
 
+type Supplier ={
+  id: number;
+  name: string;
+  email: string;
+  phone_number: string;
+  NIT: string;
+}
 
-export type { RootObject, Product,Role, DTOEnterprise, DTOEnterpriseColaborator, RegisterEnterpriseFormat, RegisterOwnerFormat, User, Category };
+type Client = {
+  id: number;
+  name: string;
+}
+
+export type { RootObject, Product,Role, DTOEnterprise, DTOEnterpriseColaborator, RegisterEnterpriseFormat, RegisterOwnerFormat, User, Category, Supplier, Client, EnterpriseCollaborator };

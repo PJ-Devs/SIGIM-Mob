@@ -12,6 +12,8 @@ export default function Main() {
           gap: 15,
         }}>
           <SectionCard link="/productList" linkText="Inventario" />
+          <SectionCard link="/suppliers" linkText="Proveedores" />
+          <SectionCard link="/employees" linkText="Empleados" />
         </View>
       </ScrollView>
     </Layout>

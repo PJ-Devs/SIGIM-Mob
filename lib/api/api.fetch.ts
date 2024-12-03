@@ -46,3 +46,24 @@ export const deleteEnterprise = async () =>{
     return null;
   }
 }
+
+export const getCollaborators = async () => {
+  try {
+    const response = await APIInstance.get("/enterprise_users");
+    return response.data.data;
+  } catch (error) {
+    console.error("Failed to fetch collaborators:", error);
+    return null;
+  }
+}
+
+export const addCollaborators = async (body: any) => {
+  try{
+    const response = await APIInstance.post("/auth/add-collaborators", body);
+    return response 
+  } catch(error){
+    console.error("Failed to add collaborators:", error);
+    return null;
+  }
+  
+}
