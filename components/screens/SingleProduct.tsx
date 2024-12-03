@@ -114,11 +114,19 @@ export default function SingleProduct(): JSX.Element {
       ) : (
         <View className="w-full h-screen flex-1 items-center">
           {loading && product && <Loading />}
-          {product!.stock < product!.minimal_safe_stock && (
+          {(product!.stock < product!.minimal_safe_stock && product!.stock > 0) && (
             <FixedMessage
               title="Stock bajo"
               message={`${product?.name} tiene pocas existencias.`}
               type="warning"
+              position="bottom"
+            />
+          )}
+          {product!.stock === 0 && (
+            <FixedMessage 
+              title="Stock agotado"
+              message={`${product?.name} esta agotado.`}
+              type="error"
               position="bottom"
             />
           )}
@@ -159,7 +167,7 @@ export default function SingleProduct(): JSX.Element {
             >
               <View style={{ gap: 15 }}>
                 <ProductInformation product={product!} />
-                <CustomButton
+                {/* <CustomButton
                   type="secondary"
                   title="Ver registro de ventas"
                   icon="chart-line"
@@ -167,7 +175,7 @@ export default function SingleProduct(): JSX.Element {
                   onPress={() => {}}
                   shape="rounded"
                   style="mx-auto px-4 py-2"
-                />
+                /> */}
               </View>
               <Pressable
                 className="flex-row items-center rounded-full border-[1px] border-solid px-3 py-1"

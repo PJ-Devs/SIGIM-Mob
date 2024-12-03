@@ -1,23 +1,22 @@
-import {
-  View,
-  Text,
-  FlatList,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, FlatList } from "react-native";
 import CategoryTag from "../molecules/CategoryTag";
-import { useEffect, useState } from "react";
 import { Category } from "../../types/products";
 import { getCategories } from "../../lib/api/api.categories";
 import CustomButton from "../atoms/CustomButton";
 import { router } from "expo-router";
 
-function CategoriesCarrousel() {
+interface CategoriesCarrouselProps {
+  selectedCategory: number | null;
+  onSelectCategory: (id: number | null) => void;
+}
+
+function CategoriesCarrousel({
+  selectedCategory,
+  onSelectCategory,
+}: CategoriesCarrouselProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
-
-  const handleSelectCategory = (id: number) => {
-    setSelectedCategory(id);
-  };
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -39,8 +38,10 @@ function CategoriesCarrousel() {
     <CategoryTag
       label={item.name}
       key={item.id}
-      onSelect={() => handleSelectCategory(item.id)}
-      onRemove={() => handleSelectCategory(0)}
+      onSelect={() =>
+        onSelectCategory(selectedCategory === item.id ? null : item.id)
+      }
+      onRemove={() => {}}
       isSelected={selectedCategory === item.id}
     />
   );

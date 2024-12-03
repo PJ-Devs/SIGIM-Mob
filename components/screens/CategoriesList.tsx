@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, View, LayoutAnimation } from "react-native";
+import { FlatList, View, LayoutAnimation, Text } from "react-native";
 import Layout from "../orgnisms/Layout";
 import { createCategory, getCategories } from "../../lib/api/api.categories";
 import { Category } from "../../types/products";
@@ -8,7 +8,7 @@ import FloatingButton from "../atoms/FloatingButton";
 import CategoryCard from "../orgnisms/CategoryCard";
 import SearchBar from "../atoms/SearchBar";
 import DropDownFilter from "../molecules/DropDownFilter";
-import { STATES } from "../../utils/consts";
+import { SIZES, STATES } from "../../utils/consts";
 import CustomModal from "../molecules/CustomModal";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -118,6 +118,27 @@ export default function CategoriesList(): JSX.Element {
             />
           )}
           ListFooterComponent={() => <View className="h-20" />}
+          ListEmptyComponent={() => (
+            <View
+              className="flex justify-center items-center p-2 relative"
+              style={{
+                top: SIZES.height / 4,
+              }}
+            >
+              {loading ? (
+                <Loading />
+              ) : (
+                <View>
+                  <Text className="font-semibold text-lg text-gray-600 text-center">
+                    ¿Ninguna categoria 🤔?
+                  </Text>
+                  <Text className="font-semibold text-lg text-gray-600 text-center">
+                    {filters.status === 'available' ? '¡Crea una nueva categoria! 🚀' : 'Todas tus categorias estan habilitadas!'}
+                  </Text>
+                </View>
+              )}
+            </View>
+          )}
         />
         <FloatingButton
           onPress={() => setCreateModal(true)}

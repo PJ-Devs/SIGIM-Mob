@@ -14,7 +14,7 @@ export const fetchProducts = async (db:SQLiteDatabase, query: string): Promise<P
         getProducts(db)
       });
     }
-    const response = await APIInstance.get(`/products${query}`);
+    const response = await APIInstance.get(`/products${query ?? ''}`);
     const products: Product[] = response.data.data;
     for (const product of products) {
       await saveProduct(db, product);

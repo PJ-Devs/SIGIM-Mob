@@ -112,17 +112,15 @@ export default function UpdateProductForm({
             errors={errors}
           />
           <DropdownComponent
+            initialValue={{
+              label: product.category.name,
+              value: product.category.id,
+            } as any}
             data={
               categories.map((category) => ({
                 label: category.name,
                 value: category.id,
               })) as any
-            }
-            initialValue={
-              {
-                label: product?.category.name,
-                value: product?.category.id.toString(),
-              } as any
             }
             searchable={false}
             label="Categoria"
@@ -209,7 +207,11 @@ export default function UpdateProductForm({
           loading={loading}
           onPress={handleSubmit(update)}
         />
-        {!canUpdate() && <Text className="text-center text-gray-700">No se han realizado cambios</Text>}
+        {!canUpdate() && (
+          <Text className="text-center text-gray-700">
+            No se han realizado cambios
+          </Text>
+        )}
       </View>
     </View>
   );
