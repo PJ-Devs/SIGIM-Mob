@@ -15,25 +15,33 @@ import DropDownFilter from "../molecules/DropDownFilter";
 import BackButton from "../atoms/BackButton";
 import ProfileButton from "../atoms/ProfileButton";
 import { showNotification } from "../../lib/toast/toastify";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function ProductList() {
   const db = useSQLiteContext();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [filters, setFilters] = useState({
     search: "",
     status: "",
     category: "",
   });
 
+  const isFocusted = useIsFocused();
+
   const loadProducts = async (queries?: {
     status?: string;
-    category?: string;
+    category?: number;
   }) => {
     try {
       const query = `?search=${filters.search}&${
-        queries?.status ? `status=${queries.status}` : ""
-      }&${queries?.category ? `category=${queries.category}` : ""}`;
+        queries?.status ? `status=${queries.status}` : `${filters.status}`
+      }&${
+        queries?.category
+          ? `category=${queries.category}`
+          : `${filters.category}`
+      }`;
       await fetchProducts(db, query)
         .then((response) => {
           setProducts(response);
@@ -53,7 +61,7 @@ export default function ProductList() {
 
   useEffect(() => {
     loadProducts();
-  }, []);
+  }, [isFocusted]);
 
   return (
     <Layout leftButton={<BackButton />} rightButton={<ProfileButton />}>
@@ -73,7 +81,13 @@ export default function ProductList() {
               icon="box"
             />
           </View>
-          <CategoriesCarrousel />
+          <CategoriesCarrousel
+            selectedCategory={selectedCategory}
+            onSelectCategory={(value) => {
+              setSelectedCategory(value);
+              loadProducts({ category: value as number });
+            }}
+          />
           <FlatList
             data={products}
             ListEmptyComponent={() => (

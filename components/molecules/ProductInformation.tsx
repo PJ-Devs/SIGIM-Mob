@@ -72,7 +72,10 @@ export default function ProductInformation({
               icon_name: "box-open",
             },
           ].map((item, index) => (
-            <View className="w-full flex-row justify-between px-[2%]" key={index}>
+            <View
+              className="w-full flex-row justify-between px-[2%]"
+              key={index}
+            >
               <View className="flex-row items-center" style={{ gap: 5 }}>
                 <Icon name={item.icon_name} size={18} />
                 <Text className="text-base">{item.label}:</Text>
@@ -101,7 +104,7 @@ export default function ProductInformation({
             {
               label: "Descuento",
               value: `${showCurrency(product.sale_price * product.discount)} (${
-                product?.discount * 100
+                Math.round(product?.discount * 100)
               }%)`,
               textColor: "text-red-600",
               borderBottom: true,
