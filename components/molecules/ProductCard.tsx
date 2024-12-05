@@ -43,6 +43,8 @@ export default function ProductCard({
     }
   };
 
+  console.log(`${process.env.EXPO_PUBLIC_SERVER_URL}/${product.thumbnail}`);
+
   return (
     <Pressable
       onPress={() => {
@@ -74,7 +76,7 @@ export default function ProductCard({
               }
             : require("../../assets/images/img_placeholder.png")
         }
-        onLoadEnd={() => setLoading(false)}
+        onLoadEnd={() => setLoading(false)} 
         onError={() => setLoading(false)}
       />
 

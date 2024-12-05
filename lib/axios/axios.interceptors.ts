@@ -13,7 +13,6 @@ export const authInterceptor = () => {
   }
 
   APIInstance.interceptors.request.use((request) => {
-    // console.log("Request interceptor", request);
     const unAuthenticatedRoutes = ["/auth/signup", "/auth/token"];
     unAuthenticatedRoutes.forEach((route) => {
       if (request.url?.includes(route)) {
