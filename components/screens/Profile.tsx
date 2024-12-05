@@ -5,7 +5,6 @@ import Layout from "../orgnisms/Layout";
 import CircularLogo from "../atoms/CircularLogo";
 import CustomButton from "../atoms/CustomButton";
 import { useAuth } from "../../contexts/AuthContext";
-import { User } from "../../types/products";
 import AccountMenu from "../molecules/AccountMenu";
 import { useIsFocused } from "@react-navigation/native";
 import { deleteEnterprise } from "../../lib/api/api.fetch";
@@ -15,6 +14,8 @@ import { deleteSecuredItem } from "../../utils/secureStore";
 import { showNotification } from "../../lib/toast/toastify";
 import Loading from "../molecules/Loading";
 import BackButton from "../atoms/BackButton";
+import { User } from "../../types/products";
+import { useNotification } from "../../contexts/NotificationContext";
 
 export default function Profile(): JSX.Element {
   const [userProfile, setUserProfile] = useState<User | null>(null);
@@ -23,6 +24,7 @@ export default function Profile(): JSX.Element {
     deleteEnterprise: false,
     logOut: false,
   });
+
 
   const isFocused = useIsFocused();
   const { onLogout } = useAuth();
@@ -39,7 +41,7 @@ export default function Profile(): JSX.Element {
       }
     } catch (error) {
       setUserProfile(null);
-      console.error("Failed to retrieve enterprise data:", error);
+      console.error("Failed to retrieve profile data:", error);
       return null;
     }
   };
@@ -79,7 +81,7 @@ export default function Profile(): JSX.Element {
         })
         .finally(() => setLoading(false));
     } catch (error) {
-      console.log("Error al eliminar empresa", error);
+      //console.log("Error al eliminar empresa", error);
       showNotification("error", "No se pudo eliminar la empresa");
     }
   };
@@ -98,7 +100,7 @@ export default function Profile(): JSX.Element {
         <View className="w-full h-[93%] justify-between">
           <View style={{ gap: 30 }}>
             <View className="w-full rounded-lg" style={{ gap: 20 }}>
-              <Text className="text-xl font-semibold">Hola denuevo</Text>
+              <Text className="text-xl font-semibold">Hola , {userProfile?.name }</Text>
               <View
                 className="flex-row justify-center items-center"
                 style={{ gap: 15 }}
@@ -113,19 +115,19 @@ export default function Profile(): JSX.Element {
                   </Text>
                 </View>
               </View>
-              <View className="flex-row justify-center items-center px-2 py-4 bg-dark rounded-md shadow-sm">
-                <Text className="text-white font-normal">
-                  Haces parte de la empresa{" "}
+              <View className="flex-row justify-center items-center px-2 py-4 rounded-md shadow-sm border">
+                <Text className="text-gray font-normal">
+                  Tu rol en la empresa es{" "}
                 </Text>
-                <Text className="text-white font-semibold">
-                  como {userProfile?.role.name || "Cargando..."}
+                <Text className="text-gray font-semibold">
+                   {userProfile?.role.name || "Cargando..."}
                 </Text>
               </View>
             </View>
             <AccountMenu user={userProfile!} />
           </View>
 
-          <View style={{ gap: 10 }}>
+          <View style={{ gap: 10, marginBottom: 15 }}>
             <CustomButton
               title="Cerrar Sesión"
               type="error"

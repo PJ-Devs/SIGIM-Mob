@@ -11,14 +11,12 @@ import { initializeDB } from "../lib/sqlite";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "../lib/toast/toastify";
 import { requestUserPermission } from "../lib/notifications";
-import { usePushNotifications } from "../contexts/usePushNotifications";
+import { NotificationProvider } from "../contexts/NotificationContext";
 
 authInterceptor();
 errorInterceptor();
 
 export default function layout () {
-  const { expoPushToken } = usePushNotifications();
-
   useEffect(() => {
     requestUserPermission();
 
@@ -35,14 +33,13 @@ export default function layout () {
       });
     });
 
-    console.log(expoPushToken?.data || "");
-    console.log(expoPushToken);
     return unsubscribe;
 
   }, []);
 
   return (
-    <SQLiteProvider databaseName="test.db" onInit={initializeDB}>
+    <NotificationProvider>
+      <SQLiteProvider databaseName="test.db" onInit={initializeDB}>
       <AuthProvider>
         <Stack
           screenOptions={{
@@ -58,5 +55,6 @@ export default function layout () {
       </AuthProvider>
       <Toast config={toastConfig} />
     </SQLiteProvider>
+    </NotificationProvider>
   );
 }

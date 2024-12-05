@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { Product } from "../../types/products";
 import { FlatList, View, Text } from "react-native";
 import Layout from "../orgnisms/Layout";
-import { fetchProducts, fetchProductSearch } from "../../lib/api/api.fetch";
+import { fetchProducts } from "../../lib/api/api.products";
 import Loading from "../molecules/Loading";
 import Toast from 'react-native-toast-message';
 import { useSQLiteContext } from "expo-sqlite";
 import ProductSellCard from "../molecules/ProductSellCard";
+import { set } from "react-hook-form";
+import { showNotification } from "../../lib/toast/toastify";
 
 export default function Sell(): JSX.Element {
   const db = useSQLiteContext();
@@ -34,23 +36,29 @@ export default function Sell(): JSX.Element {
 
   const handleProductAdded = async () => {
     setLoading(true);
-    const fetchedProducts = await fetchProducts(db)
+    const fetchedProducts = await fetchProducts(db, "")
       .finally(() => {
         setLoading(false);
       });
     setProducts(fetchedProducts);
   }
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      setLoading(true);
-      const fetchedProducts = await fetchProducts(db)
+  const loadProducts = async () => {
+    try {
+      await fetchProducts(db)
+        .then((response: any) => {
+          setProducts(response);
+        })
         .finally(() => {
           setLoading(false);
         });
-      setProducts(fetchedProducts);
-    };
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+      showNotification("error", "No se pudieron cargar los productos");
+    }
+  };
 
+  useEffect(() => {
     loadProducts();
   }, []);
 

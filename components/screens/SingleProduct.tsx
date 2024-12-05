@@ -159,15 +159,6 @@ export default function SingleProduct(): JSX.Element {
             >
               <View style={{ gap: 15 }}>
                 <ProductInformation product={product!} />
-                <CustomButton
-                  type="secondary"
-                  title="Ver registro de ventas"
-                  icon="chart-line"
-                  iconSize={22}
-                  onPress={() => {}}
-                  shape="rounded"
-                  style="mx-auto px-4 py-2"
-                />
               </View>
               <Pressable
                 className="flex-row items-center rounded-full border-[1px] border-solid px-3 py-1"

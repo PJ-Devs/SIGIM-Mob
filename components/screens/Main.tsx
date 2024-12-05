@@ -7,10 +7,14 @@ import { useEffect, useState } from "react";
 import { User } from "../../types/products";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loading from "../molecules/Loading";
+import FloatingMenu from "../molecules/FloatingMenu";
+import { SIZES } from "../../utils/consts";
 
 export default function Main() {
   const [loading, setLoading] = useState<boolean>(true);
   const [userData, setUserData] = useState<User | null>(null);
+
+  AsyncStorage.setItem("isSigningIn", "false");
 
   const fetchProfile = async () => {
     try {
@@ -35,16 +39,18 @@ export default function Main() {
       ) : (
         <ScrollView>
           <View
-            className="justify-center items-center py-4"
+            className="items-center py-4"
             style={{
               gap: 15,
+              height: SIZES.height * 0.9,
             }}
           >
             {userData!.role.id >= 3 && (
               <SectionCard link="/productList" linkText="Inventario" />
-              <SectionCard link="/suppliers" linkText="Proveedores" />
-              <SectionCard link="/employees" linkText="Empleados" />
             )}
+            <SectionCard link="/suppliers" linkText="Proveedores" />
+            <SectionCard link="/employees" linkText="Empleados" />
+            <FloatingMenu />
           </View>
         </ScrollView>
       )}

@@ -22,9 +22,10 @@ export const RegisterSchema  = z.object({
     enterprise_name: z.string({ message: "El nombre de la empresa es obligatorio." })
       .min(1, { message: "El nombre de la empresa es obligatorio." })
       .max(100, { message: "El nombre de la empresa no debe exceder 100 caracteres." }),
-    
-    phone_number: z.string(),
-    
+      phone_number: z.preprocess(
+        (val) => (typeof val === "string" ? parseInt(val, 10) : val),
+        z.number({ message: "El valor debe ser un numero" })
+      ),
     enterprise_NIT: z.string({ message: "El NIT de la empresa es obligatorio." })
       .min(1, { message: "El NIT de la empresa es obligatorio." }),
 

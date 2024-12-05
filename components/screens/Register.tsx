@@ -30,8 +30,9 @@ export default function Register(): JSX.Element {
   });
 
   const handleRegisterAll = async (data: any) => {
-    const result = await onRegister!(data);
+    const result = await onRegister!({...data, phone_number: data.phone_number.toString()});
 
+AsyncStorage.setItem("isSigningIn", "true");
     if (result?.err) {
       Toast.show({
         type: 'error',
