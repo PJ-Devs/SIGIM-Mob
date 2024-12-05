@@ -42,7 +42,7 @@ export const deleteEnterprise = async () =>{
     const response = await APIInstance.delete(`/enterprises/${id}`);
     return response.data.data;
   } catch(error){
-    console.error("Failed to delete enterprise:", error);
+   // console.error("Failed to delete enterprise:", error);
     return null;
   }
 }

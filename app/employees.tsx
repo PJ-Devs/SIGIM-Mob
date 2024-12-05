@@ -13,8 +13,9 @@ export default function EmployeesContainer(): JSX.Element {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const enterprise = await AsyncStorage.getItem("enterprise");
-        if (enterprise) {
+        const isSigningIn = await AsyncStorage.getItem("isSigningIn") || "false";
+        
+        if (!JSON.parse(isSigningIn)) {
           const fetchedEmployees = await getCollaborators();
           setEmployees(fetchedEmployees);
           setViewType("add");

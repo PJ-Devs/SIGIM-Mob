@@ -26,6 +26,28 @@ export const fetchProducts = async (db:SQLiteDatabase, query: string): Promise<P
   }
 };
 
+export const fetchProductswithoutquery = async (db:SQLiteDatabase ): Promise<Product[]> => {
+  try {
+    const state = await NetInfo.fetch();
+
+    if (!state.isConnected) {
+      console.warn('No hay conexión a Internet. Recuperando productos de la base de datos local.');
+      return new Promise((resolve, reject) => {
+        getProducts(db)
+      });
+    }
+    const response = await APIInstance.get(`/products`);
+    const products: Product[] = response.data.data;
+    for (const product of products) {
+      await saveProduct(db, product);
+    }
+    
+    return products; 
+  } catch (error) {
+    console.error('Error sincronizando la base de datos local:', error);
+  }
+};
+
 export const getSingleProduct = async (id: string): Promise<Product> => {
   try {
     const response = await APIInstance.get(`/products/${id}`);

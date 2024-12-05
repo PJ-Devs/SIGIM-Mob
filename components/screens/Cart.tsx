@@ -8,7 +8,7 @@ import ProductModal from '../molecules/ProductModal';
 import CustomInput from '../atoms/CustomInput';
 import CustomButton from '../atoms/CustomButton';
 import { set, useForm } from 'react-hook-form';
-import DropdownComponent from '../molecules/DropDown';
+import DropdownCart from '../molecules/DropDownCart';
 import { router } from 'expo-router';
 import Toast from 'react-native-toast-message';
 
@@ -57,7 +57,7 @@ export default function Cart(): JSX.Element {
                 return;
             }
 
-            const payment_method = data.payment_method.toLowerCase();
+            const payment_method = data.payment_method?.toLowerCase();
             await concludeSale(payment_method, data.discount, 1);
             setShowModal(false);
             router.push('/')
@@ -102,9 +102,8 @@ export default function Cart(): JSX.Element {
     }, []);
 
     return (
-        console.log(cart),
-        < Layout includeSearch={false} onSearch={() => { }
-        } canGoBack={false} >
+        < Layout >
+        
             {loading && (
                 <LottieView
                     source={require("../../assets/animations/image-loader.json")}
@@ -166,7 +165,7 @@ export default function Cart(): JSX.Element {
                             children={
                                 <View className="flex flex-col" style={{ height: 320, gap: 10 }}>
                                     <Text className="text-[#39cdcd] font-bold text-2xl self-center mt-10 mb-4">Confirmar la venta</Text>
-                                    <DropdownComponent data={[
+                                    <DropdownCart data={[
                                         { label: "Cash", value: "1" },
                                         { label: "Debit", value: "2" },
                                         { label: "Credit", value: "3" },

@@ -27,7 +27,7 @@ export default function MySells(): JSX.Element {
     }, [])
 
     return (
-        <Layout canGoBack={false} >
+        <Layout >
             {loading && (
                 <LottieView
                     source={require("../../assets/animations/image-loader.json")}

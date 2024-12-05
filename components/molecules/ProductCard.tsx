@@ -76,7 +76,7 @@ export default function ProductCard({
               }
             : require("../../assets/images/img_placeholder.png")
         }
-        onLoadEnd={() => setLoading(false)}
+        onLoadEnd={() => setLoading(false)} 
         onError={() => setLoading(false)}
       />
 

@@ -184,18 +184,20 @@ export default function ProductSellCard({
             <Text className="font-semibold text-lg mb-8 uppercase">
               {product.name}
             </Text>
-            <CustomInput
-              type="numeric"
-              placeholder="Cantidad"
-              control={control}
-              errors={errors}
-              propertyName="quantity"
-            />
-            <CustomButton
-              type="success"
-              title="Agregar al carrito"
-              onPress={handleSubmit(addQuantity)}
-            />
+            <View className="flex" style={{gap:10}}>
+              <CustomInput
+                type="numeric"
+                placeholder="Cantidad"
+                control={control}
+                errors={errors}
+                propertyName="quantity"
+              />
+              <CustomButton
+                type="success"
+                title="Agregar al carrito"
+                onPress={handleSubmit(addQuantity)}
+              />
+            </View>
           </View>
         }
       />
