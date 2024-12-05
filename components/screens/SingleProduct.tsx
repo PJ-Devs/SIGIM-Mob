@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import Layout from "../orgnisms/Layout";
 import { Pressable, ScrollView, Text, View } from "react-native";
@@ -67,6 +67,7 @@ export default function SingleProduct(): JSX.Element {
             setProduct(response);
             setLoading(false);
             showNotification("success", "Producto actualizado correctamente");
+            router.back();
           }
         }
       );
@@ -114,16 +115,17 @@ export default function SingleProduct(): JSX.Element {
       ) : (
         <View className="w-full h-screen flex-1 items-center">
           {loading && product && <Loading />}
-          {(product!.stock < product!.minimal_safe_stock && product!.stock > 0) && (
-            <FixedMessage
-              title="Stock bajo"
-              message={`${product?.name} tiene pocas existencias.`}
-              type="warning"
-              position="bottom"
-            />
-          )}
+          {product!.stock < product!.minimal_safe_stock &&
+            product!.stock > 0 && (
+              <FixedMessage
+                title="Stock bajo"
+                message={`${product?.name} tiene pocas existencias.`}
+                type="warning"
+                position="bottom"
+              />
+            )}
           {product!.stock === 0 && (
-            <FixedMessage 
+            <FixedMessage
               title="Stock agotado"
               message={`${product?.name} esta agotado.`}
               type="error"
@@ -223,6 +225,8 @@ export default function SingleProduct(): JSX.Element {
                   <CustomButton
                     type="warning"
                     title="Deshabilitar producto"
+                    icon="exclamation-triangle"
+                    iconSize={22}
                     onPress={() =>
                       setModalSate({ ...modalState, disableProduct: true })
                     }
@@ -231,6 +235,8 @@ export default function SingleProduct(): JSX.Element {
                 {product?.status === "unavailable" && (
                   <CustomButton
                     title="Habilitar producto"
+                    icon="exclamation-triangle"
+                    iconSize={22}
                     onPress={() =>
                       setModalSate({ ...modalState, enableProduct: true })
                     }
@@ -238,7 +244,10 @@ export default function SingleProduct(): JSX.Element {
                 )}
                 <CustomButton
                   type="error"
-                  title="Eliminar producto"
+                  title="Esliminar producto"
+                  icon="trash"
+                  iconSize={22}
+                  iconColor="white"
                   onPress={() =>
                     setModalSate({ ...modalState, deleteProduct: true })
                   }

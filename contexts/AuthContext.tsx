@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }: any) => {
 
   useEffect(() => {
     const checkAuthState = async () => {
+      // await deleteSecuredItem('ACCESS_TOKEN');
       await getSecuredItem("ACCESS_TOKEN").then(
         async (token) => {
           if (token) {

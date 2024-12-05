@@ -34,7 +34,7 @@ export default function CustomInput({
       name={propertyName}
       defaultValue={initialValue}
       render={({
-        field: { onChange, onBlur, value },
+        field: { onChange, onBlur, value = initialValue },
         fieldState: { error },
       }) => (
         <View className="w-full">
