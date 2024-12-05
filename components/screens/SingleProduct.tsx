@@ -114,11 +114,19 @@ export default function SingleProduct(): JSX.Element {
       ) : (
         <View className="w-full h-screen flex-1 items-center">
           {loading && product && <Loading />}
-          {product!.stock < product!.minimal_safe_stock && (
+          {(product!.stock < product!.minimal_safe_stock && product!.stock > 0) && (
             <FixedMessage
               title="Stock bajo"
               message={`${product?.name} tiene pocas existencias.`}
               type="warning"
+              position="bottom"
+            />
+          )}
+          {product!.stock === 0 && (
+            <FixedMessage 
+              title="Stock agotado"
+              message={`${product?.name} esta agotado.`}
+              type="error"
               position="bottom"
             />
           )}

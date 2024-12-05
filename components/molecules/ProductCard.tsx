@@ -78,7 +78,6 @@ export default function ProductCard({
         }
         onLoadEnd={() => setLoading(false)} 
         onError={() => setLoading(false)}
-
       />
 
       <View
@@ -93,17 +92,19 @@ export default function ProductCard({
             <Text className="font-semibold text-sm shrink grow">
               {product.name}
             </Text>
-            {product.stock > 0 &&
-              product.stock < product.minimal_safe_stock && (
-                <Text className=" text-xs font-semibold text-gray-800 bg-orange-300 px-1 rounded-sm">
-                  Disponibilidad baja
+            <View className="inline w-fit shrink grow">
+              {product.stock > 0 &&
+                product.stock < product.minimal_safe_stock && (
+                  <Text className=" text-xs font-semibold text-gray-800 bg-orange-300 px-1 rounded-sm inline">
+                    Disponibilidad baja
+                  </Text>
+                )}
+              {product.stock === 0 && (
+                <Text className="text-xs font-semibold text-white bg-red-600 px-1 rounded-sm">
+                  Producto agotado
                 </Text>
               )}
-            {product.stock === 0 && (
-              <Text className=" text-xs font-semibold text-white bg-red-600 px-1 rounded-sm">
-                Producto agotado
-              </Text>
-            )}
+            </View>
           </View>
           <Pressable onPress={handleFavorite}>
             {isFav ? (
