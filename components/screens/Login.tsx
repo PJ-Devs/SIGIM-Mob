@@ -76,7 +76,7 @@ export default function Login(): JSX.Element {
     <Layout includeHeader={false}>
       <View className="justify-center w-full h-full">
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
           keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
         >
           <ScrollView
@@ -115,25 +115,25 @@ export default function Login(): JSX.Element {
                 </Pressable>
               </View>
             </View>
+
+            <CustomButton
+              type="primary"
+              title="Ingresa"
+              loading={loading}
+              onPress={handleSubmit(handleLogin)}
+            />
+            <Pressable
+              onPress={() => {
+                router.push("/signUp");
+              }}
+            >
+              <Text className={`${anchorContainer} text-center`}>
+                No tienes una cuenta?{" "}
+                <Text className="text-blue-500">Crea una</Text>
+              </Text>
+            </Pressable>
           </ScrollView>
         </KeyboardAvoidingView>
-
-        <CustomButton
-          type="primary"
-          title="Ingresa"
-          loading={loading}
-          onPress={handleSubmit(handleLogin)}
-        />
-        <Pressable
-          onPress={() => {
-            router.push("/signUp");
-          }}
-        >
-          <Text className={`${anchorContainer} text-center`}>
-            No tienes una cuenta?{" "}
-            <Text className="text-blue-500">Crea una</Text>
-          </Text>
-        </Pressable>
       </View>
       <Toast />
     </Layout>

@@ -26,6 +26,7 @@ export default function UpdateProductForm({
   emitChanges,
 }: UpdateProductFormProps): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
+  const [productImage, setProductImage] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>(
     product.category.id.toString()
   );
@@ -46,19 +47,21 @@ export default function UpdateProductForm({
     return (
       isDirty ||
       Object.keys(errors).length > 0 ||
-      selectedCategory !== product.category.id.toString()
+      selectedCategory !== product.category.id.toString() ||
+      productImage !== null
     );
   };
 
   const update = (data: any) => {
     try {
       setLoading(true);
-      updateProduct(product.id.toString(), {
+      data = {
         ...data,
         discount: data.discount / 100,
         category_id: selectedCategory,
         supplier_id: 1,
-      })
+      };
+      updateProduct(product.id.toString(), data)
         .then((response) => {
           if (response) {
             showNotification("success", "Producto actualizado correctamente");
@@ -112,10 +115,12 @@ export default function UpdateProductForm({
             errors={errors}
           />
           <DropdownComponent
-            initialValue={{
-              label: product.category.name,
-              value: product.category.id,
-            } as any}
+            initialValue={
+              {
+                label: product.category.name,
+                value: product.category.id,
+              } as any
+            }
             data={
               categories.map((category) => ({
                 label: category.name,
@@ -163,14 +168,7 @@ export default function UpdateProductForm({
           <View style={{ gap: 12 }}>
             <Text className="font-semibold">Imagen del producto</Text>
             <View style={{ gap: 10 }}>
-              <InputFile />
-              <CustomButton
-                title="Tomar foto"
-                type="secondary"
-                icon="camera"
-                iconSize={20}
-                onPress={() => {}}
-              />
+              <InputFile onImageSelected={(image) => setProductImage(image)} />
             </View>
           </View>
           <View style={{ gap: 12 }}>
@@ -199,12 +197,12 @@ export default function UpdateProductForm({
           </View>
         </View>
       </View>
-      <View style={{ gap: 2 }}>
+      <View style={{ gap: 2, marginTop: 45 }}>
         <CustomButton
           type="secondary"
           title="Actualizar Producto"
           disabled={!canUpdate()}
-          loading={loading}
+          loading={loading || product.status === 'unavailable'}
           onPress={handleSubmit(update)}
         />
         {!canUpdate() && (

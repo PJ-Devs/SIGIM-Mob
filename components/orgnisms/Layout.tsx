@@ -1,8 +1,5 @@
-import { View } from "react-native";
 import Header from "../molecules/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router } from "expo-router";
-import CustomButton from "../atoms/CustomButton";
 import { SIZES } from "../../utils/consts";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
