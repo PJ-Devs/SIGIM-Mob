@@ -20,18 +20,18 @@ export default function Header({
 
   return (
     <View className="flex-row justify-between bg-transparent items-center w-full pb-4">
-      <View className="flex-1 items-start">
+      <View className="flex-1 flex-shrink items-start">
         {leftButton && <View>{leftButton}</View>}
       </View>
       {authState && (
-        <Link href={"/"} className="flex-1">
+        <Link href={"/"} className="w-full flex-1 flex-shrink flex-grow">
           <View className="flex-row items-center justify-center gap-x-2">
             <Icon name="home" size={24} />
-            <Text className="text-lg font-semibold">{enterpriseName}</Text>
+            <Text className="flex-grow text-base font-semibold">{enterpriseName}</Text>
           </View>
         </Link>
       )}
-      <View className="flex-1 items-end">
+      <View className="flex-1 items-end flex-shrink">
         {rightButton && <View>{rightButton}</View>}
       </View>
     </View>

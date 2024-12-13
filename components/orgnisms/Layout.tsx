@@ -32,7 +32,7 @@ export default function Layout({
 
         setEnterprise("");
       } catch (error) {
-        console.error("Failed to retrieve enterprise data:", error);
+        console.error("Failed to retrieve enterprise data: ", error);
         return null;
       }
     };
@@ -44,7 +44,8 @@ export default function Layout({
       className={`flex-1 px-5`}
       style={{
         width: SIZES.width,
-        minHeight: SIZES.height,
+        height: SIZES.height,
+        // paddingBottom: 30,
       }}
     >
       {includeHeader && (

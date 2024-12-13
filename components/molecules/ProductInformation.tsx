@@ -43,7 +43,7 @@ export default function ProductInformation({
           onLoadEnd={() => setImageLoading(false)}
           onError={() => setImageLoading(false)}
         />
-        <Text className="text-lg font-semibold text-center mb-1.5 mt-2">
+        <Text className="text-lg text-tirth font-bold text-center mb-1 mt-2">
           {product?.name}
         </Text>
         <Text className="text-sm text-center text-gray-800">

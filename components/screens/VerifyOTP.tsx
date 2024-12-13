@@ -14,6 +14,8 @@ import Layout from "../orgnisms/Layout";
 import { router } from "expo-router";
 import { requestPasswordResetOTP, verifyPasswordResetOTP } from "../../lib/api/api.auth";
 import { getItem, setSecuredItem } from "../../utils/secureStore";
+import BackButton from "../atoms/BackButton";
+import { showNotification } from "../../lib/toast/toastify";
 
 export default function VerifyOTP(): JSX.Element {
   const [loading, setLoading] = useState(false);
@@ -44,16 +46,29 @@ export default function VerifyOTP(): JSX.Element {
       setIsResending(true);
       await requestPasswordResetOTP({
         email: getItem("email") as string,
+      }).then((response) => {
+        if (response) {
+          showNotification(
+            'success',
+            'Código de verificación enviado',
+            'Por favor revisa tu correo'
+          )
+        }
       });
     } catch (error) {
       console.log("Error enviando código de verificación", error);
+      showNotification(
+        'error',
+        'Error al enviar código de verificación',
+        'Por favor intenta de nuevo'
+      )
     } finally {
       setIsResending(false);
     }
   };
 
   return (
-    <Layout includeHeader={false}>
+    <Layout leftButton={<BackButton />}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}

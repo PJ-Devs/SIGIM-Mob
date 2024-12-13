@@ -12,6 +12,7 @@ import Toast from "react-native-toast-message";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Image } from "react-native";
+import BackButton from "../atoms/BackButton";
 
 export default function EmailSelection() {
   const schema = z.object({
@@ -59,7 +60,7 @@ export default function EmailSelection() {
   };
 
   return (
-    <Layout includeHeader={false}>
+    <Layout leftButton={<BackButton />}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
