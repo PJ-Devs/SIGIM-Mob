@@ -14,6 +14,7 @@ type CustomInputProps = {
   type?: KeyboardTypeOptions;
   errors?: any;
   initialValue?: string;
+  testID?: string;
 };
 
 export default function CustomInput({
@@ -27,6 +28,7 @@ export default function CustomInput({
   errors,
   initialValue = "",
   numberOfLines = 1,
+  testID,
 }: CustomInputProps) {
   return (
     <Controller
@@ -68,6 +70,8 @@ export default function CustomInput({
               if (trigger) trigger(propertyName);
             }}
             onBlur={onBlur}
+            accessibilityLabel={testID}
+            testID={testID}
           />
           {errors && errors[propertyName] && (
             <Text className="text-red-600 text-start mt-1">

@@ -15,7 +15,7 @@ interface DropdownProps {
   closeModalWhenSelectedItem?: boolean;
   error?: boolean;
   errorMessage?: string;
-  emitValue: (value: string) => void;
+  emitValue?: (value: string) => void;
 }
 
 export default function DropdownComponent({
@@ -74,7 +74,7 @@ export default function DropdownComponent({
         onBlur={() => setIsFocus(false)}
         onChange={(item) => {
           setValue(item.value);
-          emitValue(item.value);
+          emitValue && emitValue(item.value);
           setIsFocus(false);
         }}
         renderLeftIcon={() => (

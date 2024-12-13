@@ -7,18 +7,21 @@ interface CardProps {
   color?: string;
   link: string;
   linkText: string;
+  testID?: string;
 }
 
 export default function SectionCard({
   color,
   link,
   linkText,
+  testID,
 }: CardProps): JSX.Element {
   const linkTo = useLinkTo();
 
   return (
     <Pressable
       onPress={() => router.navigate(link)}
+      testID={testID}
       className="w-[95%] shadow-md"
       style={{
         backgroundColor: "#39CDCD",

@@ -14,7 +14,6 @@ export const LoginSchema = z.object({
 /*       .refine(val => specialCharacters.test(val), { message: "La contraseña debe contener al menos un carácter especial válido." })
  */  });
 
-
 export const RegisterSchema  = z.object({
     enterprise_email: z.string({ message: "El correo es obligatorio." })
       .email({ message: "El correo electrónico no es válido." })
@@ -23,9 +22,10 @@ export const RegisterSchema  = z.object({
     enterprise_name: z.string({ message: "El nombre de la empresa es obligatorio." })
       .min(1, { message: "El nombre de la empresa es obligatorio." })
       .max(100, { message: "El nombre de la empresa no debe exceder 100 caracteres." }),
-    
-    phone_number: z.string(),
-    
+      phone_number: z.preprocess(
+        (val) => (typeof val === "string" ? parseInt(val, 10) : val),
+        z.number({ message: "El valor debe ser un numero" })
+      ),
     enterprise_NIT: z.string({ message: "El NIT de la empresa es obligatorio." })
       .min(1, { message: "El NIT de la empresa es obligatorio." }),
 
@@ -42,4 +42,13 @@ export const RegisterSchema  = z.object({
       .email({ message: "El correo electrónico no es válido." })
       .min(1, { message: "El correo electrónico es obligatorio." }),
   });
-  
+
+export const EmployeeSchema = z.object({
+    email: z.string({ message: "El correo es obligatorio." })
+      .email({ message: "El correo electrónico no es válido." })
+      .min(1, { message: "El correo es obligatorio." }),
+    
+    name: z.string({ message: "El nombre es obligatorio." })
+      .min(1, { message: "El nombre es obligatorio." })
+      .max(100, { message: "El nombre no debe exceder 100 caracteres." }),
+  });

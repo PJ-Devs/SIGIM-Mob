@@ -141,6 +141,7 @@ export default function CategoriesList(): JSX.Element {
           )}
         />
         <FloatingButton
+          testID="create-category"
           onPress={() => setCreateModal(true)}
           loading={loading}
         />

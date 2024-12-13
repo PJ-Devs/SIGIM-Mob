@@ -87,6 +87,7 @@ export default function ProductList() {
               setSelectedCategory(value);
               loadProducts({ category: value as number });
             }}
+            testID="categories"
           />
           <FlatList
             data={products}

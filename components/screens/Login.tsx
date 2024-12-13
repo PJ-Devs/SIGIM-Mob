@@ -97,6 +97,7 @@ export default function Login(): JSX.Element {
                 control={control}
                 errors={errors}
                 trigger={trigger}
+                testID="email"
               />
               <View>
                 <CustomInputPassword
@@ -106,6 +107,7 @@ export default function Login(): JSX.Element {
                   control={control}
                   errors={errors}
                   trigger={trigger}
+                  testID="password"
                 />
                 <Pressable onPress={() => router.push("/password-reset/email")}>
                   <Text className={anchorContainer}>
@@ -121,8 +123,9 @@ export default function Login(): JSX.Element {
               title="Ingresa"
               loading={loading}
               onPress={handleSubmit(handleLogin)}
+               testID="login"
             />
-            <Pressable
+            <Pressable 
               onPress={() => {
                 router.push("/signUp");
               }}

@@ -8,17 +8,15 @@ import {
 import { initializeDB } from "../lib/sqlite";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "../lib/toast/toastify";
-import { usePushNotifications } from "../contexts/usePushNotifications";
+import { NotificationProvider } from "../contexts/NotificationContext";
 
 authInterceptor();
 errorInterceptor();
 
-export default function layout() {
-  const { expoPushToken } = usePushNotifications();
-  console.log(expoPushToken);
-
+export default function layout () {
   return (
-    <SQLiteProvider databaseName="test.db" onInit={initializeDB}>
+    <NotificationProvider>
+      <SQLiteProvider databaseName="test.db" onInit={initializeDB}>
       <AuthProvider>
         <Stack
           screenOptions={{
@@ -34,5 +32,6 @@ export default function layout() {
       </AuthProvider>
       <Toast config={toastConfig} />
     </SQLiteProvider>
+    </NotificationProvider>
   );
 }

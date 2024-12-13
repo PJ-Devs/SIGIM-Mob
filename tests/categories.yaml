@@ -1,0 +1,16 @@
+appId: com.example.app
+---
+- tapOn:
+    id: inventory
+- tapOn:
+    id: categories
+- tapOn:
+    id: create-category
+- tapOn:
+    id: category-name
+- inputText: Electronics
+- tapOn:
+    id: category-description
+- inputText: Electronic devices
+- tapOn:
+    id: submit-category

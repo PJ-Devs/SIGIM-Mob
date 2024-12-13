@@ -9,7 +9,6 @@ import { router } from "expo-router";
 import Toast from 'react-native-toast-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterSchema } from "../../lib/schemas/auth";
-import { getEnterprise, getProfile } from "../../lib/api/api.fetch";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as z from 'zod';
 import BackButton from "../atoms/BackButton";
@@ -30,31 +29,11 @@ export default function Register(): JSX.Element {
     reValidateMode: "onBlur",
     resolver: zodResolver(RegisterSchema),
   });
-  
-  const fetchEnterpriseInfo = async () => {
-    try {
-      const enterpriseData = await getEnterprise();
-      await AsyncStorage.setItem("enterprise", JSON.stringify(enterpriseData));
-      console.log("Enterprise", enterpriseData);
-    } catch (error) {
-      console.error("Failed to fetch enterprise name:", error);
-    }
-  };
-
-  const fetchProfile = async () => {
-    try {
-      const profileData = await getProfile();
-      await AsyncStorage.setItem("profile", JSON.stringify(profileData));
-      console.log("Profile", profileData);
-    } catch (error) {
-      console.log("Error fetching user profile", error);
-    }
-  };
-
 
   const handleRegisterAll = async (data: any) => {
-    const result = await onRegister!(data);
+    const result = await onRegister!({...data, phone_number: data.phone_number.toString()});
 
+AsyncStorage.setItem("isSigningIn", "true");
     if (result?.err) {
       Toast.show({
         type: 'error',
@@ -64,12 +43,9 @@ export default function Register(): JSX.Element {
     } else {
       Toast.show({
         type: 'success',
-        text1: 'Registro exitoso',
-        text2: '¡Bienvenido!',
+        text1: 'Registro exitoso'
       });
-      await fetchEnterpriseInfo();
-      await fetchProfile();
-      router.push("/");
+      router.navigate("/employees");
     }
   };
 
@@ -110,14 +86,6 @@ export default function Register(): JSX.Element {
           errors={errors}  
         />
       )}
-      
-      {currentStep === 3 && (
-        <Pressable onPress={handleSubmit(handleRegisterAll)}>
-          <Text>Finalizar registro</Text>
-        </Pressable>
-      )}
-
-      <Toast />
       </View>
     </Layout>
   );

@@ -37,7 +37,7 @@ export default function ProductInformation({
             zIndex: 1,
           }}
           source={{
-            uri: `${process.env.EXPO_PUBLIC_SERVER_URL}/${product?.thumbnail}`,
+            uri: `${'https://sigim.icu'}/${product?.thumbnail}`,
           }}
           onLoadStart={() => setImageLoading(true)}
           onLoadEnd={() => setImageLoading(false)}

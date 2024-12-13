@@ -43,6 +43,8 @@ export default function ProductCard({
     }
   };
 
+
+
   return (
     <Pressable
       onPress={() => {
@@ -70,11 +72,11 @@ export default function ProductCard({
         source={
           product.thumbnail
             ? {
-                uri: `${process.env.EXPO_PUBLIC_SERVER_URL}/${product.thumbnail}`,
+                uri: `${'https://sigim.icu'}/${product.thumbnail}`,
               }
             : require("../../assets/images/img_placeholder.png")
         }
-        onLoadEnd={() => setLoading(false)}
+        onLoadEnd={() => setLoading(false)} 
         onError={() => setLoading(false)}
       />
 

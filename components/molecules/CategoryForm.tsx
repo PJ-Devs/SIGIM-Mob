@@ -32,6 +32,7 @@ export default function CategoryForm({
         errors={errors}
         trigger={trigger}
         propertyName="name"
+        testID="category-name"
       />
       <CustomInput
         label="Descripcion"
@@ -44,6 +45,7 @@ export default function CategoryForm({
         errors={errors}
         trigger={trigger}
         propertyName="description"
+        testID="category-description"
       />
       <CustomButton
         title={actionTitle}
@@ -51,6 +53,7 @@ export default function CategoryForm({
         icon="tags"
         iconSize={20}
         onPress={onSubmit}
+        testID="submit-category"
       />
     </View>
   );
