@@ -12,6 +12,7 @@ type CustomInputPasswordProps = {
   secureTextEntry?: boolean;
   type?: KeyboardTypeOptions;
   errors?: any;
+  testID?: string;
 };
 
 export default function CustomInputPassword({
@@ -21,7 +22,8 @@ export default function CustomInputPassword({
   propertyName,
   secureTextEntry = false,
   type = "default",
-  errors
+  errors,
+  testID,
 }: CustomInputPasswordProps) {
 
   const [showPassword, setShowPassword] = useState(false);
@@ -51,6 +53,7 @@ export default function CustomInputPassword({
               if (trigger) trigger(propertyName); 
             }}
             onBlur={onBlur}
+            testID={testID}
           />
           <MaterialCommunityIcons
             name={showPassword ? "eye-off" : "eye"}

@@ -79,6 +79,7 @@ export default function CustomButton({
       onPress={props.onPress}
       disabled={disabled || loading}
       testID={testID}
+      accessibilityLabel={testID}
       className={` 
         ${typeStyles[type]} ${shapeStyles[shape]} ${disabled || loading ? "opacity-50" : "opacity-100"} ${props.style ?? "py-2 px-3 shadow-sm"} "felx-1 flex-row justify-center items-center"`}
     >

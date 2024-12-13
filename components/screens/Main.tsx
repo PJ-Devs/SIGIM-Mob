@@ -46,7 +46,7 @@ export default function Main() {
             }}
           >
             {userData!.role.id >= 3 && (
-              <SectionCard link="/productList" linkText="Inventario" />
+              <SectionCard testID="inventory" link="/productList" linkText="Inventario" />
             )}
             <SectionCard link="/suppliers" linkText="Proveedores" />
             <SectionCard link="/employees" linkText="Empleados" />

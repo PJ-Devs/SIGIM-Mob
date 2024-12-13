@@ -9,11 +9,13 @@ import { router } from "expo-router";
 interface CategoriesCarrouselProps {
   selectedCategory: number | null;
   onSelectCategory: (id: number | null) => void;
+  testID?: string;
 }
 
 function CategoriesCarrousel({
   selectedCategory,
   onSelectCategory,
+  testID,
 }: CategoriesCarrouselProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -56,15 +58,18 @@ function CategoriesCarrousel({
             <FlatList
               data={categories}
               renderItem={renderCategory}
-              ListFooterComponent={() => (
-                <CustomButton
-                  onPress={() => router.push("/categories")}
-                  title="Agregar categoria"
-                  type="secondary"
-                  icon="plus"
-                  iconSize={16}
-                />
-              )}
+              ListHeaderComponent={
+                () => (
+                  <CustomButton
+                    onPress={() => router.push("/categories")}
+                    title="Agregar categoria"
+                    type="secondary"
+                    icon="plus"
+                    iconSize={16}
+                    testID={testID}
+                  />
+                )
+              }
               keyExtractor={(item) => item.id.toString()}
               horizontal
               showsHorizontalScrollIndicator={true}

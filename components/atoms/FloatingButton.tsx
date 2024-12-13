@@ -6,11 +6,13 @@ interface FloatingButtonProps {
   disabled?: boolean;
   loading?: boolean;
   onPress: (event?: GestureResponderEvent) => void;
+  testID?: string;
 }
 
 export default function FloatingButton({
   disabled = false,
   loading = false,
+  testID,
   ...props
 }: FloatingButtonProps): JSX.Element {
   const fadeAnim = useRef(new Animated.Value(1)).current;
@@ -46,6 +48,7 @@ export default function FloatingButton({
   
   return (
     <Pressable
+      testID={testID}
       onPress={props.onPress}
       onPressIn={fadeInAnimation}
       onPressOut={fadeOutAnimation}
