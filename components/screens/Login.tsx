@@ -121,8 +121,9 @@ export default function Login(): JSX.Element {
               title="Ingresa"
               loading={loading}
               onPress={handleSubmit(handleLogin)}
+               testID="login"
             />
-            <Pressable
+            <Pressable 
               onPress={() => {
                 router.push("/signUp");
               }}

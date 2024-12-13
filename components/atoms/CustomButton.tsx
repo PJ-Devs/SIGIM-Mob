@@ -26,6 +26,7 @@ interface CustomButtonProps {
   visible?: boolean;
   disabled?: boolean;
   loading?: boolean;
+  testID?: string;
   onPress: (event?: GestureResponderEvent) => void;
 }
 
@@ -36,6 +37,7 @@ export default function CustomButton({
   visible = true,
   disabled = false,
   loading = false,
+  testID,
   ...props
 }: CustomButtonProps): JSX.Element {
   const fadeAnim = useRef(new Animated.Value(1)).current;
@@ -76,6 +78,7 @@ export default function CustomButton({
       onPressOut={fadeOutAnimation}
       onPress={props.onPress}
       disabled={disabled || loading}
+      testID={testID}
       className={` 
         ${typeStyles[type]} ${shapeStyles[shape]} ${disabled || loading ? "opacity-50" : "opacity-100"} ${props.style ?? "py-2 px-3 shadow-sm"} "felx-1 flex-row justify-center items-center"`}
     >

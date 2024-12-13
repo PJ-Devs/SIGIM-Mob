@@ -9,6 +9,11 @@
       "distribution": "internal"
     },
     "preview": {
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://sigim.icu/api",
+        "EXPO_PUBLIC_SERVER_URL": "https://sigim.icu"
+      },
       "ios":{
         "simulator": true
       },

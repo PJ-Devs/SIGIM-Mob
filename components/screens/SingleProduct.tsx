@@ -235,7 +235,7 @@ export default function SingleProduct(): JSX.Element {
                 )}
                 <CustomButton
                   type="error"
-                  title="Esliminar producto"
+                  title="Eliminar producto"
                   icon="trash"
                   iconSize={22}
                   iconColor="white"

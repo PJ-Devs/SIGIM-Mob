@@ -119,7 +119,7 @@ export default function ProductSellCard({
           resizeMode="contain"
           className="w-1/3 h-30"
           source={{
-            uri: `${process.env.EXPO_PUBLIC_SERVER_URL}/${product.thumbnail}`,
+            uri: `${'https://sigim.icu'}/${product.thumbnail}`,
           }}
           onLoadEnd={() => setLoading(false)}
           onError={() => setLoading(false)}

@@ -43,7 +43,7 @@ export default function ProductCard({
     }
   };
 
-  console.log(`${process.env.EXPO_PUBLIC_SERVER_URL}/${product.thumbnail}`);
+
 
   return (
     <Pressable
@@ -72,7 +72,7 @@ export default function ProductCard({
         source={
           product.thumbnail
             ? {
-                uri: `${process.env.EXPO_PUBLIC_SERVER_URL}/${product.thumbnail}`,
+                uri: `${'https://sigim.icu'}/${product.thumbnail}`,
               }
             : require("../../assets/images/img_placeholder.png")
         }

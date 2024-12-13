@@ -60,7 +60,7 @@ export default function CartProductCard({ id, name, sale_price, pivot, thumbnail
                 resizeMode='contain'
                 style={{ width: '33%', height: '100%' }}
                 source={{
-                    uri: `${process.env.EXPO_PUBLIC_SERVER_URL}/${thumbnail}`
+                    uri: `${'https://sigim.icu'}/${thumbnail}`
                 }}
             />
             <View>
