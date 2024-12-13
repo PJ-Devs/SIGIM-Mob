@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "First-project",
-    "slug": "First-project",
+    "name": "Sigim",
+    "slug": "Sigim",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "scheme": "First-project",
+    "scheme": "sigim",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash.png",
