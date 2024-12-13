@@ -151,7 +151,7 @@ export default function SingleProduct(): JSX.Element {
               )}
             </Pressable>
             <Pressable
-              className="absolute top-2 flex-row items-center h-11 border-[1px] border-solid border-dark rounded-3xl px-4 py-3 z-10"
+              className={`absolute top-2 flex-row bg-primary items-center h-11 border-[1px] border-solid border-dark rounded-3xl px-4 py-3 z-10`}
               style={{ gap: 4 }}
               onPress={() => setModalSate({ ...modalState, changeStock: true })}
             >
@@ -180,7 +180,7 @@ export default function SingleProduct(): JSX.Element {
                 /> */}
               </View>
               <Pressable
-                className="flex-row items-center rounded-full border-[1px] border-solid px-3 py-1"
+                className="flex-row bg-primary items-center rounded-full px-3 py-1 shadow-md"
                 style={{
                   gap: 5,
                 }}

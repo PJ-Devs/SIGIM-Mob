@@ -3,6 +3,7 @@ import { inputStlye } from "../../tokens";
 import { Controller } from "react-hook-form";
 import { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { SIZES } from "../../utils/consts";
 
 type CustomInputPasswordProps = {
   placeholder: string;
@@ -42,6 +43,10 @@ export default function CustomInputPassword({
         <View>
           <TextInput
             className={`${inputStlye} ${error ? "border-red-500" : ""}`}
+            style={{
+              maxWidth: "100%",
+              height: SIZES.inputHeight,
+            }}
             placeholder={placeholder}
             value={value}
             keyboardType={type}

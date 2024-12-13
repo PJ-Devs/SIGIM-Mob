@@ -12,6 +12,7 @@ import { RegisterSchema } from "../../lib/schemas/auth";
 import { getEnterprise, getProfile } from "../../lib/api/api.fetch";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as z from 'zod';
+import BackButton from "../atoms/BackButton";
 
 export default function Register(): JSX.Element {
   const [currentStep, setCurrentStep] = useState(1);
@@ -81,11 +82,15 @@ export default function Register(): JSX.Element {
   };
 
   const goToPreviousStep = () => {
+    if(currentStep === 1 && router.canGoBack()) {
+      router.back();
+    }
+
     setCurrentStep((prev) => Math.max(prev - 1, 1)); 
   };
-  
+
   return (
-    <Layout includeHeader={false}>
+    <Layout leftButton={<BackButton onPress={() => goToPreviousStep()} />}>
       <View className="px-5">
       {currentStep === 1 && (
         <RegisterEnterpriseForm 

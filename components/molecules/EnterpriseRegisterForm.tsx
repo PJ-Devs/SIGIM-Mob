@@ -11,8 +11,6 @@ import { useState } from "react";
 import { router } from "expo-router";
 import CustomButton from "../atoms/CustomButton";
 import CustomInput from "../atoms/CustomInput";
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 
 interface RegisterEnterpriseFormProps {
   control: any;
@@ -37,7 +35,7 @@ export default function RegisterEnterpriseForm({
 
   return (
     <View className="h-screen">
-      <View className="flex-1 justify-center w-full h-full">
+      <View className="flex-1 relative bottom-16 justify-center w-full h-full">
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}

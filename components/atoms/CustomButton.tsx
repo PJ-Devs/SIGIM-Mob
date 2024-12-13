@@ -105,13 +105,13 @@ export default function CustomButton({
           <Icon
             name={props.icon}
             size={iconSize}
-            color={props.iconColor ?? colorPalette.dark}
+            color={props.iconColor ?? (type === "secondary" || type === "error" ? "white" : "black")}
           />
         )}
         {props.title && type !== "icon" && (
           <Text
             className={`text-center font-semibold text-base ${
-              type === "error" ? `text-white` : "text-black"
+              type === "error" || type === "secondary" ? `text-white` : "text-black"
             }`}
           >
             {props.title}
@@ -130,7 +130,7 @@ const shapeStyles = {
 const typeStyles = {
   default: "bg-[#FFF]",
   primary: "bg-primary",
-  secondary: "bg-secondary border border-dark",
+  secondary: "bg-secondary shadow-sm",
   error: "bg-danger",
   warning: "bg-warning",
   success: "bg-success",

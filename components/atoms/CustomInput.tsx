@@ -55,7 +55,6 @@ export default function CustomInput({
                 numberOfLines > 1
                   ? SIZES.inputHeight * numberOfLines
                   : SIZES.inputHeight,
-              textAlignVertical: "top",
               flexWrap: "wrap",
             }}
             placeholder={placeholder}

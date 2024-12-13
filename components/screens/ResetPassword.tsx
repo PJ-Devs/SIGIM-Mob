@@ -11,6 +11,7 @@ import { useState } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { resetPasswordSchema } from "../../lib/schemas/reset_password";
+import BackButton from "../atoms/BackButton";
 
 export default function ResetPassword() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -67,7 +68,7 @@ export default function ResetPassword() {
   }
 
   return (
-    <Layout includeHeader={false}>
+    <Layout leftButton={<BackButton />}>
       <View className="flex-1 w-full h-full justify-center" style={{ gap: 15 }}>
         <View>
           <Text className="text-lg font-semibold text-center">

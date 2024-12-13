@@ -62,6 +62,7 @@ function CategoriesCarrousel({
                   title="Agregar categoria"
                   type="secondary"
                   icon="plus"
+                  iconColor="white"
                   iconSize={16}
                 />
               )}
