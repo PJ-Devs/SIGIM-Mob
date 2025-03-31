@@ -9,7 +9,7 @@ dist/
 web-build/
 
 # Native
-*.orig.*
+.orig.
 *.jks
 *.p8
 *.p12
@@ -29,6 +29,7 @@ yarn-error.*
 *.pem
 
 # local env files
+.env
 .env*.local
 
 # typescript
